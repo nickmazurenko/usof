@@ -5,3 +5,12 @@ const commentsController = require("../controllers/comments");
 const auth = require("../middleware/auth");
 
 router.route("/:id").get(commentsController.getComments);
+
+router
+	.route("/:id")
+	.post(
+		auth,
+		check("content", "Comment was not provided").not().isEmpty(),
+		commentsController.createComment
+	);
+module.exports = router;

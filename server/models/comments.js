@@ -2,6 +2,13 @@ const { CommentsTemplate, UsersTemplate } = require("../templates");
 const handlers = require("../helpers/handlers");
 const sequelize = require("sequelize");
 const { dbResponse } = require("../helpers/db");
+const { response } = require("express");
+
+const Comment = (comment) => ({
+	content: comment.content,
+	user_id: comment.userId,
+	post_id: comment.postId,
+});
 
 const retrieveAll = async (id, callback) => {
 	const commentsRaw = await CommentsTemplate.findAll({
@@ -14,7 +21,7 @@ const retrieveAll = async (id, callback) => {
 			"postId",
 			"content",
 			"createdAt",
-			[sequelize.literal("user.login"), login],
+			[sequelize.literal("user.login"), "login"],
 		],
 		include: {
 			model: UsersTemplate,
@@ -35,7 +42,7 @@ const retrieveAll = async (id, callback) => {
 
 	const comments = commentsRaw.map((comment) =>
 		dbResponse(
-			answer,
+			comment,
 			"id",
 			"userId",
 			"postId",
@@ -63,6 +70,27 @@ const retrieveAll = async (id, callback) => {
 	);
 };
 
+const create = async (comment, callback) => {
+	await CommentsTemplate.create(comment).catch((error) => {
+		console.log(error);
+		return callback(
+			handlers.responseHandler(
+				false,
+				500,
+				"An error occurred during comment creation",
+				null
+			),
+			null
+		);
+	});
+	return callback(
+		null,
+		handlers.responseHandler(true, 200, "Comment creation successful", null)
+	);
+};
+
 module.exports = {
+	Comment,
 	retrieveAll,
+	create,
 };
