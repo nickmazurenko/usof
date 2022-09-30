@@ -46,6 +46,25 @@ const getPostCategories = async (id, callback) => {
 	);
 };
 
+const retrieveOne = async (categoryTitle) => {
+	return await CategoriesTemplate.findOne({
+		where: {
+			categoryTitle,
+		},
+	}).catch((error) => {
+		console.log(error);
+		throw new Error("No such category");
+	});
+};
+
+const createMultiple = async (categories) =>
+	await CategoriesTemplate.bulkCreate(categories).catch((error) => {
+		console.log(error);
+		throw new Error("An error occurred during multiple categories creation");
+	});
+
 module.exports = {
 	getPostCategories,
+	retrieveOne,
+	createMultiple,
 };

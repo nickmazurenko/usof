@@ -52,7 +52,41 @@ const getPost = handlers.asyncHandler(async (request, response) => {
 	}
 });
 
+const createPost = handlers.asyncHandler(async (request, response) => {
+	const errors = validationResult(request);
+	if (errors.isEmpty()) {
+		try {
+			request.body.userId = request.user.id;
+			const post = Post(request.body);
+			await postsService.create(post, (error, data) => {
+				if (error) {
+					console.log(error);
+					return response.status(error.code).json(error);
+				}
+				return response.status(data.code).json(data);
+			});
+		} catch (error) {
+			console.log(error);
+			return response
+				.status(500)
+				.json(
+					handlers.responseHandler(
+						false,
+						500,
+						"An error occurred during post creation",
+						null
+					)
+				);
+		}
+	} else {
+		return response
+			.status(400)
+			.json(handlers.responseHandler(false, 400, errors.array()[0]?.msg, null));
+	}
+});
+
 module.exports = {
 	getPosts,
 	getPost,
+	createPost,
 };

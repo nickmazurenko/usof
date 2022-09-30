@@ -9,6 +9,13 @@ const sequelize = require("sequelize");
 const handlers = require("../helpers/handlers");
 const { dbResponse } = require("../helpers/db");
 
+const Post = (post) => ({
+	title: post.title,
+	content: post.content,
+	userId: post.userId,
+	categories: post.categories,
+});
+
 const countAnswers = async (id) =>
 	await PostsTemplate.count({
 		where: {
@@ -200,11 +207,32 @@ const addViewsId = async (id) => {
 	});
 };
 
+const create = async (post, callback) =>
+	await PostsTemplate.create({
+		title: post.title,
+		user_id: post.userId,
+		content: post.content,
+	}).catch((error) => {
+		console.log(error);
+		callback(
+			handlers.responseHandler(
+				false,
+				500,
+				"An error occurred during post creation",
+				null
+			),
+			null
+		);
+		return null;
+	});
+
 module.exports = {
+	Post,
 	retrieveOne,
 	retrieveAll,
 	countAll,
 	countAnswers,
 	countComments,
 	addViewsId,
+	create,
 };
