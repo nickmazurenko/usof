@@ -11,4 +11,21 @@ const auth = require("../middleware/auth");
  */
 router.route("/:id").get(postLikesController.getPostLikes);
 
+/**
+ *  @route    POST /api/posts/likes/<post_id>
+ *  @desc     create a new like under a post
+ *  @access   Private
+ */
+router.route("/:id").post(
+	auth,
+	check("type", "Type should be included [like / dislike | 1 / 2]")
+		.exists()
+		.custom(async (type) => {
+			if (type !== 1 && type !== 2 && type !== "like" && type !== "dislike") {
+				throw new Error("Type should be included [like / dislike | 1 / 2]");
+			}
+		}),
+	postLikesController.createLike
+);
+
 module.exports = router;

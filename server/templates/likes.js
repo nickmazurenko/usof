@@ -14,6 +14,14 @@ const LikesTemplate = db.define(
 			allowNull: false,
 			defaultValue: "like",
 		},
+		post_id: {
+			type: DataTypes.UUID,
+			allowNull: true,
+		},
+		comment_id: {
+			type: DataTypes.UUID,
+			allowNull: true,
+		},
 	},
 	{
 		db,
@@ -24,11 +32,6 @@ const LikesTemplate = db.define(
 			{
 				name: "PRIMARY",
 				unique: true,
-				using: "BTREE",
-				fields: [{ name: "user_id" }],
-			},
-			{
-				name: "user_id",
 				using: "BTREE",
 				fields: [{ name: "user_id" }],
 			},

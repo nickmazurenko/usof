@@ -48,6 +48,45 @@ const getPostLikes = async (id, callback) => {
 	return likes;
 };
 
+const create = async (like, callback) => {
+	try {
+		const { type, ...params } = like;
+		const dbLike = await LikesTemplate.findOne({
+			where: params,
+		});
+
+		if (dbLike) {
+			await LikesTemplate.update(
+				{ type },
+				{
+					where: params,
+				}
+			);
+			return callback(
+				null,
+				handlers.responseHandler(true, 200, "Like type update successful", null)
+			);
+		}
+		await LikesTemplate.create(like);
+		return callback(
+			null,
+			handlers.responseHandler(true, 200, "Like creation successful", null)
+		);
+	} catch (error) {
+		console.log(error);
+		return callback(
+			handlers.responseHandler(
+				false,
+				500,
+				"An error occurred during like creation",
+				null
+			),
+			null
+		);
+	}
+};
+
 module.exports = {
 	getPostLikes,
+	create,
 };
