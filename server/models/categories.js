@@ -9,37 +9,6 @@ const { dbResponse } = require("../helpers/db");
 const { response } = require("express");
 
 const getPostCategories = async (id, callback) => {
-	// const categories = await PostCategoriesTemplate.findAll({
-	// 	where: {
-	// 		post_id: id,
-	// 	},
-	// 	attributes: [
-	// 		"category_id",
-	// 		[sequelize.literal("categories.description"), "description"],
-	// 		[sequelize.literal("categories.created_at"), "createdAt"],
-	// 		[sequelize.literal("categories.category_title"), "title"],
-	// 	],
-	// 	include: {
-	// 		model: CategoriesTemplate,
-	// 		where: {
-	// 			id: sequelize.col("postcategories.category_id"),
-	// 		},
-	// 		attributes: [],
-	// 	},
-	// 	group: ["category_id", "categories.id"],
-	// }).catch((error) => {
-	// 	console.log(error);
-	// 	return callback(
-	// 		handlers.responseHandler(
-	// 			false,
-	// 			500,
-	// 			"An error occurred during categories retrieval",
-	// 			null
-	// 		),
-	// 		null
-	// 	);
-	// });
-
 	const post = await PostsTemplate.findByPk(id, {
 		include: [
 			{
