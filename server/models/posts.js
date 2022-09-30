@@ -84,6 +84,7 @@ const countAll = async (categoryName = "") => {
 		console.log(error);
 		throw new Error(error);
 	});
+
 	return result;
 };
 
