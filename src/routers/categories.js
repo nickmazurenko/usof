@@ -10,5 +10,5 @@ const {
 
 router.route("/").get(categoriesController.getCategories);
 router.route("/:id").get(categoriesController.getCategory);
-
+router.route("/posts/:id").get(categoriesController.getCategoryPosts);
 module.exports = router;

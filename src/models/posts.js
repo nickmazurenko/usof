@@ -148,9 +148,9 @@ const retrieveOne = async (id) => {
 	);
 };
 
-const retrieveAll = async (categoryName = "") => {
+const retrieveAll = async (categoryTitle = "") => {
 	const where =
-		categoryName === "" ? {} : { "$categories.categoryName$": categoryName };
+		categoryTitle === "" ? {} : { "$categories.category_title$": categoryTitle };
 	const postsRaw = await PostsTemplate.findAll({
 		distinct: true,
 		where,
