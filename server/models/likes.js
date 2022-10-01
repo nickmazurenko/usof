@@ -86,7 +86,22 @@ const create = async (like, callback) => {
 	}
 };
 
+const removePostLikes = async (post_id) => {
+	await LikesTemplate.destroy({ where: { post_id } }).catch((error) => {
+		console.log(error);
+		throw new Error(error);
+	});
+};
+const removeCommentLikes = async (comment_id) => {
+	await LikesTemplate.destroy({ where: { comment_id } }).catch((error) => {
+		console.log(error);
+		throw new Error(error);
+	});
+};
+
 module.exports = {
 	getPostLikes,
+	removePostLikes,
+	removeCommentLikes,
 	create,
 };

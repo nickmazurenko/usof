@@ -8,7 +8,7 @@ const createMultiple = async (postCategories) =>
 		);
 	});
 
-const deleteMultiple = async (post_id) => {
+const remove = async (post_id) => {
 	await PostCategoriesTemplate.destroy({ where: { post_id } }).catch(
 		(error) => {
 			console.log(error);
@@ -21,5 +21,5 @@ const deleteMultiple = async (post_id) => {
 
 module.exports = {
 	createMultiple,
-	deleteMultiple,
+	remove,
 };

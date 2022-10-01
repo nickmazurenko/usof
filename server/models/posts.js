@@ -253,6 +253,13 @@ const update = async (id, newData, callback) =>
 		return null;
 	});
 
+const remove = async (id) => {
+	await PostsTemplate.destroy({ where: { id } }).catch((error) => {
+		console.log(error);
+		throw new Error(error);
+	});
+};
+
 module.exports = {
 	Post,
 	PostFull,
@@ -264,4 +271,5 @@ module.exports = {
 	addViewsId,
 	create,
 	update,
+	remove,
 };

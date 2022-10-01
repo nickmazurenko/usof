@@ -89,8 +89,16 @@ const create = async (comment, callback) => {
 	);
 };
 
+const removePostComments = async (post_id) => {
+	await CommentsTemplate.destroy({ where: { post_id } }).catch((error) => {
+		console.log(error);
+		throw new Error(error);
+	});
+};
+
 module.exports = {
 	Comment,
 	retrieveAll,
 	create,
+	removePostComments,
 };

@@ -36,7 +36,14 @@ router.route("/").post(
 	check("categories", "There should be at least one category").notEmpty(),
 	postsController.createPost
 );
-
+/**
+ *  @route    PATCH /api/posts/
+ *  @desc     update a specified post, its
+ *            [title, content, categories]
+ * 						only for creator of post or admin
+ *  @access   Private
+ */
 router.route("/:id").patch(auth, checkIfOwner, postsController.updatePost);
 
+router.route("/:id").delete(auth, checkIfOwner, postsController.deletePost);
 module.exports = router;

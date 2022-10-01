@@ -1,14 +1,15 @@
 const handlers = require("../helpers/handlers");
-const PostsModel = require("../models/posts");
 const { dbResponse } = require("../helpers/db");
 const db = require("../config/db.config");
 const { getCategoriesDescription } = require("../helpers/utils.categories");
 const categoriesModel = require("../models/categories");
 const postCategoriesModel = require("../models/postCategories");
+const postsModel = require("../models/posts");
 const likesModel = require("../models/likes");
+const commentsModel = require("../models/comments");
 const retrieveAll = async (callback) => {
-	const posts = await PostsModel.retrieveAll();
-	const postsRawInfo = await PostsModel.countAll();
+	const posts = await postsModel.retrieveAll();
+	const postsRawInfo = await postsModel.countAll();
 
 	const postsInfo = await Promise.all(
 		postsRawInfo.map(async (post) => {
@@ -56,10 +57,10 @@ const retrieveOne = async (id, callback) => {
 	let dislikesCount = 0;
 	let likes;
 	let dislikes;
-	await PostsModel.addViewsId(id);
-	const post = await PostsModel.retrieveOne(id);
-	const answers = await PostsModel.countAnswers(id);
-	const comments = await PostsModel.countComments(id);
+	await postsModel.addViewsId(id);
+	const post = await postsModel.retrieveOne(id);
+	const answers = await postsModel.countAnswers(id);
+	const comments = await postsModel.countComments(id);
 	const votes = await likesModel.getPostLikes(id, (error) => {
 		if (error) hasLikes = false;
 	});
@@ -108,7 +109,7 @@ const create = async (post, callback) => {
 			);
 		}
 
-		const dbPost = await PostsModel.create(post, callback);
+		const dbPost = await postsModel.create(post, callback);
 		const allCategories = [];
 		const newCategoriesRaw = [];
 		for (const category of categories) {
@@ -186,7 +187,7 @@ const update = async ({ postId, post }, callback) => {
 		transaction = await db.transaction();
 		let dbPost;
 		if (post.categories) {
-			await postCategoriesModel.deleteMultiple(postId);
+			await postCategoriesModel.remove(postId);
 			const categories = post.categories
 				.split(",")
 				.map((category) => category.trim());
@@ -202,7 +203,7 @@ const update = async ({ postId, post }, callback) => {
 				);
 			}
 
-			dbPost = await PostsModel.update(postId, post, callback);
+			dbPost = await postsModel.update(postId, post, callback);
 
 			const allCategories = [];
 			const newCategoriesRaw = [];
@@ -256,7 +257,7 @@ const update = async ({ postId, post }, callback) => {
 
 			await postCategoriesModel.createMultiple(allCategories);
 		} else {
-			dbPost = await PostsModel.update(postId, post, callback);
+			dbPost = await postsModel.update(postId, post, callback);
 		}
 
 		callback(
@@ -281,9 +282,35 @@ const update = async ({ postId, post }, callback) => {
 	}
 };
 
+const deletePost = async (id, callback) => {
+	try {
+		await commentsModel.removePostComments(id);
+		await postCategoriesModel.remove(id);
+		await likesModel.removePostLikes(id);
+		await postsModel.remove(id);
+
+		return callback(
+			null,
+			handlers.responseHandler(true, 200, "Post deletion successful", null)
+		);
+	} catch (error) {
+		console.log(error);
+		return callback(
+			handlers.responseHandler(
+				false,
+				500,
+				"An error occurred during post deletion",
+				null
+			),
+			null
+		);
+	}
+};
+
 module.exports = {
 	retrieveOne,
 	retrieveAll,
+	deletePost,
 	create,
 	update,
 };
