@@ -63,7 +63,34 @@ const getPostLikes = handlers.asyncHandler(async (request, response) => {
 	}
 });
 
+const removeLike = handlers.asyncHandler(async (request, response) => {
+	try {
+		const { id } = request.params;
+		const userId = request.user.id;
+		await postLikesService.remove({ postId: id, userId }, (error, data) => {
+			if (error) {
+				console.log(error);
+				return response.status(error.code).json(error);
+			}
+			return response.status(data.code).json(data);
+		});
+	} catch (error) {
+		console.log(error);
+		return response
+			.status(500)
+			.json(
+				handlers.responseHandler(
+					false,
+					500,
+					"An error occurred during like deletion",
+					null
+				)
+			);
+	}
+});
+
 module.exports = {
 	getPostLikes,
 	createLike,
+	removeLike,
 };

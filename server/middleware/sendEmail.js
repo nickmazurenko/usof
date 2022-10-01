@@ -1,12 +1,12 @@
 const nodemailer = require("nodemailer");
 const config = require("../config/keys.config");
 /**
- * 
- * @param {String} email email to send mail to 
+ *
+ * @param {String} email email to send mail to
  * @param {String} subject the subject of the email
- * @param {Object} params api path and token to send as link 
+ * @param {Object} params api path and token to send as link
  */
-const sendEmail = async (email, subject, {link, token}) => {
+const sendEmail = async (email, subject, { link, token }) => {
 	try {
 		const transporter = nodemailer.createTransport({
 			service: "gmail",

@@ -4,6 +4,7 @@ const sendEmail = require("../middleware/sendEmail");
 const handlers = require("../helpers/handlers");
 const UsersModel = require("../models/users");
 const config = require("../config/keys.config");
+const c = require("config");
 const register = async (user, callback) => {
 	const salt = bcrypt.genSaltSync(10);
 	user.password = bcrypt.hashSync(user.password, salt);
@@ -15,8 +16,7 @@ const register = async (user, callback) => {
 			issuedAt: new Date().toISOString(),
 		},
 	};
-
-	if (user?.isEmailVerified === 0) {
+	if (!userObj.dataValues.isEmailVerified) {
 		const token = jwt.sign(
 			{
 				data: { email: user.email, login: user.login },
@@ -26,6 +26,7 @@ const register = async (user, callback) => {
 		);
 		const subject = "email verification";
 		const link = "/api/auth/confirm-email/";
+
 		await sendEmail(user.email, subject, { link, token });
 	}
 	jwt.sign(

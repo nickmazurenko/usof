@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { check } = require("express-validator");
 const auth = require("../middleware/auth");
+const { checkIfAdmin } = require("../middleware/permissionChecks");
 
 const usersController = require("../controllers/users");
 
@@ -33,11 +34,11 @@ router
 	);
 
 /**
- *  @route    DELETE /api/users/:id
- *  @desc     delete user
+ *  @route    remove /api/users/:id
+ *  @desc     remove user
  *  @access   Private
  */
-router.route("/:id").delete(auth, usersController.deleteUser);
+router.route("/:id").delete(auth, usersController.removeUser);
 
 /**
  *  @route    PATCH /api/users/:id
@@ -55,6 +56,7 @@ router.route("/:id").patch(auth, usersController.updateUser);
  */
 router.route("/").post(
 	auth,
+	checkIfAdmin,
 	check("login", "Your login is not valid").exists().isLength({ min: 5 }),
 	check("email", "Email is required")
 		.exists()

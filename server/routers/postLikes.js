@@ -28,4 +28,6 @@ router.route("/:id").post(
 	postLikesController.createLike
 );
 
+router.route("/:id").delete(auth, postLikesController.removeLike);
+
 module.exports = router;

@@ -23,7 +23,10 @@ const getPostLikes = async (id, callback) => {
 
 const create = async (like, callback) => likesModel.create(like, callback);
 
+const remove = async (params, callback) => likesModel.remove(params, callback);
+
 module.exports = {
 	getPostLikes,
 	create,
+	remove,
 };

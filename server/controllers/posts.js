@@ -114,11 +114,11 @@ const updatePost = handlers.asyncHandler(async (request, response) => {
 	}
 });
 
-const deletePost = handlers.asyncHandler(async (request, response) => {
+const removePost = handlers.asyncHandler(async (request, response) => {
 	try {
 		const { id } = request.params;
 
-		await postsService.deletePost(id, (error, data) => {
+		await postsService.removePost(id, (error, data) => {
 			if (error) {
 				console.log(error);
 				return response.status(error.code).json(error);
@@ -145,5 +145,5 @@ module.exports = {
 	getPost,
 	createPost,
 	updatePost,
-	deletePost,
+	removePost,
 };

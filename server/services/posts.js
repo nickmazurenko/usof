@@ -282,7 +282,7 @@ const update = async ({ postId, post }, callback) => {
 	}
 };
 
-const deletePost = async (id, callback) => {
+const removePost = async (id, callback) => {
 	try {
 		await commentsModel.removePostComments(id);
 		await postCategoriesModel.remove(id);
@@ -310,7 +310,7 @@ const deletePost = async (id, callback) => {
 module.exports = {
 	retrieveOne,
 	retrieveAll,
-	deletePost,
+	removePost,
 	create,
 	update,
 };

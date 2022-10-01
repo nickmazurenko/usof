@@ -86,6 +86,26 @@ const create = async (like, callback) => {
 	}
 };
 
+const remove = async (params, callback) => {
+	await LikesTemplate.destroy({ where: params }).catch((error) => {
+		console.log(error);
+		return callback(
+			handlers.responseHandler(
+				false,
+				404,
+				"An error occurred during like deletion",
+				null
+			),
+			null
+		);
+	});
+
+	return callback(
+		null,
+		handlers.responseHandler(true, 200, "Like deletion successful", null)
+	);
+};
+
 const removePostLikes = async (post_id) => {
 	await LikesTemplate.destroy({ where: { post_id } }).catch((error) => {
 		console.log(error);
@@ -104,4 +124,5 @@ module.exports = {
 	removePostLikes,
 	removeCommentLikes,
 	create,
+	remove,
 };

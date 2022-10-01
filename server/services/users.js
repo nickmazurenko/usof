@@ -35,11 +35,11 @@ const updateAvatar = async ({ id, avatar }, callback) => {
 	);
 };
 
-const deleteUser = async (id , callback) => {
-	await UsersModel.deleteUser({ id });
+const removeUser = async (id , callback) => {
+	await UsersModel.removeUser({ id });
 	callback(
 		null,
-		handlers.responseHandler(true, 200, "User deleted successfully", null)
+		handlers.responseHandler(true, 200, "User removed successfully", null)
 	);
 };
 
@@ -65,6 +65,6 @@ module.exports = {
 	retrieveAll,
 	retrieveOne,
 	updateAvatar,
-	deleteUser,
+	removeUser,
 	updateUser,
 };

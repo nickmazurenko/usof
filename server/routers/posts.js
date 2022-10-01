@@ -45,5 +45,5 @@ router.route("/").post(
  */
 router.route("/:id").patch(auth, checkIfOwner, postsController.updatePost);
 
-router.route("/:id").delete(auth, checkIfOwner, postsController.deletePost);
+router.route("/:id").delete(auth, checkIfOwner, postsController.removePost);
 module.exports = router;

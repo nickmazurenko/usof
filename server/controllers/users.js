@@ -112,10 +112,10 @@ const updateAvatar = handlers.asyncHandler(async (request, response) => {
  * @param {} request
  * @param {} response
  */
-const deleteUser = handlers.asyncHandler(async (request, response) => {
+const removeUser = handlers.asyncHandler(async (request, response) => {
 	const tokenUser = request.user;
 	const { id } = request.params;
-	let toDelete = tokenUser.id;
+	let toRemove = tokenUser.id;
 	if (tokenUser.id !== id && tokenUser.role !== "admin") {
 		return response
 			.status(403)
@@ -123,16 +123,16 @@ const deleteUser = handlers.asyncHandler(async (request, response) => {
 				handlers.responseHandler(
 					false,
 					403,
-					"You don't have permission to delete users",
+					"You don't have permission to remove users",
 					null
 				)
 			);
 	}
 	if (tokenUser.id !== id && tokenUser.role === "admin") {
-		toDelete = id;
+		toRemove = id;
 	}
 	try {
-		await usersService.deleteUser(toDelete, (error, data) => {
+		await usersService.removeUser(toRemove, (error, data) => {
 			if (error) {
 				console.log(error);
 				return response.status(error.code).json(error);
@@ -211,20 +211,7 @@ const updateUser = handlers.asyncHandler(async (request, response) => {
  * @param {} response
  */
 const createNewUser = handlers.asyncHandler(async (request, response) => {
-	const user = request.user;
-	if (user.role !== "admin") {
-		console.log("User is not admin");
-		return response
-			.status(403)
-			.json(
-				handlers.responseHandler(
-					false,
-					403,
-					"You don't have permission to create users",
-					null
-				)
-			);
-	}
+
 	const errors = validationResult(request);
 	if (errors.isEmpty()) {
 		try {
@@ -269,5 +256,5 @@ module.exports = {
 	getUser,
 	updateAvatar,
 	updateUser,
-	deleteUser,
+	removeUser,
 };

@@ -299,7 +299,7 @@ const updateTokenInvalidation = async (id) => {
  * Deleting user fitting given parameters
  * @param {Object} params
  */
-const deleteUser = async (params) => {
+const removeUser = async (params) => {
 	await UsersTemplate.destroy({
 		where: params,
 	}).catch((error) => {
@@ -328,7 +328,7 @@ module.exports = {
 	create,
 	verifyEmail,
 	addViewsId,
-	deleteUser,
+	removeUser,
 	updatePassword,
 	updateAvatar,
 	updateUser,
