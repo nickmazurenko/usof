@@ -1,7 +1,6 @@
 const categoriesService = require("../services/categories");
 const handlers = require("../helpers/handlers");
 const { validationResult } = require("express-validator");
-const { Category } = require("../models/categories");
 
 const getCategories = handlers.asyncHandler(async (request, response) => {
 	try {

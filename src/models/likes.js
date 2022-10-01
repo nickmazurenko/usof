@@ -48,6 +48,50 @@ const getPostLikes = async (id, callback) => {
 	return likes;
 };
 
+const getCommentLikes = async (id, callback) => {
+	const likes = await LikesTemplate.findAll({
+		where: {
+			comment_id: id,
+		},
+		attributes: [
+			"user_id",
+			"comment_id",
+			"type",
+			"createdAt",
+			[sequelize.literal("user.login"), "login"],
+		],
+		include: {
+			model: UsersTemplate,
+			attributes: [],
+		},
+	}).catch((error) => {
+		console.log(error);
+		return callback(
+			handlers.responseHandler(
+				false,
+				500,
+				"An error occurred during likes retrieval",
+				null
+			),
+			null
+		);
+	});
+
+	if (likes.length === 0) {
+		return callback(
+			handlers.responseHandler(
+				false,
+				404,
+				"No likes for comment with this id",
+				null
+			),
+			null
+		);
+	}
+
+	return likes;
+};
+
 const create = async (like, callback) => {
 	try {
 		const { type, ...params } = like;
@@ -123,6 +167,7 @@ module.exports = {
 	getPostLikes,
 	removePostLikes,
 	removeCommentLikes,
+	getCommentLikes,
 	create,
 	remove,
 };

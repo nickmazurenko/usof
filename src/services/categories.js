@@ -34,7 +34,6 @@ const retrieveOne = async (id, callback) => {
 const getCategoryPosts = async (id, callback) => {
 	const category = await categoriesModel.retrieveOne({ id });
 	const title = category.categoryTitle;
-	console.log("THERER", title);
 	const dbPosts = await postsModel.retrieveAll(title);
 	const postsRawInfo = await postsModel.countAll();
 

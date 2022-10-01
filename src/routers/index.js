@@ -9,4 +9,6 @@ router.use("/posts/comments", require("./postComments"));
 router.use("/posts/categories", require("./postCategories"));
 router.use("/posts/likes", require("./postLikes"));
 router.use("/categories", require("./categories"));
+router.use("/comments", require("./comments"));
+router.use("/comments/likes", require("./commentLikes"));
 module.exports = router;

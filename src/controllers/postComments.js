@@ -61,7 +61,7 @@ const createComment = handlers.asyncHandler(async (request, response) => {
 	}
 	return response
 		.status(400)
-		.json(handlers.responseHandler(false, 400, errors.array()[0].msg, null));
+		.json(handlers.responseHandler(false, 400, errors.array()[0]?.msg, null));
 });
 
 module.exports = {

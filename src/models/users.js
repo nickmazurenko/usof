@@ -112,7 +112,6 @@ const retrieveOneWithInfo = async (id) => {
 	if (!result || result.length === 0) {
 		throw new Error(`No user with this id: ${id}`);
 	}
-	console.log(result);
 	result = dbResponse(
 		result,
 		"id",

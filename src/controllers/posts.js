@@ -118,7 +118,7 @@ const removePost = handlers.asyncHandler(async (request, response) => {
 	try {
 		const { id } = request.params;
 
-		await postsService.removePost(id, (error, data) => {
+		await postsService.remove(id, (error, data) => {
 			if (error) {
 				console.log(error);
 				return response.status(error.code).json(error);

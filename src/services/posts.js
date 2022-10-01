@@ -185,7 +185,6 @@ const create = async (post, callback) => {
 const update = async ({ postId, post }, callback) => {
 	let transaction;
 	try {
-		console.log(post);
 		transaction = await db.transaction();
 		let dbPost;
 		if (post.categories) {
@@ -286,7 +285,7 @@ const update = async ({ postId, post }, callback) => {
 	}
 };
 
-const removePost = async (id, callback) => {
+const remove = async (id, callback) => {
 	try {
 		await commentsModel.removePostComments(id);
 		await postCategoriesModel.remove(id);
@@ -314,7 +313,7 @@ const removePost = async (id, callback) => {
 module.exports = {
 	retrieveOne,
 	retrieveAll,
-	removePost,
+	remove,
 	create,
 	update,
 };

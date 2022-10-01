@@ -10,13 +10,9 @@ const checkIfOwner = async (request, response, callback) => {
 	const url = request.originalUrl;
 	const { id } = request.params;
 	if (url.includes("posts")) {
-		if (url.includes("answers")) {
-			template = AnswersTemplate;
-		} else if (url.includes("comments")) {
-			template = CommentsTemplate;
-		} else {
-			template = PostsTemplate;
-		}
+		template = PostsTemplate;
+	} else if (url.includes("comments")) {
+		template = CommentsTemplate;
 	} else {
 		callback();
 	}
