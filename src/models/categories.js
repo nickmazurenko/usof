@@ -71,10 +71,28 @@ const create = async (category) =>
 		throw new Error(error);
 	});
 
+const update = async (category, id) => {
+	await CategoriesTemplate.update(category, { where: { id } }).catch(
+		(error) => {
+			console.log(error);
+			throw new Error(error);
+		}
+	);
+};
+
+const remove = async (id) => {
+	await CategoriesTemplate.destroy({ where: { id } }).catch((error) => {
+		console.log(error);
+		throw new Error(error);
+	});
+};
+
 module.exports = {
 	getPostCategories,
 	retrieveOne,
 	createMultiple,
 	retrieveAll,
 	create,
+	update,
+	remove,
 };

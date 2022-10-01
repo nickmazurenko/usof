@@ -16,9 +16,17 @@ router
 	.route("/")
 	.post(
 		auth,
+		checkIfAdmin,
 		check("title", "Title needed to create category")
 			.exists()
 			.isLength({ min: 3, max: 15 }),
 		categoriesController.createCategory
 	);
+
+router
+	.route("/:id")
+	.patch(auth, checkIfAdmin, categoriesController.updateCategory);
+router
+	.route("/:id")
+	.delete(auth, checkIfAdmin, categoriesController.removeCategory);
 module.exports = router;

@@ -112,9 +112,66 @@ const createCategory = handlers.asyncHandler(async (request, response) => {
 	}
 });
 
+const updateCategory = handlers.asyncHandler(async (request, response) => {
+	try {
+		const { id } = request.params;
+		const category = {
+			...(request.body.title ? { categoryTitle: request.body.title } : {}),
+			...(request.body.description
+				? { description: request.body.description }
+				: {}),
+		};
+		await categoriesService.update({ category, id }, (error, data) => {
+			if (error) {
+				console.log(error);
+				return response.status(error.code).json(error);
+			}
+			return response.status(data.code).json(data);
+		});
+	} catch (error) {
+		console.log(error);
+		return response
+			.status(500)
+			.json(
+				handlers.responseHandler(
+					false,
+					500,
+					"An error occurred during category update",
+					null
+				)
+			);
+	}
+});
+const removeCategory = handlers.asyncHandler(async (request, response) => {
+	try {
+		const { id } = request.params;
+		await categoriesService.remove(id, (error, data) => {
+			if (error) {
+				console.log(error);
+				return response.status(error.code).json(error);
+			}
+			return response.status(data.code).json(data);
+		});
+	} catch (error) {
+		console.log(error);
+		return response
+			.status(500)
+			.json(
+				handlers.responseHandler(
+					false,
+					500,
+					"An error occurred during category deletion",
+					null
+				)
+			);
+	}
+});
+
 module.exports = {
 	getCategories,
 	getCategory,
 	getCategoryPosts,
 	createCategory,
+	updateCategory,
+	removeCategory,
 };

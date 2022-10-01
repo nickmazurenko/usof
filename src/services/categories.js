@@ -116,9 +116,36 @@ const create = async (category, callback) => {
 	}
 };
 
+const update = async ({ category, id }, callback) => {
+	try {
+		await categoriesModel.update(category, id);
+		return callback(
+			null,
+			responseHandler(true, 200, "Category successfully updated", null)
+		);
+	} catch (error) {
+		console.log(error);
+		return callback(responseHandler(false, 404, error.msg, null), null);
+	}
+};
+const remove = async (id, callback) => {
+	try {
+		await categoriesModel.remove(id);
+		return callback(
+			null,
+			responseHandler(true, 200, "Category successfully updated", null)
+		);
+	} catch (error) {
+		console.log(error);
+		return callback(responseHandler(false, 404, error.msg, null), null);
+	}
+};
+
 module.exports = {
 	retrieveAll,
 	retrieveOne,
 	getCategoryPosts,
 	create,
+	update,
+	remove,
 };
