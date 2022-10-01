@@ -1,7 +1,5 @@
 const postCategoriesService = require("../services/postCategories");
 const handlers = require("../helpers/handlers");
-const { validationResult } = require("express-validator");
-const { Category } = require("../models/categories");
 
 const getPostCategories = handlers.asyncHandler(async (request, response) => {
 	try {

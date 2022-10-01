@@ -1,4 +1,4 @@
-const commentsService = require("../services/comments");
+const postCommentsService = require("../services/postComments");
 const handlers = require("../helpers/handlers");
 const { validationResult } = require("express-validator");
 const { Comment } = require("../models/comments");
@@ -6,7 +6,7 @@ const { Comment } = require("../models/comments");
 const getComments = handlers.asyncHandler(async (request, response) => {
 	try {
 		const { id } = request.params;
-		await commentsService.retrieveAll(id, (error, data) => {
+		await postCommentsService.retrieveAll(id, (error, data) => {
 			if (error) {
 				console.log(error);
 				return response.status(error.code).json(error);
@@ -38,7 +38,7 @@ const createComment = handlers.asyncHandler(async (request, response) => {
 				postId: request.params.id,
 			});
 
-			await commentsService.create(comment, (error, data) => {
+			await postCommentsService.create(comment, (error, data) => {
 				if (error) {
 					console.log(error);
 					return response.status(error.code).json(error);

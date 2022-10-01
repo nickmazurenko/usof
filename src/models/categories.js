@@ -46,11 +46,13 @@ const getPostCategories = async (id, callback) => {
 	);
 };
 
-const retrieveOne = async (categoryTitle) => {
+const retrieveAll = async () => {
+	return await CategoriesTemplate.findAll();
+};
+
+const retrieveOne = async (params) => {
 	return await CategoriesTemplate.findOne({
-		where: {
-			categoryTitle,
-		},
+		where: params,
 	}).catch((error) => {
 		console.log(error);
 		throw new Error("No such category");
@@ -67,4 +69,5 @@ module.exports = {
 	getPostCategories,
 	retrieveOne,
 	createMultiple,
+	retrieveAll,
 };

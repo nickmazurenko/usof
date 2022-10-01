@@ -113,7 +113,9 @@ const create = async (post, callback) => {
 		const allCategories = [];
 		const newCategoriesRaw = [];
 		for (const category of categories) {
-			const dbCategory = await categoriesModel.retrieveOne(category);
+			const dbCategory = await categoriesModel.retrieveOne({
+				categoryTitle: category,
+			});
 			if (dbCategory !== null) {
 				allCategories.push({
 					post_id: dbPost.id,
@@ -208,7 +210,9 @@ const update = async ({ postId, post }, callback) => {
 			const allCategories = [];
 			const newCategoriesRaw = [];
 			for (const category of categories) {
-				const dbCategory = await categoriesModel.retrieveOne(category);
+				const dbCategory = await categoriesModel.retrieveOne({
+					categoryTitle: category,
+				});
 				if (dbCategory !== null) {
 					allCategories.push({
 						post_id: postId,

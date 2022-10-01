@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { check } = require("express-validator");
-const commentsController = require("../controllers/comments");
+const postCommentsController = require("../controllers/postComments");
 const auth = require("../middleware/auth");
 
 /**
@@ -9,7 +9,7 @@ const auth = require("../middleware/auth");
  *  @desc     get all comments for the specified post
  *  @access   Private
  */
-router.route("/:id").get(commentsController.getComments);
+router.route("/:id").get(postCommentsController.getComments);
 
 /**
  *  @route    POST /api/posts/comments/<post_id>
@@ -21,6 +21,6 @@ router
 	.post(
 		auth,
 		check("content", "Comment was not provided").not().isEmpty(),
-		commentsController.createComment
+		postCommentsController.createComment
 	);
 module.exports = router;

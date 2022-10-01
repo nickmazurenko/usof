@@ -8,4 +8,5 @@ router.use("/posts", require("./posts"));
 router.use("/posts/comments", require("./postComments"));
 router.use("/posts/categories", require("./postCategories"));
 router.use("/posts/likes", require("./postLikes"));
+router.use("/categories", require("./categories"));
 module.exports = router;
