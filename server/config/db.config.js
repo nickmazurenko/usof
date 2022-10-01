@@ -14,6 +14,7 @@ const db = new sequelize(
 	{
 		dialect: "mysql",
 		host: config.DB.HOST,
+		logging: false,
 		define: {
 			timestamps: false,
 		},

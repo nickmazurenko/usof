@@ -3,6 +3,7 @@ const router = express.Router();
 const { check } = require("express-validator");
 const postsController = require("../controllers/posts");
 const auth = require("../middleware/auth");
+const { checkIfOwner } = require("../middleware/permissionChecks");
 
 /**
  *  @route    GET /api/posts/<post_id>
@@ -35,5 +36,7 @@ router.route("/").post(
 	check("categories", "There should be at least one category").notEmpty(),
 	postsController.createPost
 );
+
+router.route("/:id").patch(auth, checkIfOwner, postsController.updatePost);
 
 module.exports = router;

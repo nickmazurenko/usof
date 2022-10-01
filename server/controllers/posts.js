@@ -1,5 +1,5 @@
 const handlers = require("../helpers/handlers");
-const { Post } = require("../models/posts");
+const { Post, PostFull } = require("../models/posts");
 const postsService = require("../services/posts");
 const { validationResult } = require("express-validator");
 
@@ -85,8 +85,38 @@ const createPost = handlers.asyncHandler(async (request, response) => {
 	}
 });
 
+const updatePost = handlers.asyncHandler(async (request, response) => {
+	try {
+		const { id } = request.params;
+		const params = {
+			postId: id,
+			post: PostFull(request.body, request.user.role, request.user.isOwner),
+		};
+		await postsService.update(params, (error, data) => {
+			if (error) {
+				console.log(error);
+				return response.status(error.code).json(error);
+			}
+			return response.status(data.code).json(data);
+		});
+	} catch (error) {
+		console.log(error);
+		return response
+			.status(500)
+			.json(
+				handlers.responseHandler(
+					false,
+					500,
+					"An error occurred during post update",
+					null
+				)
+			);
+	}
+});
+
 module.exports = {
 	getPosts,
 	getPost,
 	createPost,
+	updatePost,
 };

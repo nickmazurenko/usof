@@ -23,6 +23,11 @@ const PostsTemplate = db.define(
 			allowNull: false,
 			defaultValue: 0,
 		},
+		status: {
+			type: DataTypes.ENUM("active", "inactive"),
+			allowNull: false,
+			defaultValue: "active",
+		},
 	},
 	{
 		db,

@@ -16,6 +16,13 @@ const Post = (post) => ({
 	categories: post.categories,
 });
 
+const PostFull = (rawData, userRole, isOwner) => ({
+	...(rawData.title && isOwner ? { title: rawData.title } : {}),
+	...(rawData.content && isOwner ? { content: rawData.content } : {}),
+	...(rawData.categories ? { categories: rawData.categories } : {}),
+	...(rawData.status && userRole === "admin" ? { status: rawData.status } : {}),
+});
+
 const countAnswers = async (id) =>
 	await PostsTemplate.count({
 		where: {
@@ -227,8 +234,28 @@ const create = async (post, callback) =>
 		return null;
 	});
 
+const update = async (id, newData, callback) =>
+	await PostsTemplate.update(newData, {
+		where: { id },
+		returning: true,
+		plain: true,
+	}).catch((error) => {
+		console.log(error);
+		callback(
+			handlers.responseHandler(
+				false,
+				500,
+				"An error occurred during post update",
+				null
+			),
+			null
+		);
+		return null;
+	});
+
 module.exports = {
 	Post,
+	PostFull,
 	retrieveOne,
 	retrieveAll,
 	countAll,
@@ -236,4 +263,5 @@ module.exports = {
 	countComments,
 	addViewsId,
 	create,
+	update,
 };
