@@ -11,4 +11,14 @@ const {
 router.route("/").get(categoriesController.getCategories);
 router.route("/:id").get(categoriesController.getCategory);
 router.route("/posts/:id").get(categoriesController.getCategoryPosts);
+
+router
+	.route("/")
+	.post(
+		auth,
+		check("title", "Title needed to create category")
+			.exists()
+			.isLength({ min: 3, max: 15 }),
+		categoriesController.createCategory
+	);
 module.exports = router;

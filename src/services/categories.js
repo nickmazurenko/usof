@@ -4,6 +4,7 @@ const categoriesModel = require("../models/categories");
 const postsModel = require("../models/posts");
 const likesModel = require("../models/likes");
 const { dbResponse } = require("../helpers/db");
+const { getCategoriesDescription } = require("../helpers/utils.categories");
 
 const retrieveAll = async (callback) => {
 	try {
@@ -77,8 +78,47 @@ const getCategoryPosts = async (id, callback) => {
 	);
 };
 
+const create = async (category, callback) => {
+	try {
+		const dbCategory = await categoriesModel.retrieveOne({
+			categoryTitle: category.categoryTitle,
+		});
+		if (dbCategory) {
+			return callback(
+				responseHandler(
+					false,
+					404,
+					"Category with such title already exists",
+					null
+				),
+				null
+			);
+		}
+		if (!category.description) {
+			const description = await getCategoriesDescription(
+				category.categoryTitle
+			);
+			if (description.length) {
+				category.description = description[0].excerpt;
+			} else {
+				category.description = `${category.categoryTitle} is a general category`;
+			}
+		}
+
+		const result = await categoriesModel.create(category);
+		return callback(
+			null,
+			responseHandler(true, 200, "Category successfully created", result.id)
+		);
+	} catch (error) {
+		console.log(error);
+		return callback(responseHandler(false, 404, error.msg, null), null);
+	}
+};
+
 module.exports = {
 	retrieveAll,
 	retrieveOne,
 	getCategoryPosts,
+	create,
 };

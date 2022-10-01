@@ -65,9 +65,16 @@ const createMultiple = async (categories) =>
 		throw new Error("An error occurred during multiple categories creation");
 	});
 
+const create = async (category) =>
+	await CategoriesTemplate.create(category).catch((error) => {
+		console.log(error);
+		throw new Error(error);
+	});
+
 module.exports = {
 	getPostCategories,
 	retrieveOne,
 	createMultiple,
 	retrieveAll,
+	create,
 };
