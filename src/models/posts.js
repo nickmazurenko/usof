@@ -180,7 +180,7 @@ const retrieveAll = async (user, categoryTitle = "") => {
 		...(categoryTitle === ""
 			? {}
 			: { "$categories.category_title$": categoryTitle }),
-		...(user.id
+		...(user
 			? {
 					[sequelize.Op.or]: [
 						{ status: "active" },

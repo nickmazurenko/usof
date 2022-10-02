@@ -9,8 +9,7 @@ const getTokenUser = require("../middleware/getTokenUser");
  */
 const getPosts = handlers.asyncHandler(async (request, response) => {
 	try {
-		const tokenUser = await getTokenUser(request.header("x-auth-token"));
-		const user = tokenUser ? tokenUser : { role: "user" };
+		const user = await getTokenUser(request.header("x-auth-token"));
 		await postsService.retrieveAll(user, (error, data) => {
 			if (error) {
 				console.log(error);

@@ -63,8 +63,7 @@ const getCategory = handlers.asyncHandler(async (request, response) => {
 const getCategoryPosts = handlers.asyncHandler(async (request, response) => {
 	try {
 		const { id } = request.params;
-		const tokenUser = await getTokenUser(request.header("x-auth-token"));
-		const user = tokenUser ? tokenUser : { role: "user" };
+		const user = await getTokenUser(request.header("x-auth-token"));
 		await categoriesService.getCategoryPosts({ id, user }, (error, data) => {
 			if (error) {
 				console.log(error);
