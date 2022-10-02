@@ -165,7 +165,8 @@ const retrieveOne = async (id) => {
 		"createdAt",
 		"updatedAt",
 		"views",
-		"categories"
+		"categories",
+		"status"
 	);
 };
 
@@ -174,11 +175,24 @@ const retrieveOne = async (id) => {
  * @param {String} categoryTitle [optional] category name to filter posts
  * @returns
  */
-const retrieveAll = async (categoryTitle = "") => {
-	const where =
-		categoryTitle === ""
+const retrieveAll = async (user, categoryTitle = "") => {
+	const where = {
+		...(categoryTitle === ""
 			? {}
-			: { "$categories.category_title$": categoryTitle };
+			: { "$categories.category_title$": categoryTitle }),
+		...(user.id
+			? {
+					[sequelize.Op.or]: [
+						{ status: "active" },
+						{
+							status: "inactive",
+							...(user.role === "user" ? { user_id: user.id } : {}),
+						},
+					],
+			  }
+			: { status: "active" }),
+	};
+	console.table(user);
 	const postsRaw = await PostsTemplate.findAll({
 		distinct: true,
 		where,
@@ -190,6 +204,7 @@ const retrieveAll = async (categoryTitle = "") => {
 			"updatedAt",
 			"title",
 			"content",
+			"status",
 			[sequelize.literal("user.login"), "login"],
 			[sequelize.literal("user.profile_picture"), "profilePicture"],
 		],
@@ -223,7 +238,8 @@ const retrieveAll = async (categoryTitle = "") => {
 			"createdAt",
 			"updatedAt",
 			"views",
-			"categories"
+			"categories",
+			"status"
 		)
 	);
 	if (posts.length === 0) {

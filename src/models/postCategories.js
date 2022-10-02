@@ -13,7 +13,7 @@ const remove = async (post_id) => {
 		(error) => {
 			console.log(error);
 			throw new Error(
-				"An error occurred during multiple post categories remouval"
+				"An error occurred during multiple post categories removal"
 			);
 		}
 	);

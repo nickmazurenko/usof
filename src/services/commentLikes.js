@@ -1,5 +1,7 @@
 const { responseHandler } = require("../helpers/handlers");
 const likesModel = require("../models/likes");
+const commentsModel = require("../models/comments");
+const usersModel = require("../models/users");
 
 const getCommentLikes = async (id, callback) => {
 	const votes = await likesModel.getCommentLikes(id, callback);
@@ -21,10 +23,32 @@ const getCommentLikes = async (id, callback) => {
 	);
 };
 
-const create = async (like, callback) => likesModel.create(like, callback);
+const create = async (like, callback) => {
+	const { type, ...params } = like;
+	const comment = await commentsModel.retrieveOne(like.comment_id);
+	const dbLike = await likesModel.retrieveOne(params);
+	if (!dbLike && dbLike?.type !== type && comment.userId !== like.user_id) {
+		if (type === "like") {
+			await usersModel.addRatingId(comment.userId);
+		} else {
+			await usersModel.removeRatingId(comment.userId);
+		}
+	}
+	await likesModel.create(like, callback);
+};
+const remove = async (params, callback) => {
+	const comment = await commentsModel.retrieveOne(params.commentId);
+	const like = await likesModel.retrieveOne(params);
+	if (comment.userId !== params.userId) {
+		if (like.type === "like") {
+			await usersModel.removeRatingId(comment.userId);
+		} else {
+			await usersModel.addRatingId(comment.userId);
+		}
+	}
 
-const remove = async (params, callback) => likesModel.remove(params, callback);
-
+	likesModel.remove(params, callback);
+};
 module.exports = {
 	getCommentLikes,
 	create,

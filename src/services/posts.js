@@ -7,8 +7,8 @@ const postCategoriesModel = require("../models/postCategories");
 const postsModel = require("../models/posts");
 const likesModel = require("../models/likes");
 const commentsModel = require("../models/comments");
-const retrieveAll = async (callback) => {
-	const posts = await postsModel.retrieveAll();
+const retrieveAll = async (user, callback) => {
+	const posts = await postsModel.retrieveAll(user);
 	const postsRawInfo = await postsModel.countAll();
 
 	const postsInfo = await Promise.all(
@@ -294,7 +294,7 @@ const remove = async (id, callback) => {
 
 		return callback(
 			null,
-			handlers.responseHandler(true, 200, "Post remouval successful", null)
+			handlers.responseHandler(true, 200, "Post removal successful", null)
 		);
 	} catch (error) {
 		console.log(error);
@@ -302,7 +302,7 @@ const remove = async (id, callback) => {
 			handlers.responseHandler(
 				false,
 				500,
-				"An error occurred during post remouval",
+				"An error occurred during post removal",
 				null
 			),
 			null

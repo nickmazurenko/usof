@@ -135,7 +135,7 @@ const remove = async (params, callback) => {
 			handlers.responseHandler(
 				false,
 				404,
-				"An error occurred during like remouval",
+				"An error occurred during like removal",
 				null
 			),
 			null
@@ -144,7 +144,7 @@ const remove = async (params, callback) => {
 
 	return callback(
 		null,
-		handlers.responseHandler(true, 200, "Like remouval successful", null)
+		handlers.responseHandler(true, 200, "Like removal successful", null)
 	);
 };
 
@@ -161,6 +161,12 @@ const removeCommentLikes = async (comment_id) => {
 	});
 };
 
+const retrieveOne = async (params) =>
+	await LikesTemplate.findOne({ where: params }).catch((error) => {
+		console.log(error);
+		throw new Error(error);
+	});
+
 module.exports = {
 	getPostLikes,
 	removePostLikes,
@@ -168,4 +174,5 @@ module.exports = {
 	getCommentLikes,
 	create,
 	remove,
+	retrieveOne,
 };

@@ -70,7 +70,7 @@ const getCommentLikes = handlers.asyncHandler(async (request, response) => {
 });
 
 /**
- * Comment like remouval controller
+ * Comment like removal controller
  */
 const removeLike = handlers.asyncHandler(async (request, response) => {
 	try {
@@ -94,7 +94,7 @@ const removeLike = handlers.asyncHandler(async (request, response) => {
 				handlers.responseHandler(
 					false,
 					500,
-					"An error occurred during like remouval",
+					"An error occurred during like removal",
 					null
 				)
 			);

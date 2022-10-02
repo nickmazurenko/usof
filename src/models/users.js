@@ -277,6 +277,34 @@ const addViewsId = async (id) => {
 };
 
 /**
+ * Adding rating to given user
+ * @param {String} id
+ */
+const addRatingId = async (id) => {
+	await UsersTemplate.increment("rating", {
+		by: 1,
+		where: { id },
+	}).catch((error) => {
+		console.log(error);
+		throw new Error("No user with given id");
+	});
+};
+
+/**
+ * Removing rating to given user
+ * @param {String} id
+ */
+const removeRatingId = async (id) => {
+	await UsersTemplate.decrement("rating", {
+		by: 1,
+		where: { id },
+	}).catch((error) => {
+		console.log(error);
+		throw new Error("No user with given id");
+	});
+};
+
+/**
  * Invalidating token of a given user
  * @param {String} id
  */
@@ -327,6 +355,8 @@ module.exports = {
 	create,
 	verifyEmail,
 	addViewsId,
+	addRatingId,
+	removeRatingId,
 	removeUser,
 	updatePassword,
 	updateAvatar,

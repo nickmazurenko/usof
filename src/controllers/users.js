@@ -102,7 +102,7 @@ const updateAvatar = handlers.asyncHandler(async (request, response) => {
 });
 
 /**
- * User remouval controller
+ * User removal controller
  */
 const removeUser = handlers.asyncHandler(async (request, response) => {
 	const tokenUser = request.user;
@@ -139,7 +139,7 @@ const removeUser = handlers.asyncHandler(async (request, response) => {
 				handlers.responseHandler(
 					false,
 					500,
-					"An error occurred during user remouval",
+					"An error occurred during user removal",
 					null
 				)
 			);

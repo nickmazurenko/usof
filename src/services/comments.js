@@ -76,7 +76,7 @@ const remove = async (id, callback) => {
 
 		return callback(
 			null,
-			handlers.responseHandler(true, 200, "Comment remouval successful", null)
+			handlers.responseHandler(true, 200, "Comment removal successful", null)
 		);
 	} catch (error) {
 		console.log(error);
@@ -84,7 +84,7 @@ const remove = async (id, callback) => {
 			handlers.responseHandler(
 				false,
 				500,
-				"An error occurred during comment remouval",
+				"An error occurred during comment removal",
 				null
 			),
 			null

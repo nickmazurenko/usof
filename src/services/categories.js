@@ -20,9 +20,14 @@ const retrieveAll = async (callback) => {
 const retrieveOne = async (id, callback) => {
 	try {
 		const category = await categoriesModel.retrieveOne({ id });
+		if (category)
+			return callback(
+				null,
+				responseHandler(true, 200, "Category retrieval successful", category)
+			);
 		return callback(
-			null,
-			responseHandler(true, 200, "Category retrieval successful", category)
+			responseHandler(false, 404, "No category with such id", null),
+			null
 		);
 	} catch (error) {
 		console.log(error);
@@ -30,10 +35,11 @@ const retrieveOne = async (id, callback) => {
 	}
 };
 
-const getCategoryPosts = async (id, callback) => {
+const getCategoryPosts = async (params, callback) => {
+	const { id, user } = params;
 	const category = await categoriesModel.retrieveOne({ id });
 	const title = category.categoryTitle;
-	const dbPosts = await postsModel.retrieveAll(title);
+	const dbPosts = await postsModel.retrieveAll(user, title);
 	const postsRawInfo = await postsModel.countAll(title);
 
 	const postsInfo = await Promise.all(

@@ -2,13 +2,16 @@ const handlers = require("../helpers/handlers");
 const { Post, PostFull } = require("../models/posts");
 const postsService = require("../services/posts");
 const { validationResult } = require("express-validator");
+const getTokenUser = require("../middleware/getTokenUser");
 
 /**
  * Posts retrieval controller
  */
 const getPosts = handlers.asyncHandler(async (request, response) => {
 	try {
-		await postsService.retrieveAll((error, data) => {
+		const tokenUser = await getTokenUser(request.header("x-auth-token"));
+		const user = tokenUser ? tokenUser : { role: "user" };
+		await postsService.retrieveAll(user, (error, data) => {
 			if (error) {
 				console.log(error);
 				return response.status(error.code).json(error);
@@ -148,7 +151,7 @@ const removePost = handlers.asyncHandler(async (request, response) => {
 				handlers.responseHandler(
 					false,
 					500,
-					"An error occurred during post remouval",
+					"An error occurred during post removal",
 					null
 				)
 			);

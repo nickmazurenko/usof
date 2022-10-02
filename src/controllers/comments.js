@@ -63,7 +63,7 @@ const updateComment = handlers.asyncHandler(async (request, response) => {
 });
 
 /**
- * Comment remouval controller
+ * Comment removal controller
  */
 const removeComment = handlers.asyncHandler(async (request, response) => {
 	const errors = validationResult(request);
@@ -86,7 +86,7 @@ const removeComment = handlers.asyncHandler(async (request, response) => {
 					handlers.responseHandler(
 						false,
 						500,
-						"An error occurred during comment remouval",
+						"An error occurred during comment removal",
 						null
 					)
 				);

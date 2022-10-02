@@ -1,7 +1,7 @@
 const categoriesService = require("../services/categories");
 const handlers = require("../helpers/handlers");
 const { validationResult } = require("express-validator");
-
+const getTokenUser = require("../middleware/getTokenUser");
 /**
  * Categories retrieval controller
  */
@@ -63,7 +63,9 @@ const getCategory = handlers.asyncHandler(async (request, response) => {
 const getCategoryPosts = handlers.asyncHandler(async (request, response) => {
 	try {
 		const { id } = request.params;
-		await categoriesService.getCategoryPosts(id, (error, data) => {
+		const tokenUser = await getTokenUser(request.header("x-auth-token"));
+		const user = tokenUser ? tokenUser : { role: "user" };
+		await categoriesService.getCategoryPosts({ id, user }, (error, data) => {
 			if (error) {
 				console.log(error);
 				return response.status(error.code).json(error);
@@ -159,7 +161,7 @@ const updateCategory = handlers.asyncHandler(async (request, response) => {
 });
 
 /**
- * Category remouval controller
+ * Category removal controller
  */
 const removeCategory = handlers.asyncHandler(async (request, response) => {
 	try {
@@ -179,7 +181,7 @@ const removeCategory = handlers.asyncHandler(async (request, response) => {
 				handlers.responseHandler(
 					false,
 					500,
-					"An error occurred during category remouval",
+					"An error occurred during category removal",
 					null
 				)
 			);
