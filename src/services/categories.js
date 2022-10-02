@@ -1,4 +1,3 @@
-const { response } = require("express");
 const { responseHandler } = require("../helpers/handlers");
 const categoriesModel = require("../models/categories");
 const postsModel = require("../models/posts");
@@ -35,7 +34,7 @@ const getCategoryPosts = async (id, callback) => {
 	const category = await categoriesModel.retrieveOne({ id });
 	const title = category.categoryTitle;
 	const dbPosts = await postsModel.retrieveAll(title);
-	const postsRawInfo = await postsModel.countAll();
+	const postsRawInfo = await postsModel.countAll(title);
 
 	const postsInfo = await Promise.all(
 		postsRawInfo.map(async (post) => {

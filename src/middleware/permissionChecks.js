@@ -1,10 +1,12 @@
-const {
-	CommentsTemplate,
-	AnswersTemplate,
-	PostsTemplate,
-} = require("../templates");
+const { CommentsTemplate, PostsTemplate } = require("../templates");
 const { responseHandler } = require("../helpers/handlers");
 
+/**
+ * @desc checks if the user is owner of comment or post
+ * @param {*} request
+ * @param {*} response
+ * @param {*} callback
+ */
 const checkIfOwner = async (request, response, callback) => {
 	let template;
 	const url = request.originalUrl;
@@ -58,6 +60,13 @@ const checkIfOwner = async (request, response, callback) => {
 	callback();
 };
 
+/**
+ * @desc Checks if user is admin [but auth is required before]
+ * @param {*} request
+ * @param {*} response
+ * @param {*} callback
+ * @returns
+ */
 const checkIfAdmin = async (request, response, callback) => {
 	const user = request.user;
 

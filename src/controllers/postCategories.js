@@ -1,6 +1,9 @@
 const postCategoriesService = require("../services/postCategories");
 const handlers = require("../helpers/handlers");
 
+/**
+ * Post categories retrieval controller
+ */
 const getPostCategories = handlers.asyncHandler(async (request, response) => {
 	try {
 		const { id } = request.params;

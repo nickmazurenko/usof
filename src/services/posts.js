@@ -294,7 +294,7 @@ const remove = async (id, callback) => {
 
 		return callback(
 			null,
-			handlers.responseHandler(true, 200, "Post deletion successful", null)
+			handlers.responseHandler(true, 200, "Post remouval successful", null)
 		);
 	} catch (error) {
 		console.log(error);
@@ -302,7 +302,7 @@ const remove = async (id, callback) => {
 			handlers.responseHandler(
 				false,
 				500,
-				"An error occurred during post deletion",
+				"An error occurred during post remouval",
 				null
 			),
 			null

@@ -2,6 +2,9 @@ const commentLikesService = require("../services/commentLikes");
 const handlers = require("../helpers/handlers");
 const { validationResult } = require("express-validator");
 
+/**
+ * Comment like creation controller
+ */
 const createLike = handlers.asyncHandler(async (request, response) => {
 	const errors = validationResult(request);
 	if (errors.isEmpty()) {
@@ -38,6 +41,9 @@ const createLike = handlers.asyncHandler(async (request, response) => {
 	}
 });
 
+/**
+ * Comment like retrieval controller
+ */
 const getCommentLikes = handlers.asyncHandler(async (request, response) => {
 	try {
 		const { id } = request.params;
@@ -63,6 +69,9 @@ const getCommentLikes = handlers.asyncHandler(async (request, response) => {
 	}
 });
 
+/**
+ * Comment like remouval controller
+ */
 const removeLike = handlers.asyncHandler(async (request, response) => {
 	try {
 		const { id } = request.params;
@@ -85,7 +94,7 @@ const removeLike = handlers.asyncHandler(async (request, response) => {
 				handlers.responseHandler(
 					false,
 					500,
-					"An error occurred during like deletion",
+					"An error occurred during like remouval",
 					null
 				)
 			);

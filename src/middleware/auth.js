@@ -4,11 +4,11 @@ const handlers = require("../helpers/handlers");
 const getTokenUser = require("./getTokenUser");
 
 /**
- * 
- * @param {*} request 
- * @param {*} response 
- * @param {*} callback 
- * @returns user object if the token is correct
+ * @desc checks if current token is valid and the user
+ * 			 logged in and add user object to request
+ * @param {*} request
+ * @param {*} response
+ * @param {*} callback
  */
 const auth = async (request, response, callback) => {
 	const token = request.header("x-auth-token");

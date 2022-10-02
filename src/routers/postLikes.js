@@ -7,14 +7,12 @@ const auth = require("../middleware/auth");
 /**
  *  @route    GET /api/posts/likes/<post_id>
  *  @desc     get all likes under the specified post
- *  @access   Private
  */
 router.route("/:id").get(postLikesController.getPostLikes);
 
 /**
  *  @route    POST /api/posts/likes/<post_id>
  *  @desc     create a new like under a post
- *  @access   Private
  */
 router.route("/:id").post(
 	auth,
@@ -28,6 +26,11 @@ router.route("/:id").post(
 	postLikesController.createLike
 );
 
+/**
+ *  @route    DELETE /api/posts/likes/:id
+ *  @desc     delete like under a post
+ *  @access   Private
+ */
 router.route("/:id").delete(auth, postLikesController.removeLike);
 
 module.exports = router;

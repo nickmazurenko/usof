@@ -6,8 +6,6 @@ const { validationResult } = require("express-validator");
 
 /**
  * Registration controller
- * @param {} request
- * @param {} response
  */
 const register = handlers.asyncHandler(async (request, response) => {
 	const errors = validationResult(request);
@@ -49,8 +47,6 @@ const register = handlers.asyncHandler(async (request, response) => {
 
 /**
  * Email verification controller
- * @param {} request
- * @param {} response
  */
 const sendEmailVerification = handlers.asyncHandler(
 	async (request, response) => {
@@ -95,8 +91,6 @@ const sendEmailVerification = handlers.asyncHandler(
 
 /**
  * Login controller
- * @param {} request
- * @param {} response
  */
 const login = handlers.asyncHandler(async (request, response) => {
 	const errors = validationResult(request);
@@ -139,8 +133,6 @@ const login = handlers.asyncHandler(async (request, response) => {
 
 /**
  * logout controller
- * @param {} request
- * @param {} response
  */
 const logout = handlers.asyncHandler(async (request, response) => {
 	try {
@@ -169,8 +161,6 @@ const logout = handlers.asyncHandler(async (request, response) => {
 
 /**
  * Logged user data request controller
- * @param {} request
- * @param {} response
  */
 const getUser = handlers.asyncHandler(async (request, response) => {
 	try {
@@ -198,8 +188,6 @@ const getUser = handlers.asyncHandler(async (request, response) => {
 
 /**
  * Password reset controller
- * @param {} request
- * @param {} response
  */
 const resetPassword = handlers.asyncHandler(async (request, response) => {
 	const errors = validationResult(request);
@@ -246,8 +234,6 @@ const resetPassword = handlers.asyncHandler(async (request, response) => {
 
 /**
  * Password reset request controller
- * @param {} request
- * @param {} response
  */
 const requestPasswordReset = handlers.asyncHandler(
 	async (request, response) => {
@@ -294,8 +280,6 @@ const requestPasswordReset = handlers.asyncHandler(
 
 /**
  * Email verification controller
- * @param {} request
- * @param {} response
  */
 const verifyEmail = handlers.asyncHandler(async (request, response) => {
 	try {

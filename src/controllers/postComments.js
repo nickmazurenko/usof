@@ -3,6 +3,9 @@ const handlers = require("../helpers/handlers");
 const { validationResult } = require("express-validator");
 const { Comment } = require("../models/comments");
 
+/**
+ * Post comments retrieval controller
+ */
 const getComments = handlers.asyncHandler(async (request, response) => {
 	try {
 		const { id } = request.params;
@@ -28,6 +31,9 @@ const getComments = handlers.asyncHandler(async (request, response) => {
 	}
 });
 
+/**
+ * Post comments creation controller
+ */
 const createComment = handlers.asyncHandler(async (request, response) => {
 	const errors = validationResult(request);
 	if (errors.isEmpty()) {

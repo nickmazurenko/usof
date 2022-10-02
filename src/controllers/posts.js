@@ -3,6 +3,9 @@ const { Post, PostFull } = require("../models/posts");
 const postsService = require("../services/posts");
 const { validationResult } = require("express-validator");
 
+/**
+ * Posts retrieval controller
+ */
 const getPosts = handlers.asyncHandler(async (request, response) => {
 	try {
 		await postsService.retrieveAll((error, data) => {
@@ -27,6 +30,9 @@ const getPosts = handlers.asyncHandler(async (request, response) => {
 	}
 });
 
+/**
+ * Post retrieval controller
+ */
 const getPost = handlers.asyncHandler(async (request, response) => {
 	try {
 		const { id } = request.params;
@@ -52,6 +58,9 @@ const getPost = handlers.asyncHandler(async (request, response) => {
 	}
 });
 
+/**
+ * Post creation controller
+ */
 const createPost = handlers.asyncHandler(async (request, response) => {
 	const errors = validationResult(request);
 	if (errors.isEmpty()) {
@@ -85,6 +94,9 @@ const createPost = handlers.asyncHandler(async (request, response) => {
 	}
 });
 
+/**
+ * Post update controller
+ */
 const updatePost = handlers.asyncHandler(async (request, response) => {
 	try {
 		const { id } = request.params;
@@ -114,6 +126,9 @@ const updatePost = handlers.asyncHandler(async (request, response) => {
 	}
 });
 
+/**
+ * Post removal controller
+ */
 const removePost = handlers.asyncHandler(async (request, response) => {
 	try {
 		const { id } = request.params;
@@ -133,7 +148,7 @@ const removePost = handlers.asyncHandler(async (request, response) => {
 				handlers.responseHandler(
 					false,
 					500,
-					"An error occurred during post deletion",
+					"An error occurred during post remouval",
 					null
 				)
 			);

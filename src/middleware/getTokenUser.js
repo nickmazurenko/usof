@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const config = require("../config/keys.config");
 const UsersModel = require("../models/users");
 /**
- *
+ * @desc gets token user from database
  * @param {Object} token user token
  * @return user by id from token
  */

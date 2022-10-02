@@ -2,6 +2,9 @@ const postLikesService = require("../services/postLikes");
 const handlers = require("../helpers/handlers");
 const { validationResult } = require("express-validator");
 
+/**
+ * Post likes creation controller
+ */
 const createLike = handlers.asyncHandler(async (request, response) => {
 	const errors = validationResult(request);
 	if (errors.isEmpty()) {
@@ -38,6 +41,9 @@ const createLike = handlers.asyncHandler(async (request, response) => {
 	}
 });
 
+/**
+ * Post likes retrieval controller
+ */
 const getPostLikes = handlers.asyncHandler(async (request, response) => {
 	try {
 		const { id } = request.params;
@@ -63,6 +69,9 @@ const getPostLikes = handlers.asyncHandler(async (request, response) => {
 	}
 });
 
+/**
+ * Post likes remouval controller
+ */
 const removeLike = handlers.asyncHandler(async (request, response) => {
 	try {
 		const { id } = request.params;
@@ -82,7 +91,7 @@ const removeLike = handlers.asyncHandler(async (request, response) => {
 				handlers.responseHandler(
 					false,
 					500,
-					"An error occurred during like deletion",
+					"An error occurred during like remouval",
 					null
 				)
 			);

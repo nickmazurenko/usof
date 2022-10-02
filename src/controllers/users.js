@@ -6,8 +6,6 @@ const { User, UserFull } = require("../models/users");
 
 /**
  * Users retrieval controller
- * @param {} request
- * @param {} response
  */
 const getUsers = handlers.asyncHandler(async (request, response) => {
 	try {
@@ -35,8 +33,6 @@ const getUsers = handlers.asyncHandler(async (request, response) => {
 
 /**
  * Specified user retrieval controller
- * @param {} request
- * @param {} response
  */
 const getUser = handlers.asyncHandler(async (request, response) => {
 	try {
@@ -66,8 +62,6 @@ const getUser = handlers.asyncHandler(async (request, response) => {
 
 /**
  * Avatar update controller
- * @param {} request
- * @param {} response
  */
 const updateAvatar = handlers.asyncHandler(async (request, response) => {
 	const errors = validationResult(request);
@@ -108,9 +102,7 @@ const updateAvatar = handlers.asyncHandler(async (request, response) => {
 });
 
 /**
- * User deletion controller
- * @param {} request
- * @param {} response
+ * User remouval controller
  */
 const removeUser = handlers.asyncHandler(async (request, response) => {
 	const tokenUser = request.user;
@@ -147,7 +139,7 @@ const removeUser = handlers.asyncHandler(async (request, response) => {
 				handlers.responseHandler(
 					false,
 					500,
-					"An error occurred during user deletion",
+					"An error occurred during user remouval",
 					null
 				)
 			);
@@ -156,8 +148,6 @@ const removeUser = handlers.asyncHandler(async (request, response) => {
 
 /**
  * User update controller
- * @param {} request
- * @param {} response
  */
 const updateUser = handlers.asyncHandler(async (request, response) => {
 	const tokenUser = request.user;
@@ -207,11 +197,8 @@ const updateUser = handlers.asyncHandler(async (request, response) => {
 
 /**
  * User creation controller
- * @param {} request
- * @param {} response
  */
 const createNewUser = handlers.asyncHandler(async (request, response) => {
-
 	const errors = validationResult(request);
 	if (errors.isEmpty()) {
 		try {

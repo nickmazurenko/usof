@@ -9,6 +9,11 @@ const sequelize = require("sequelize");
 const handlers = require("../helpers/handlers");
 const { dbResponse } = require("../helpers/db");
 
+/**
+ * Post template for creation
+ * @param {Object} post
+ * @returns
+ */
 const Post = (post) => ({
 	title: post.title,
 	content: post.content,
@@ -16,6 +21,13 @@ const Post = (post) => ({
 	categories: post.categories,
 });
 
+/**
+ * Post template for update depending on permissions
+ * @param {Object} rawData raw post data
+ * @param {String} userRole user role [admin, user]
+ * @param {Boolean} isOwner if user is owner of post
+ * @returns
+ */
 const PostFull = (rawData, userRole, isOwner) => ({
 	...(rawData.title && isOwner ? { title: rawData.title } : {}),
 	...(rawData.content && isOwner ? { content: rawData.content } : {}),
@@ -53,7 +65,12 @@ const countComments = async (id) =>
 		throw new Error(error);
 	});
 
-const countAll = async (categoryName = "") => {
+/**
+ * @desc Counts categories and comments
+ * @param {*} categoryTitle
+ * @returns
+ */
+const countAll = async (categoryTitle = "") => {
 	const include = [
 		{
 			model: AnswersTemplate,
@@ -67,8 +84,8 @@ const countAll = async (categoryName = "") => {
 		},
 	];
 	const where = {};
-	if (categoryName !== "") {
-		where = { "$categories.categoryName$": categoryName };
+	if (categoryTitle !== "") {
+		where = { "$categories.categoryTitle$": categoryTitle };
 
 		include.push({
 			model: CategoriesTemplate,
@@ -82,7 +99,6 @@ const countAll = async (categoryName = "") => {
 		attributes: [
 			"id",
 			[sequelize.literal("COUNT(DISTINCT(comments.id))"), "commentsCount"],
-			[sequelize.literal("COUNT(DISTINCT(answers.id))"), "answersCount"],
 		],
 		include,
 		group: ["id"],
@@ -95,6 +111,11 @@ const countAll = async (categoryName = "") => {
 	return result;
 };
 
+/**
+ * @desc Fetching post data under given id
+ * @param {String} id
+ * @returns fetched post
+ */
 const retrieveOne = async (id) => {
 	let post = await PostsTemplate.findOne({
 		distinct: true,
@@ -148,9 +169,16 @@ const retrieveOne = async (id) => {
 	);
 };
 
+/**
+ * @desc Fetches all existing posts
+ * @param {String} categoryTitle [optional] category name to filter posts
+ * @returns
+ */
 const retrieveAll = async (categoryTitle = "") => {
 	const where =
-		categoryTitle === "" ? {} : { "$categories.category_title$": categoryTitle };
+		categoryTitle === ""
+			? {}
+			: { "$categories.category_title$": categoryTitle };
 	const postsRaw = await PostsTemplate.findAll({
 		distinct: true,
 		where,
@@ -205,6 +233,10 @@ const retrieveAll = async (categoryTitle = "") => {
 	return posts;
 };
 
+/**
+ * @desc Adds views to a given post
+ * @param {*} id
+ */
 const addViewsId = async (id) => {
 	await PostsTemplate.increment("views", {
 		by: 1,
@@ -215,6 +247,12 @@ const addViewsId = async (id) => {
 	});
 };
 
+/**
+ * @desc Creation post
+ * @param {Object} post post data
+ * @param {Function} callback
+ * @returns created post
+ */
 const create = async (post, callback) =>
 	await PostsTemplate.create({
 		title: post.title,
@@ -234,6 +272,12 @@ const create = async (post, callback) =>
 		return null;
 	});
 
+/**
+ * @desc updating post under given id
+ * @param {String} id post id
+ * @param {Object} newData post data
+ * @param {Function} callback
+ */
 const update = async (id, newData, callback) =>
 	await PostsTemplate.update(newData, {
 		where: { id },
@@ -253,6 +297,10 @@ const update = async (id, newData, callback) =>
 		return null;
 	});
 
+/**
+ * @desc Removing post under given id
+ * @param {String} id post id
+ */
 const remove = async (id) => {
 	await PostsTemplate.destroy({ where: { id } }).catch((error) => {
 		console.log(error);

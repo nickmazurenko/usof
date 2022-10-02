@@ -2,6 +2,9 @@ const commentsService = require("../services/comments");
 const handlers = require("../helpers/handlers");
 const { validationResult } = require("express-validator");
 
+/**
+ * Comment retrieval controller
+ */
 const getComment = handlers.asyncHandler(async (request, response) => {
 	try {
 		const { id } = request.params;
@@ -27,6 +30,9 @@ const getComment = handlers.asyncHandler(async (request, response) => {
 	}
 });
 
+/**
+ * Comment update controller
+ */
 const updateComment = handlers.asyncHandler(async (request, response) => {
 	try {
 		const { id } = request.params;
@@ -56,6 +62,9 @@ const updateComment = handlers.asyncHandler(async (request, response) => {
 	}
 });
 
+/**
+ * Comment remouval controller
+ */
 const removeComment = handlers.asyncHandler(async (request, response) => {
 	const errors = validationResult(request);
 	if (errors.isEmpty()) {
@@ -77,7 +86,7 @@ const removeComment = handlers.asyncHandler(async (request, response) => {
 					handlers.responseHandler(
 						false,
 						500,
-						"An error occurred during comment deletion",
+						"An error occurred during comment remouval",
 						null
 					)
 				);

@@ -1,5 +1,5 @@
 /**
- *
+ * @desc Creates an object for response json
  * @param {Bool} success
  * @param {Number} code
  * @param {String} message
@@ -15,7 +15,6 @@ const responseHandler = (success, code = 400, message = "valid", data) => {
 		data,
 	};
 };
-
 
 const asyncHandler = (callback) => (request, response, next) =>
 	Promise.resolve(callback(request, response, next)).catch((error) => {

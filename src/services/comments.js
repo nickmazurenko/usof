@@ -1,9 +1,6 @@
-const { response } = require("express");
 const { responseHandler } = require("../helpers/handlers");
 const commentsModel = require("../models/comments");
-const postsModel = require("../models/posts");
 const likesModel = require("../models/likes");
-const { dbResponse } = require("../helpers/db");
 
 const retrieveOne = async (id, callback) => {
 	try {
@@ -79,7 +76,7 @@ const remove = async (id, callback) => {
 
 		return callback(
 			null,
-			handlers.responseHandler(true, 200, "Comment deletion successful", null)
+			handlers.responseHandler(true, 200, "Comment remouval successful", null)
 		);
 	} catch (error) {
 		console.log(error);
@@ -87,7 +84,7 @@ const remove = async (id, callback) => {
 			handlers.responseHandler(
 				false,
 				500,
-				"An error occurred during comment deletion",
+				"An error occurred during comment remouval",
 				null
 			),
 			null

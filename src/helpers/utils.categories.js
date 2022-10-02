@@ -1,5 +1,10 @@
 const axios = require("axios");
 
+/**
+ * @desc Fetches categories descriptions from stackexchange
+ * @param {String} categories categories separated by [ ; ]
+ * @returns an array with given categories titles and their description
+ */
 const getCategoriesDescription = async (categories) => {
 	const url = `https://api.stackexchange.com/2.3/tags/${categories}/wikis?site=stackoverflow`;
 	const options = {

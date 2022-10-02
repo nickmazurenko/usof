@@ -1,7 +1,7 @@
 /**
- *
+ * @desc creates object from values under given params from template
  * @param {Object} template
- * @param  {...any} params
+ * @param  {...String} params
  * @returns data from database fitting given conditions in params
  */
 const dbResponse = (template, ...params) => {

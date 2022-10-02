@@ -4,7 +4,7 @@ const sendEmail = require("../middleware/sendEmail");
 const handlers = require("../helpers/handlers");
 const UsersModel = require("../models/users");
 const config = require("../config/keys.config");
-const c = require("config");
+
 const register = async (user, callback) => {
 	const salt = bcrypt.genSaltSync(10);
 	user.password = bcrypt.hashSync(user.password, salt);

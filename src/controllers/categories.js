@@ -2,6 +2,9 @@ const categoriesService = require("../services/categories");
 const handlers = require("../helpers/handlers");
 const { validationResult } = require("express-validator");
 
+/**
+ * Categories retrieval controller
+ */
 const getCategories = handlers.asyncHandler(async (request, response) => {
 	try {
 		await categoriesService.retrieveAll((error, data) => {
@@ -25,6 +28,10 @@ const getCategories = handlers.asyncHandler(async (request, response) => {
 			);
 	}
 });
+
+/**
+ * Category retrieval controller
+ */
 const getCategory = handlers.asyncHandler(async (request, response) => {
 	try {
 		const { id } = request.params;
@@ -50,6 +57,9 @@ const getCategory = handlers.asyncHandler(async (request, response) => {
 	}
 });
 
+/**
+ * Category posts retrieval controller
+ */
 const getCategoryPosts = handlers.asyncHandler(async (request, response) => {
 	try {
 		const { id } = request.params;
@@ -74,6 +84,9 @@ const getCategoryPosts = handlers.asyncHandler(async (request, response) => {
 	}
 });
 
+/**
+ * Category creation controller
+ */
 const createCategory = handlers.asyncHandler(async (request, response) => {
 	const errors = validationResult(request);
 	if (errors.isEmpty()) {
@@ -111,6 +124,9 @@ const createCategory = handlers.asyncHandler(async (request, response) => {
 	}
 });
 
+/**
+ * Category update controller
+ */
 const updateCategory = handlers.asyncHandler(async (request, response) => {
 	try {
 		const { id } = request.params;
@@ -141,6 +157,10 @@ const updateCategory = handlers.asyncHandler(async (request, response) => {
 			);
 	}
 });
+
+/**
+ * Category remouval controller
+ */
 const removeCategory = handlers.asyncHandler(async (request, response) => {
 	try {
 		const { id } = request.params;
@@ -159,7 +179,7 @@ const removeCategory = handlers.asyncHandler(async (request, response) => {
 				handlers.responseHandler(
 					false,
 					500,
-					"An error occurred during category deletion",
+					"An error occurred during category remouval",
 					null
 				)
 			);

@@ -1,7 +1,8 @@
 const nodemailer = require("nodemailer");
 const config = require("../config/keys.config");
 /**
- *
+ * @desc sends email to a given user with the subject and link
+ * 			 for some confirmation purposes
  * @param {String} email email to send mail to
  * @param {String} subject the subject of the email
  * @param {Object} params api path and token to send as link

@@ -1,12 +1,5 @@
-const {
-	PostsTemplate,
-	CategoriesTemplate,
-	PostCategoriesTemplate,
-} = require("../templates");
+const { PostsTemplate, CategoriesTemplate } = require("../templates");
 const handlers = require("../helpers/handlers");
-const sequelize = require("sequelize");
-const { dbResponse } = require("../helpers/db");
-const { response } = require("express");
 
 const getPostCategories = async (id, callback) => {
 	const post = await PostsTemplate.findByPk(id, {

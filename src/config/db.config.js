@@ -5,7 +5,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 /**
- * Creating connection pool using sequelize
+ * Sequelize connection pool
  */
 const db = new sequelize(
 	config.DB.DATABASE,

@@ -3,8 +3,8 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 /**
- *
- * @param {String} key
+ * @desc finds the value under key from process environment
+ * @param {String} key name of the variable
  * @returns the value under key from process environment
  */
 const getEnvironmentVar = (key) => {

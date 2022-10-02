@@ -8,7 +8,6 @@ const auth = require("../middleware/auth");
  *  @route    POST /api/auth/register
  *  @desc     registration of a new user, required parameters are
  * 						[login, email, password]
- *  @access   Private
  */
 router.route("/register").post(
 	check("login", "Your login is not valid").exists().isLength({ min: 5 }),
@@ -32,7 +31,6 @@ router.route("/register").post(
 /**
  *  @route    GET /api/auth/confirm-email
  *  @desc     send email confirmation mail
- *  @access   Private
  */
 router
 	.route("/confirm-email")
@@ -44,7 +42,6 @@ router
 /**
  *  @route    GET /api/auth/confirm-email/:token
  *  @desc     confirm email
- *  @access   Private
  */
 router.route("/confirm-email/:token").get(authController.verifyEmail);
 
@@ -52,7 +49,6 @@ router.route("/confirm-email/:token").get(authController.verifyEmail);
  *  @route    POST /api/auth/login
  *  @desc     log in user, required parameters are [login, email,password]
  * 						only users with a confirmed email can sign in
- *  @access   Private
  */
 router
 	.route("/login")
@@ -73,14 +69,12 @@ router.route("/").get(auth, authController.getUser);
 /**
  *  @route    POST /api/auth/logout
  *  @desc     log out authorized user
- *  @access   Private
  */
 router.route("/logout").post(auth, authController.logout);
 
 /**
  *  @route    POST /api/auth/password-reset
  *  @desc     send a reset link to user email, required parameter is [email]
- *  @access   Private
  */
 router
 	.route("/password-reset")
@@ -96,7 +90,6 @@ router
 /**
  *  @route    POST /api/auth/password-reset/:token
  *  @desc     confirm new password with a token from email, required parameter is a [new password]
- *  @access   Private
  */
 router
 	.route("/password-reset/:token")

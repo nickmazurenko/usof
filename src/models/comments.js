@@ -2,7 +2,6 @@ const { CommentsTemplate, UsersTemplate } = require("../templates");
 const handlers = require("../helpers/handlers");
 const sequelize = require("sequelize");
 const { dbResponse } = require("../helpers/db");
-const { response } = require("express");
 
 const Comment = (comment) => ({
 	content: comment.content,

@@ -8,14 +8,12 @@ const { checkIfOwner } = require("../middleware/permissionChecks");
 /**
  *  @route    GET /api/posts/<post_id>
  *  @desc     get specified post data
- *  @access   Private
  */
 router.route("/:id").get(postsController.getPost);
 
 /**
  *  @route    GET /api/posts/
  *  @desc     get all posts
- *  @access   Private
  */
 router.route("/").get(postsController.getPosts);
 
@@ -23,7 +21,6 @@ router.route("/").get(postsController.getPosts);
  *  @route    POST /api/posts/
  *  @desc     create a new post, required parameters are
  *            [title, content, categories]
- *  @access   Private
  */
 router.route("/").post(
 	auth,
@@ -41,9 +38,14 @@ router.route("/").post(
  *  @desc     update a specified post, its
  *            [title, content, categories]
  * 						only for creator of post or admin
- *  @access   Private
  */
 router.route("/:id").patch(auth, checkIfOwner, postsController.updatePost);
 
+/**
+ *  @route    DELETE /api/posts/:id
+ *  @desc     delete specified post
+ *  @access   Private
+ */
 router.route("/:id").delete(auth, checkIfOwner, postsController.removePost);
+
 module.exports = router;

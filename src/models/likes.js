@@ -1,8 +1,6 @@
-const { PostsTemplate, LikesTemplate, UsersTemplate } = require("../templates");
+const { LikesTemplate, UsersTemplate } = require("../templates");
 const handlers = require("../helpers/handlers");
 const sequelize = require("sequelize");
-const { dbResponse } = require("../helpers/db");
-const { response } = require("express");
 
 const getPostLikes = async (id, callback) => {
 	const likes = await LikesTemplate.findAll({
@@ -137,7 +135,7 @@ const remove = async (params, callback) => {
 			handlers.responseHandler(
 				false,
 				404,
-				"An error occurred during like deletion",
+				"An error occurred during like remouval",
 				null
 			),
 			null
@@ -146,7 +144,7 @@ const remove = async (params, callback) => {
 
 	return callback(
 		null,
-		handlers.responseHandler(true, 200, "Like deletion successful", null)
+		handlers.responseHandler(true, 200, "Like remouval successful", null)
 	);
 };
 
