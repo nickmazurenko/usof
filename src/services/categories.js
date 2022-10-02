@@ -14,7 +14,7 @@ const retrieveAll = async (callback) => {
 		);
 	} catch (error) {
 		console.log(error);
-		return callback(responseHandler(false, 404, error.msg, null), null);
+		return callback(responseHandler(false, 404, error.message, null), null);
 	}
 };
 const retrieveOne = async (id, callback) => {
@@ -26,7 +26,7 @@ const retrieveOne = async (id, callback) => {
 		);
 	} catch (error) {
 		console.log(error);
-		return callback(responseHandler(false, 404, error.msg, null), null);
+		return callback(responseHandler(false, 404, error.message, null), null);
 	}
 };
 
@@ -110,7 +110,7 @@ const create = async (category, callback) => {
 		);
 	} catch (error) {
 		console.log(error);
-		return callback(responseHandler(false, 404, error.msg, null), null);
+		return callback(responseHandler(false, 404, error.message, null), null);
 	}
 };
 
@@ -123,7 +123,7 @@ const update = async ({ category, id }, callback) => {
 		);
 	} catch (error) {
 		console.log(error);
-		return callback(responseHandler(false, 404, error.msg, null), null);
+		return callback(responseHandler(false, 404, error.message, null), null);
 	}
 };
 const remove = async (id, callback) => {
@@ -135,7 +135,7 @@ const remove = async (id, callback) => {
 		);
 	} catch (error) {
 		console.log(error);
-		return callback(responseHandler(false, 404, error.msg, null), null);
+		return callback(responseHandler(false, 404, error.message, null), null);
 	}
 };
 

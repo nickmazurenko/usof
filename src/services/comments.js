@@ -38,7 +38,7 @@ const retrieveOne = async (id, callback) => {
 		);
 	} catch (error) {
 		console.log(error);
-		return callback(responseHandler(false, 404, error.error, null), null);
+		return callback(responseHandler(false, 404, error.message, null), null);
 	}
 };
 

@@ -9,7 +9,7 @@ const getPostCategories = async (id, callback) => {
 				as: "categories",
 				attributes: ["id", "categoryTitle", "description"],
 				through: {
-					attributes: ["post_id", "category_id"],
+					attributes: [],
 				},
 			},
 		],

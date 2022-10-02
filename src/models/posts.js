@@ -83,9 +83,9 @@ const countAll = async (categoryTitle = "") => {
 			attributes: [],
 		},
 	];
-	const where = {};
+	let where = {};
 	if (categoryTitle !== "") {
-		where = { "$categories.categoryTitle$": categoryTitle };
+		where = { "$categories.category_title$": categoryTitle };
 
 		include.push({
 			model: CategoriesTemplate,

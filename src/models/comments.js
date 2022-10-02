@@ -98,7 +98,7 @@ const retrieveOne = async (id) => {
 	});
 
 	if (comment === null) {
-		throw new Error("No post with such id");
+		throw new Error("No comment with such id");
 	}
 
 	return dbResponse(
