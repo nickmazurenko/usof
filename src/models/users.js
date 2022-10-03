@@ -2,7 +2,6 @@ const {
 	UsersTemplate,
 	PostsTemplate,
 	CategoriesTemplate,
-	AnswersTemplate,
 	CommentsTemplate,
 } = require("../templates");
 const sequelize = require("sequelize");
@@ -57,7 +56,7 @@ const retrieveOne = async (params) =>
 	});
 
 /**
- * Fetching user data with additional info about posts, answers and comments
+ * Fetching user data with additional info about posts and comments
  * @param {Number} id
  * @returns user with data
  */
@@ -73,7 +72,6 @@ const retrieveOneWithInfo = async (id) => {
 			"views",
 			"rating",
 			"created_at",
-			[sequelize.literal("COUNT(DISTINCT(answers.id))"), "answers_count"],
 			[sequelize.literal("COUNT(DISTINCT(posts.id))"), "posts_count"],
 			[sequelize.literal("COUNT(DISTINCT(comments.id))"), "comments_count"],
 			[
@@ -97,11 +95,6 @@ const retrieveOneWithInfo = async (id) => {
 				required: false,
 				model: CommentsTemplate,
 			},
-			{
-				required: false,
-				attributes: [],
-				model: AnswersTemplate,
-			},
 		],
 		group: ["users.id"],
 	}).catch((error) => {
@@ -122,7 +115,6 @@ const retrieveOneWithInfo = async (id) => {
 		"full_name",
 		"profile_picture",
 		"created_at",
-		"answers_count",
 		"posts_count",
 		"categories_count",
 		"comments_count"

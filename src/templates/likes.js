@@ -35,6 +35,11 @@ const LikesTemplate = db.define(
 				using: "BTREE",
 				fields: [{ name: "user_id" }],
 			},
+			{
+				name: "post_id",
+				using: "BTREE",
+				fields: [{ name: "post_id" }],
+			},
 		],
 	}
 );

@@ -1,9 +1,9 @@
 const {
 	UsersTemplate,
 	PostsTemplate,
-	AnswersTemplate,
 	CommentsTemplate,
 	CategoriesTemplate,
+	LikesTemplate,
 } = require("../templates");
 const sequelize = require("sequelize");
 const handlers = require("../helpers/handlers");
@@ -35,21 +35,6 @@ const PostFull = (rawData, userRole, isOwner) => ({
 	...(rawData.status && userRole === "admin" ? { status: rawData.status } : {}),
 });
 
-const countAnswers = async (id) =>
-	await PostsTemplate.count({
-		where: {
-			id,
-		},
-		include: {
-			model: AnswersTemplate,
-			required: false,
-			attributes: [],
-		},
-	}).catch((error) => {
-		console.log(error);
-		throw new Error(error);
-	});
-
 const countComments = async (id) =>
 	await PostsTemplate.count({
 		where: {
@@ -72,11 +57,6 @@ const countComments = async (id) =>
  */
 const countAll = async (categoryTitle = "") => {
 	const include = [
-		{
-			model: AnswersTemplate,
-			required: false,
-			attributes: [],
-		},
 		{
 			model: CommentsTemplate,
 			required: false,
@@ -175,7 +155,7 @@ const retrieveOne = async (id) => {
  * @param {String} categoryTitle [optional] category name to filter posts
  * @returns
  */
-const retrieveAll = async (user, categoryTitle = "") => {
+const retrieveAll = async ({ user, sort }, categoryTitle = "") => {
 	const where = {
 		...(categoryTitle === ""
 			? {}
@@ -192,7 +172,6 @@ const retrieveAll = async (user, categoryTitle = "") => {
 			  }
 			: { status: "active" }),
 	};
-	console.table(user);
 	const postsRaw = await PostsTemplate.findAll({
 		distinct: true,
 		where,
@@ -207,6 +186,7 @@ const retrieveAll = async (user, categoryTitle = "") => {
 			"status",
 			[sequelize.literal("user.login"), "login"],
 			[sequelize.literal("user.profile_picture"), "profilePicture"],
+			[sequelize.literal("COUNT(DISTINCT(likes.post_id))"), "like_count"],
 		],
 		include: [
 			{
@@ -219,13 +199,19 @@ const retrieveAll = async (user, categoryTitle = "") => {
 				required: false,
 				attributes: [],
 			},
+			{
+				model: LikesTemplate,
+				required: false,
+				attributes: [],
+			},
 		],
-		order: [["createdAt", "DESC"]],
+		group: ["categories.id"],
+		order: [[sort ? sort : "like_count", "DESC"]],
 	}).catch((error) => {
 		console.log(error);
 		throw new Error("An error occurred during posts retrieval");
 	});
-
+	console.log(postsRaw);
 	const posts = postsRaw.map((post) =>
 		dbResponse(
 			post,
@@ -330,7 +316,6 @@ module.exports = {
 	retrieveOne,
 	retrieveAll,
 	countAll,
-	countAnswers,
 	countComments,
 	addViewsId,
 	create,

@@ -59,7 +59,7 @@ const getCategoryPosts = async (params, callback) => {
 				dislikesCount = dislikes.length;
 			}
 			return {
-				...dbResponse(post, "id", "commentsCount", "answersCount"),
+				...dbResponse(post, "id", "commentsCount"),
 				likes,
 				dislikes,
 				likesCount,

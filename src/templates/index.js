@@ -3,7 +3,6 @@ const PostsTemplate = require("./posts");
 const CategoriesTemplate = require("./categories");
 const PostCategoriesTemplate = require("./postCategories");
 const CommentsTemplate = require("./comments");
-const AnswersTemplate = require("./answers");
 const LikesTemplate = require("./likes");
 
 /**
@@ -23,13 +22,6 @@ UsersTemplate.hasMany(CommentsTemplate, {
 });
 CommentsTemplate.belongsTo(UsersTemplate);
 
-UsersTemplate.hasMany(AnswersTemplate, {
-	foreignKey: {
-		name: "user_id",
-		allowNull: false,
-	},
-});
-AnswersTemplate.belongsTo(UsersTemplate);
 /**
  * Posts template connections
  */
@@ -41,14 +33,6 @@ PostsTemplate.hasMany(CommentsTemplate, {
 	},
 });
 CommentsTemplate.belongsTo(PostsTemplate);
-
-PostsTemplate.hasMany(AnswersTemplate, {
-	foreignKey: {
-		name: "post_id",
-		allowNull: false,
-	},
-});
-AnswersTemplate.belongsTo(PostsTemplate);
 
 PostsTemplate.belongsToMany(CategoriesTemplate, {
 	through: PostCategoriesTemplate,
@@ -97,7 +81,6 @@ module.exports = {
 	PostsTemplate,
 	UsersTemplate,
 	CategoriesTemplate,
-	AnswersTemplate,
 	CommentsTemplate,
 	PostCategoriesTemplate,
 	LikesTemplate,

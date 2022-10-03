@@ -7,10 +7,15 @@ const postCategoriesModel = require("../models/postCategories");
 const postsModel = require("../models/posts");
 const likesModel = require("../models/likes");
 const commentsModel = require("../models/comments");
-const retrieveAll = async (user, callback) => {
-	const posts = await postsModel.retrieveAll(user);
+const retrieveAll = async (params, callback) => {
+	const posts = await postsModel.retrieveAll(params);
 	const postsRawInfo = await postsModel.countAll();
-
+	if (!posts[0].id) {
+		return callback(
+			handlers.responseHandler(false, 404, "No posts were found", null),
+			null
+		);
+	}
 	const postsInfo = await Promise.all(
 		postsRawInfo.map(async (post) => {
 			let hasLikes = true;
@@ -27,8 +32,9 @@ const retrieveAll = async (user, callback) => {
 				dislikes = votes.filter((vote) => vote.type === "dislike");
 				dislikesCount = dislikes.length;
 			}
+
 			return {
-				...dbResponse(post, "id", "commentsCount", "answersCount"),
+				...dbResponse(post, "id", "commentsCount"),
 				likes,
 				dislikes,
 				likesCount,
@@ -59,7 +65,6 @@ const retrieveOne = async (id, callback) => {
 	let dislikes;
 	await postsModel.addViewsId(id);
 	const post = await postsModel.retrieveOne(id);
-	const answers = await postsModel.countAnswers(id);
 	const comments = await postsModel.countComments(id);
 	const votes = await likesModel.getPostLikes(id, (error) => {
 		if (error) hasLikes = false;
@@ -72,7 +77,6 @@ const retrieveOne = async (id, callback) => {
 	}
 	const postWithInfo = {
 		...post,
-		answersCount: answers,
 		commentsCount: comments,
 		likes,
 		dislikes,
