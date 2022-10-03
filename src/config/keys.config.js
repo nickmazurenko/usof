@@ -41,6 +41,7 @@ const config = {
 		LINK: getEnvironmentVar("LINK"),
 		PORT: getEnvironmentVar("PORT"),
 	},
+	LIMIT: getEnvironmentVar("POSTS_LIMIT"),
 };
 
 module.exports = config;

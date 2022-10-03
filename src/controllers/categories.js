@@ -64,13 +64,17 @@ const getCategoryPosts = handlers.asyncHandler(async (request, response) => {
 	try {
 		const { id } = request.params;
 		const user = await getTokenUser(request.header("x-auth-token"));
-		await categoriesService.getCategoryPosts({ id, user }, (error, data) => {
-			if (error) {
-				console.log(error);
-				return response.status(error.code).json(error);
+		const { page } = request.query;
+		await categoriesService.getCategoryPosts(
+			{ id, user, page },
+			(error, data) => {
+				if (error) {
+					console.log(error);
+					return response.status(error.code).json(error);
+				}
+				return response.status(data.code).json(data);
 			}
-			return response.status(data.code).json(data);
-		});
+		);
 	} catch (error) {
 		console.log(error);
 		return response

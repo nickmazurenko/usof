@@ -10,8 +10,8 @@ const getTokenUser = require("../middleware/getTokenUser");
 const getPosts = handlers.asyncHandler(async (request, response) => {
 	try {
 		const user = await getTokenUser(request.header("x-auth-token"));
-		const { sort } = request.query;
-		await postsService.retrieveAll({ user, sort }, (error, data) => {
+		const { sort, page } = request.query;
+		await postsService.retrieveAll({ user, sort, page }, (error, data) => {
 			if (error) {
 				console.log(error);
 				return response.status(error.code).json(error);

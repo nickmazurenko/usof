@@ -29,4 +29,6 @@ const db = new sequelize(
 
 (async () => await db.sync())();
 
+(async () =>
+	await db.query(`CREATE DATABASE IF NOT EXISTS \`${config.DB.DATABASE}\`;`))();
 module.exports = db;

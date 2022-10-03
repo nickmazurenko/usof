@@ -8,6 +8,7 @@ const {
 const sequelize = require("sequelize");
 const handlers = require("../helpers/handlers");
 const { dbResponse } = require("../helpers/db");
+const { getPagingData, getPagination } = require("../helpers/pagination");
 
 /**
  * Post template for creation
@@ -155,7 +156,7 @@ const retrieveOne = async (id) => {
  * @param {String} categoryTitle [optional] category name to filter posts
  * @returns
  */
-const retrieveAll = async ({ user, sort }, categoryTitle = "") => {
+const retrieveAll = async ({ user, sort, page }, categoryTitle = "") => {
 	const where = {
 		...(categoryTitle === ""
 			? {}
@@ -172,8 +173,11 @@ const retrieveAll = async ({ user, sort }, categoryTitle = "") => {
 			  }
 			: { status: "active" }),
 	};
-	const postsRaw = await PostsTemplate.findAll({
-		distinct: true,
+	const { limit, offset } = getPagination(page);
+	const postsRaw = await PostsTemplate.findAndCountAll({
+		limit,
+		offset,
+		subQuery: false,
 		where,
 		attributes: [
 			"id",
@@ -205,14 +209,15 @@ const retrieveAll = async ({ user, sort }, categoryTitle = "") => {
 				attributes: [],
 			},
 		],
-		group: ["categories.id"],
+		group: ["posts.id"],
 		order: [[sort ? sort : "like_count", "DESC"]],
 	}).catch((error) => {
 		console.log(error);
 		throw new Error("An error occurred during posts retrieval");
 	});
-	console.log(postsRaw);
-	const posts = postsRaw.map((post) =>
+	const pagingData = getPagingData(postsRaw, page);
+	console.log(pagingData);
+	pagingData.posts = pagingData.posts.map((post) =>
 		dbResponse(
 			post,
 			"id",
@@ -228,11 +233,11 @@ const retrieveAll = async ({ user, sort }, categoryTitle = "") => {
 			"status"
 		)
 	);
-	if (posts.length === 0) {
+	if (pagingData.posts.length === 0) {
 		throw new Error("No posts were found");
 	}
 
-	return posts;
+	return pagingData;
 };
 
 /**

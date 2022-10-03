@@ -36,10 +36,10 @@ const retrieveOne = async (id, callback) => {
 };
 
 const getCategoryPosts = async (params, callback) => {
-	const { id, user } = params;
+	const { id, user, page } = params;
 	const category = await categoriesModel.retrieveOne({ id });
 	const title = category.categoryTitle;
-	const dbPosts = await postsModel.retrieveAll(user, title);
+	const dbPosts = await postsModel.retrieveAll({ user, page }, title);
 	const postsRawInfo = await postsModel.countAll(title);
 
 	const postsInfo = await Promise.all(
@@ -67,7 +67,7 @@ const getCategoryPosts = async (params, callback) => {
 			};
 		})
 	);
-	const postsWithInfo = dbPosts.map((post) => ({
+	const postsWithInfo = dbPosts.posts.map((post) => ({
 		...postsInfo.find((info) => info && info.id === post.id),
 		...post,
 	}));
