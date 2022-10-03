@@ -1,5 +1,6 @@
 const handlers = require("../helpers/handlers");
 const UsersModel = require("../models/users");
+const { createLink, deletePreviousFile } = require("../middleware/avatar");
 
 const loadUser = async (id, callback) => {
 	const user = await UsersModel.retrieveOne({ id }, callback);
@@ -27,15 +28,18 @@ const retrieveOne = async (id, callback) => {
 	);
 };
 
-const updateAvatar = async ({ id, avatar }, callback) => {
+const updateAvatar = async ({ user, avatarName }, callback) => {
+	const avatar = createLink(avatarName);
+	const id = user.id;
 	await UsersModel.updateAvatar(id, avatar);
+	deletePreviousFile(user);
 	callback(
 		null,
 		handlers.responseHandler(true, 200, "Avatar upload successful", null)
 	);
 };
 
-const removeUser = async (id , callback) => {
+const removeUser = async (id, callback) => {
 	await UsersModel.removeUser({ id });
 	callback(
 		null,
@@ -50,7 +54,9 @@ const updateUser = async (params, callback) => {
 		...(rawData.email ? { email: rawData.email } : {}),
 		...(rawData.email ? { isEmailVerified: 0 } : {}),
 		...(rawData.fullName ? { fullName: rawData.fullName } : {}),
-		...(rawData.profilePicture ? { profilePicture: rawData.profilePicture } : {}),
+		...(rawData.profilePicture
+			? { profilePicture: rawData.profilePicture }
+			: {}),
 	};
 	await UsersModel.updateUser(params.id, newData);
 	const newUser = await UsersModel.retrieveOne({ id: params.id }, callback);

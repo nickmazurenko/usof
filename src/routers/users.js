@@ -3,6 +3,7 @@ const router = express.Router();
 const { check } = require("express-validator");
 const auth = require("../middleware/auth");
 const { checkIfAdmin } = require("../middleware/permissionChecks");
+const { upload } = require("../middleware/avatar");
 
 const usersController = require("../controllers/users");
 
@@ -24,11 +25,7 @@ router.route("/:id").get(usersController.getUser);
  */
 router
 	.route("/avatar")
-	.patch(
-		auth,
-		check("avatar", "No avatar included").exists().isLength({ min: 5 }),
-		usersController.updateAvatar
-	);
+	.patch(auth, upload.single("avatar"), usersController.updateAvatar);
 
 /**
  *  @route    remove /api/users/:id

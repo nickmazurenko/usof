@@ -68,10 +68,12 @@ const updateAvatar = handlers.asyncHandler(async (request, response) => {
 	if (errors.isEmpty()) {
 		try {
 			const user = request.user;
-			const { avatar } = request.body;
-
+			const avatar = request.file;
+			if (!avatar) {
+				throw new Error("An error occurred during file upload");
+			}
 			await usersService.updateAvatar(
-				{ id: user.id, avatar },
+				{ user, avatarName: avatar.filename },
 				(error, data) => {
 					if (error) {
 						console.log(error);

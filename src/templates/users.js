@@ -1,6 +1,7 @@
 const db = require("../config/db.config");
 const { DataTypes, Sequelize } = require("sequelize");
-
+const genProfilePicture = (index) =>
+	`https://secure.gravatar.com/avatar/${index}?s=164&d=identicon`;
 const UsersTemplate = db.define(
 	"users",
 	{
@@ -34,7 +35,7 @@ const UsersTemplate = db.define(
 		},
 		profilePicture: {
 			type: DataTypes.STRING(255),
-			defaultValue: "todo",
+			defaultValue: genProfilePicture(Math.ceil(Math.random() * 100)),
 			allowNull: false,
 		},
 		views: {

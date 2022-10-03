@@ -35,7 +35,11 @@ const config = {
 	EMAIL: {
 		USER: getEnvironmentVar("EMAIL_USER"),
 		PASSWORD: getEnvironmentVar("EMAIL_PASSWORD"),
-		LINK: getEnvironmentVar("VERIFICATION_LINK"),
+		LINK: getEnvironmentVar("LINK") + getEnvironmentVar("PORT"),
+	},
+	SERVER: {
+		LINK: getEnvironmentVar("LINK"),
+		PORT: getEnvironmentVar("PORT"),
 	},
 };
 
