@@ -29,7 +29,6 @@ app.use(bodyParser.json());
 app.use("/api", index);
 
 const server = http.createServer(app);
-
 server.listen(config.SERVER.PORT, (error) => {
 	if (error) {
 		console.log(error);

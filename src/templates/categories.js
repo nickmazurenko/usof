@@ -24,7 +24,6 @@ const CategoriesTemplate = db.define(
 		db,
 		tableName: "categories",
 		underscored: true,
-		timestamps: true,
 		indexes: [
 			{
 				name: "PRIMARY",

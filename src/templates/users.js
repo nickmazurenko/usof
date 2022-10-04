@@ -35,7 +35,9 @@ const UsersTemplate = db.define(
 		},
 		profilePicture: {
 			type: DataTypes.STRING(255),
-			defaultValue: genProfilePicture(Math.ceil(Math.random() * 100)),
+			defaultValue: function () {
+				return genProfilePicture(Math.ceil(Math.random() * 100));
+			},
 			allowNull: false,
 		},
 		views: {

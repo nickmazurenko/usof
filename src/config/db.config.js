@@ -1,6 +1,7 @@
 const sequelize = require("sequelize");
 const config = require("./keys.config");
 const dotenv = require("dotenv");
+const mysql = require("mysql2/promise");
 
 dotenv.config();
 
@@ -27,8 +28,17 @@ const db = new sequelize(
 	}
 );
 
-(async () => await db.sync())();
+(async () => {
+	await mysql
+		.createConnection({
+			user: config.DB.USER,
+			password: config.DB.PASSWORD,
+		})
+		.then((connection) => {
+			connection.query(`CREATE DATABASE IF NOT EXISTS ${config.DB.DATABASE};`);
+		});
+	await db.sync();
+	await require("../../data/mockDatabase")();
+})();
 
-(async () =>
-	await db.query(`CREATE DATABASE IF NOT EXISTS \`${config.DB.DATABASE}\`;`))();
 module.exports = db;

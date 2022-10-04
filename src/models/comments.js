@@ -58,15 +58,7 @@ const retrieveAll = async (id, callback) => {
 		);
 	}
 
-	return callback(
-		null,
-		handlers.responseHandler(
-			true,
-			200,
-			"Comments retrieval successful",
-			comments
-		)
-	);
+	return comments;
 };
 
 const retrieveOne = async (id) => {

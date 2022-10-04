@@ -18,13 +18,13 @@ const retrieveAll = async (params, callback) => {
 	}
 	const postsInfo = await Promise.all(
 		postsRawInfo.map(async (post) => {
-			let hasLikes = true;
 			let likesCount = 0;
 			let dislikesCount = 0;
 			let likes;
 			let dislikes;
 			const votes = await likesModel.getPostLikes(post.id, (error) => {
-				if (error) hasLikes = false;
+				if (error)
+					console.log(error);
 			});
 			if (votes) {
 				likes = votes.filter((vote) => vote.type === "like");
