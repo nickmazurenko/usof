@@ -190,6 +190,14 @@ const retrieveAll = async ({ user, sort, page }, categoryTitle = "") => {
 			"status",
 			[sequelize.literal("user.login"), "login"],
 			[sequelize.literal("user.profile_picture"), "profilePicture"],
+			[
+				sequelize.literal(`(
+					SELECT COUNT(likes.id)
+					FROM likes
+					WHERE likes.post_id = posts.id
+				)`),
+				'like_count',
+			],
 		],
 		include: [
 			{
@@ -209,7 +217,7 @@ const retrieveAll = async ({ user, sort, page }, categoryTitle = "") => {
 			},
 		],
 		group: ["posts.id"],
-		order: [[sort ? sort : "views", "DESC"]],
+		order: [[sort ? sort : "like_count", "DESC"]],
 	}).catch((error) => {
 		console.log(error);
 		throw new Error("An error occurred during posts retrieval");

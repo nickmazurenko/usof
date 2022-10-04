@@ -291,8 +291,12 @@ const removeRatingId = async (id) => {
 		by: 1,
 		where: { id },
 	}).catch((error) => {
-		console.log(error);
-		throw new Error("No user with given id");
+		if (error.parent.code === "ER_DATA_OUT_OF_RANGE") {
+			return;
+		} else {
+			console.log(error);
+			throw new Error("No user with given id");
+		}
 	});
 };
 

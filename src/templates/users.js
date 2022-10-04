@@ -29,7 +29,7 @@ const UsersTemplate = db.define(
 			type: DataTypes.STRING(100),
 		},
 		rating: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.INTEGER.UNSIGNED,
 			allowNull: false,
 			defaultValue: 0,
 		},

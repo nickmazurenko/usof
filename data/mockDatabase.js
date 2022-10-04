@@ -9,15 +9,24 @@ const likes = require("./seed/likes.json");
 const postCategories = require("./seed/postCategories.json");
 
 const mockDatabase = async () => {
-	await templates.UsersTemplate.bulkCreate(users, { ignoreDuplicates: true });
-	await templates.PostsTemplate.bulkCreate(posts, { ignoreDuplicates: true });
-	await templates.CategoriesTemplate.bulkCreate(categories),
-		{ ignoreDuplicates: true };
+	await templates.UsersTemplate.bulkCreate(users, {
+		ignoreDuplicates: true,
+	}).catch((error) => console.log(error));
+	await templates.PostsTemplate.bulkCreate(posts, {
+		ignoreDuplicates: true,
+	}).catch((error) => console.log(error));
+	await templates.CategoriesTemplate.bulkCreate(categories, {
+		ignoreDuplicates: true,
+	}).catch((error) => console.log(error));
 	await templates.PostCategoriesTemplate.bulkCreate(postCategories, {
 		ignoreDuplicates: true,
-	});
-	await templates.CommentsTemplate.bulkCreate(comments, { ignoreDuplicates: true });
-	await templates.LikesTemplate.bulkCreate(likes, { ignoreDuplicates: true });
+	}).catch((error) => console.log(error));
+	await templates.CommentsTemplate.bulkCreate(comments, {
+		ignoreDuplicates: true,
+	}).catch((error) => console.log(error));
+	await templates.LikesTemplate.bulkCreate(likes, {
+		ignoreDuplicates: true,
+	}).catch((error) => console.log(error));
 };
 
 module.exports = mockDatabase;

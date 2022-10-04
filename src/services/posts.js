@@ -23,8 +23,7 @@ const retrieveAll = async (params, callback) => {
 			let likes;
 			let dislikes;
 			const votes = await likesModel.getPostLikes(post.id, (error) => {
-				if (error)
-					console.log(error);
+				if (error) console.log(error);
 			});
 			if (votes) {
 				likes = votes.filter((vote) => vote.type === "like");
@@ -35,16 +34,14 @@ const retrieveAll = async (params, callback) => {
 
 			return {
 				...dbResponse(post, "id", "commentsCount"),
-				likes,
-				dislikes,
 				likesCount,
 				dislikesCount,
 			};
 		})
 	);
 	const postsWithInfo = pagingData.posts.map((post) => ({
-		...postsInfo.find((info) => info && info.id === post.id),
 		...post,
+		...postsInfo.find((info) => info && info.id === post.id),
 	}));
 	return callback(
 		null,
@@ -52,7 +49,7 @@ const retrieveAll = async (params, callback) => {
 			totalItems: pagingData.totalItems,
 			totalPages: pagingData.totalPages,
 			currentPage: pagingData.currentPage,
-			postsWithInfo,
+			posts: postsWithInfo,
 		})
 	);
 };
