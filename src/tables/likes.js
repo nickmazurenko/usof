@@ -1,6 +1,6 @@
 const db = require("../config/db.config");
 const { DataTypes } = require("sequelize");
-const LikesTemplate = db.define(
+const Likes = db.define(
 	"likes",
 	{
 		id: {
@@ -44,4 +44,4 @@ const LikesTemplate = db.define(
 	}
 );
 
-module.exports = LikesTemplate;
+module.exports = Likes;

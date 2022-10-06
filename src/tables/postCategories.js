@@ -1,6 +1,6 @@
 const db = require("../config/db.config");
 
-const PostCategoriesTemplate = db.define(
+const PostCategories = db.define(
 	"postCategories",
 	{},
 	{
@@ -24,4 +24,4 @@ const PostCategoriesTemplate = db.define(
 	}
 );
 
-module.exports = PostCategoriesTemplate;
+module.exports = PostCategories;

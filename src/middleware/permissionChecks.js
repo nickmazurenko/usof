@@ -1,4 +1,4 @@
-const { CommentsTemplate, PostsTemplate } = require("../templates");
+const { Comments, Posts } = require("../tables");
 const { responseHandler } = require("../helpers/handlers");
 
 /**
@@ -8,18 +8,18 @@ const { responseHandler } = require("../helpers/handlers");
  * @param {*} callback
  */
 const checkIfOwner = async (request, response, callback) => {
-	let template;
+	let model;
 	const url = request.originalUrl;
 	const { id } = request.params;
 	if (url.includes("posts")) {
-		template = PostsTemplate;
+		model = Posts;
 	} else if (url.includes("comments")) {
-		template = CommentsTemplate;
+		model = Comments;
 	} else {
 		callback();
 	}
 
-	const data = await template
+	const data = await model
 		.findOne({
 			where: { id },
 			attributes: ["userId"],

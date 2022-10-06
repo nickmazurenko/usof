@@ -1,9 +1,9 @@
 const {
-	UsersTemplate,
-	PostsTemplate,
-	CategoriesTemplate,
-	CommentsTemplate,
-} = require("../templates");
+	Users,
+	Posts,
+	Categories,
+	Comments,
+} = require("../tables");
 const sequelize = require("sequelize");
 const { responseHandler } = require("../helpers/handlers");
 const { dbResponse } = require("../helpers/db");
@@ -48,7 +48,7 @@ const UserFull = (rawData) => ({
  * @returns user fitting given conditions in params
  */
 const retrieveOne = async (params) =>
-	await UsersTemplate.findOne({
+	await Users.findOne({
 		where: params,
 	}).catch((error) => {
 		console.log(error);
@@ -61,7 +61,7 @@ const retrieveOne = async (params) =>
  * @returns user with data
  */
 const retrieveOneWithInfo = async (id) => {
-	let result = await UsersTemplate.findOne({
+	let result = await Users.findOne({
 		where: { id },
 		attributes: [
 			"id",
@@ -82,18 +82,18 @@ const retrieveOneWithInfo = async (id) => {
 		include: [
 			{
 				required: false,
-				model: PostsTemplate,
+				model: Posts,
 				attributes: [],
 				include: {
 					attributes: [],
 					required: false,
-					model: CategoriesTemplate,
+					model: Categories,
 				},
 			},
 			{
 				attributes: [],
 				required: false,
-				model: CommentsTemplate,
+				model: Comments,
 			},
 		],
 		group: ["users.id"],
@@ -128,7 +128,7 @@ const retrieveOneWithInfo = async (id) => {
  * @returns all currently known users
  */
 const retrieveAll = async (callback) => {
-	const result = await UsersTemplate.findAll({
+	const result = await Users.findAll({
 		attributes: [
 			"id",
 			"login",
@@ -147,12 +147,12 @@ const retrieveAll = async (callback) => {
 		include: [
 			{
 				required: false,
-				model: PostsTemplate,
+				model: Posts,
 				attributes: [],
 				include: {
 					attributes: [],
 					required: false,
-					model: CategoriesTemplate,
+					model: Categories,
 				},
 			},
 		],
@@ -192,7 +192,7 @@ const retrieveAll = async (callback) => {
  * @param {Object} user
  */
 const create = async (user) =>
-	await UsersTemplate.create(user).catch((error) => {
+	await Users.create(user).catch((error) => {
 		console.log(error);
 		throw new Error("Error occurred during registration!");
 	});
@@ -203,7 +203,7 @@ const create = async (user) =>
  * @param {String} login
  */
 const verifyEmail = async (email, login) => {
-	await UsersTemplate.update(
+	await Users.update(
 		{
 			isEmailVerified: true,
 		},
@@ -222,7 +222,7 @@ const verifyEmail = async (email, login) => {
  * @param {String} avatar
  */
 const updateAvatar = async (id, avatar) => {
-	await UsersTemplate.update(
+	await Users.update(
 		{
 			profilePicture: avatar,
 		},
@@ -241,7 +241,7 @@ const updateAvatar = async (id, avatar) => {
  * @param {String} newPassword
  */
 const updatePassword = async (login, newPassword) => {
-	await UsersTemplate.update(
+	await Users.update(
 		{
 			password: newPassword,
 		},
@@ -259,7 +259,7 @@ const updatePassword = async (login, newPassword) => {
  * @param {String} id
  */
 const addViewsId = async (id) => {
-	await UsersTemplate.increment("views", {
+	await Users.increment("views", {
 		by: 1,
 		where: { id },
 	}).catch((error) => {
@@ -273,7 +273,7 @@ const addViewsId = async (id) => {
  * @param {String} id
  */
 const addRatingId = async (id) => {
-	await UsersTemplate.increment("rating", {
+	await Users.increment("rating", {
 		by: 1,
 		where: { id },
 	}).catch((error) => {
@@ -287,7 +287,7 @@ const addRatingId = async (id) => {
  * @param {String} id
  */
 const removeRatingId = async (id) => {
-	await UsersTemplate.decrement("rating", {
+	await Users.decrement("rating", {
 		by: 1,
 		where: { id },
 	}).catch((error) => {
@@ -305,7 +305,7 @@ const removeRatingId = async (id) => {
  * @param {String} id
  */
 const updateTokenInvalidation = async (id) => {
-	await UsersTemplate.update(
+	await Users.update(
 		{
 			tokenInvalidationDate: new Date().toISOString(),
 		},
@@ -323,7 +323,7 @@ const updateTokenInvalidation = async (id) => {
  * @param {Object} params
  */
 const removeUser = async (params) => {
-	await UsersTemplate.destroy({
+	await Users.destroy({
 		where: params,
 	}).catch((error) => {
 		console.log(error);
@@ -337,7 +337,7 @@ const removeUser = async (params) => {
  * @param {Object} newData new user data
  */
 const updateUser = async (id, newData) => {
-	await UsersTemplate.update(newData, {
+	await Users.update(newData, {
 		where: { id },
 	}).catch((error) => {
 		console.log(error);

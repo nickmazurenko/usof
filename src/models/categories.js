@@ -1,11 +1,11 @@
-const { PostsTemplate, CategoriesTemplate } = require("../templates");
+const { Posts, Categories } = require("../tables");
 const handlers = require("../helpers/handlers");
 
 const getPostCategories = async (id, callback) => {
-	const post = await PostsTemplate.findByPk(id, {
+	const post = await Posts.findByPk(id, {
 		include: [
 			{
-				model: CategoriesTemplate,
+				model: Categories,
 				as: "categories",
 				attributes: ["id", "categoryTitle", "description"],
 				through: {
@@ -40,11 +40,11 @@ const getPostCategories = async (id, callback) => {
 };
 
 const retrieveAll = async () => {
-	return await CategoriesTemplate.findAll();
+	return await Categories.findAll();
 };
 
 const retrieveOne = async (params) => {
-	return await CategoriesTemplate.findOne({
+	return await Categories.findOne({
 		where: params,
 	}).catch((error) => {
 		console.log(error);
@@ -53,19 +53,19 @@ const retrieveOne = async (params) => {
 };
 
 const createMultiple = async (categories) =>
-	await CategoriesTemplate.bulkCreate(categories).catch((error) => {
+	await Categories.bulkCreate(categories).catch((error) => {
 		console.log(error);
 		throw new Error("An error occurred during multiple categories creation");
 	});
 
 const create = async (category) =>
-	await CategoriesTemplate.create(category).catch((error) => {
+	await Categories.create(category).catch((error) => {
 		console.log(error);
 		throw new Error(error);
 	});
 
 const update = async (category, id) => {
-	await CategoriesTemplate.update(category, { where: { id } }).catch(
+	await Categories.update(category, { where: { id } }).catch(
 		(error) => {
 			console.log(error);
 			throw new Error(error);
@@ -74,7 +74,7 @@ const update = async (category, id) => {
 };
 
 const remove = async (id) => {
-	await CategoriesTemplate.destroy({ where: { id } }).catch((error) => {
+	await Categories.destroy({ where: { id } }).catch((error) => {
 		console.log(error);
 		throw new Error(error);
 	});

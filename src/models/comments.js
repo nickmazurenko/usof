@@ -1,4 +1,4 @@
-const { CommentsTemplate, UsersTemplate } = require("../templates");
+const { Comments, Users } = require("../tables");
 const handlers = require("../helpers/handlers");
 const sequelize = require("sequelize");
 const { dbResponse } = require("../helpers/db");
@@ -10,7 +10,7 @@ const Comment = (comment) => ({
 });
 
 const retrieveAll = async (id, callback) => {
-	const commentsRaw = await CommentsTemplate.findAll({
+	const commentsRaw = await Comments.findAll({
 		where: {
 			postId: id,
 		},
@@ -23,7 +23,7 @@ const retrieveAll = async (id, callback) => {
 			[sequelize.literal("user.login"), "login"],
 		],
 		include: {
-			model: UsersTemplate,
+			model: Users,
 			attributes: [],
 		},
 	}).catch((error) => {
@@ -62,7 +62,7 @@ const retrieveAll = async (id, callback) => {
 };
 
 const retrieveOne = async (id) => {
-	let comment = await CommentsTemplate.findOne({
+	let comment = await Comments.findOne({
 		distinct: true,
 		where: {
 			id,
@@ -79,7 +79,7 @@ const retrieveOne = async (id) => {
 		],
 		include: [
 			{
-				model: UsersTemplate,
+				model: Users,
 				required: false,
 				attributes: [],
 			},
@@ -107,7 +107,7 @@ const retrieveOne = async (id) => {
 };
 
 const create = async (comment, callback) => {
-	const dbComment = await CommentsTemplate.create(comment).catch((error) => {
+	const dbComment = await Comments.create(comment).catch((error) => {
 		console.log(error);
 		return callback(
 			handlers.responseHandler(
@@ -131,14 +131,14 @@ const create = async (comment, callback) => {
 };
 
 const removePostComments = async (post_id) => {
-	await CommentsTemplate.destroy({ where: { post_id } }).catch((error) => {
+	await Comments.destroy({ where: { post_id } }).catch((error) => {
 		console.log(error);
 		throw new Error(error);
 	});
 };
 
 const update = async (id, newData) =>
-	await CommentsTemplate.update(newData, {
+	await Comments.update(newData, {
 		where: { id },
 		returning: true,
 		plain: true,
@@ -148,7 +148,7 @@ const update = async (id, newData) =>
 	});
 
 const remove = async (id) => {
-	await CommentsTemplate.destroy({ where: { id } }).catch((error) => {
+	await Comments.destroy({ where: { id } }).catch((error) => {
 		console.log(error);
 		throw new Error(error);
 	});

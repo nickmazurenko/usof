@@ -1,8 +1,8 @@
 const db = require("../config/db.config");
 const { DataTypes } = require("sequelize");
 
-const PostsTemplate = db.define(
-	"posts",
+const Categories = db.define(
+	"categories",
 	{
 		id: {
 			type: DataTypes.UUID,
@@ -10,30 +10,20 @@ const PostsTemplate = db.define(
 			primaryKey: true,
 			defaultValue: DataTypes.UUIDV4,
 		},
-		title: {
+		categoryTitle: {
 			type: DataTypes.STRING(255),
 			allowNull: false,
+			unique: "categoryTitle",
 		},
-		content: {
+		description: {
 			type: DataTypes.TEXT,
 			allowNull: false,
-		},
-		views: {
-			type: DataTypes.INTEGER,
-			allowNull: false,
-			defaultValue: 0,
-		},
-		status: {
-			type: DataTypes.ENUM("active", "inactive"),
-			allowNull: false,
-			defaultValue: "active",
 		},
 	},
 	{
 		db,
-		tableName: "posts",
+		tableName: "categories",
 		underscored: true,
-		timestamps: true,
 		indexes: [
 			{
 				name: "PRIMARY",
@@ -42,12 +32,13 @@ const PostsTemplate = db.define(
 				fields: [{ name: "id" }],
 			},
 			{
-				name: "user_id",
+				name: "categoryTitle",
+				unique: true,
 				using: "BTREE",
-				fields: [{ name: "user_id" }],
+				fields: [{ name: "categoryTitle" }],
 			},
 		],
 	}
 );
 
-module.exports = PostsTemplate;
+module.exports = Categories;

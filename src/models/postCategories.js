@@ -1,7 +1,7 @@
-const { PostCategoriesTemplate } = require("../templates");
+const { PostCategories } = require("../tables");
 
 const createMultiple = async (postCategories) =>
-	await PostCategoriesTemplate.bulkCreate(postCategories).catch((error) => {
+	await PostCategories.bulkCreate(postCategories).catch((error) => {
 		console.log(error);
 		throw new Error(
 			"An error occurred during multiple post categories creation"
@@ -9,7 +9,7 @@ const createMultiple = async (postCategories) =>
 	});
 
 const remove = async (post_id) => {
-	await PostCategoriesTemplate.destroy({ where: { post_id } }).catch(
+	await PostCategories.destroy({ where: { post_id } }).catch(
 		(error) => {
 			console.log(error);
 			throw new Error(

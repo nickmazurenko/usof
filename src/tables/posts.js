@@ -1,9 +1,8 @@
 const db = require("../config/db.config");
-
 const { DataTypes } = require("sequelize");
 
-const CommentsTemplate = db.define(
-	"comments",
+const Posts = db.define(
+	"posts",
 	{
 		id: {
 			type: DataTypes.UUID,
@@ -11,14 +10,28 @@ const CommentsTemplate = db.define(
 			primaryKey: true,
 			defaultValue: DataTypes.UUIDV4,
 		},
+		title: {
+			type: DataTypes.STRING(255),
+			allowNull: false,
+		},
 		content: {
 			type: DataTypes.TEXT,
 			allowNull: false,
 		},
+		views: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+			defaultValue: 0,
+		},
+		status: {
+			type: DataTypes.ENUM("active", "inactive"),
+			allowNull: false,
+			defaultValue: "active",
+		},
 	},
 	{
 		db,
-		tableName: "comments",
+		tableName: "posts",
 		underscored: true,
 		timestamps: true,
 		indexes: [
@@ -29,11 +42,6 @@ const CommentsTemplate = db.define(
 				fields: [{ name: "id" }],
 			},
 			{
-				name: "post_id",
-				using: "BTREE",
-				fields: [{ name: "post_id" }],
-			},
-			{
 				name: "user_id",
 				using: "BTREE",
 				fields: [{ name: "user_id" }],
@@ -42,4 +50,4 @@ const CommentsTemplate = db.define(
 	}
 );
 
-module.exports = CommentsTemplate;
+module.exports = Posts;

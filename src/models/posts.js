@@ -1,10 +1,10 @@
 const {
-	UsersTemplate,
-	PostsTemplate,
-	CommentsTemplate,
-	CategoriesTemplate,
-	LikesTemplate,
-} = require("../templates");
+	Users,
+	Posts,
+	Comments,
+	Categories,
+	Likes,
+} = require("../tables");
 const sequelize = require("sequelize");
 const handlers = require("../helpers/handlers");
 const { dbResponse } = require("../helpers/db");
@@ -37,12 +37,12 @@ const PostFull = (rawData, userRole, isOwner) => ({
 });
 
 const countComments = async (id) =>
-	await PostsTemplate.count({
+	await Posts.count({
 		where: {
 			id,
 		},
 		include: {
-			model: CommentsTemplate,
+			model: Comments,
 			required: false,
 			attributes: [],
 		},
@@ -59,7 +59,7 @@ const countComments = async (id) =>
 const countAll = async (categoryTitle = "") => {
 	const include = [
 		{
-			model: CommentsTemplate,
+			model: Comments,
 			required: false,
 			attributes: [],
 		},
@@ -69,12 +69,12 @@ const countAll = async (categoryTitle = "") => {
 		where = { "$categories.category_title$": categoryTitle };
 
 		include.push({
-			model: CategoriesTemplate,
+			model: Categories,
 			required: false,
 			attributes: [],
 		});
 	}
-	const result = await PostsTemplate.findAll({
+	const result = await Posts.findAll({
 		distinct: true,
 		where,
 		attributes: [
@@ -98,7 +98,7 @@ const countAll = async (categoryTitle = "") => {
  * @returns fetched post
  */
 const retrieveOne = async (id) => {
-	let post = await PostsTemplate.findOne({
+	let post = await Posts.findOne({
 		distinct: true,
 		where: {
 			id,
@@ -116,12 +116,12 @@ const retrieveOne = async (id) => {
 		],
 		include: [
 			{
-				model: CategoriesTemplate,
+				model: Categories,
 				required: false,
 				attributes: ["id", "categoryTitle"],
 			},
 			{
-				model: UsersTemplate,
+				model: Users,
 				required: false,
 				attributes: [],
 			},
@@ -174,7 +174,7 @@ const retrieveAll = async ({ user, sort, page }, categoryTitle = "") => {
 			: { status: "active" }),
 	};
 	const { limit, offset } = getPagination(page);
-	const postsRaw = await PostsTemplate.findAndCountAll({
+	const postsRaw = await Posts.findAndCountAll({
 		limit,
 		offset,
 		subQuery: false,
@@ -201,17 +201,17 @@ const retrieveAll = async ({ user, sort, page }, categoryTitle = "") => {
 		],
 		include: [
 			{
-				model: CategoriesTemplate,
+				model: Categories,
 				required: false,
 				attributes: ["id", "categoryTitle"],
 			},
 			{
-				model: UsersTemplate,
+				model: Users,
 				required: false,
 				attributes: [],
 			},
 			{
-				model: LikesTemplate,
+				model: Likes,
 				required: false,
 				attributes: [],
 			},
@@ -252,7 +252,7 @@ const retrieveAll = async ({ user, sort, page }, categoryTitle = "") => {
  * @param {*} id
  */
 const addViewsId = async (id) => {
-	await PostsTemplate.increment("views", {
+	await Posts.increment("views", {
 		by: 1,
 		where: { id },
 	}).catch((error) => {
@@ -268,7 +268,7 @@ const addViewsId = async (id) => {
  * @returns created post
  */
 const create = async (post, callback) =>
-	await PostsTemplate.create({
+	await Posts.create({
 		title: post.title,
 		user_id: post.userId,
 		content: post.content,
@@ -293,7 +293,7 @@ const create = async (post, callback) =>
  * @param {Function} callback
  */
 const update = async (id, newData, callback) =>
-	await PostsTemplate.update(newData, {
+	await Posts.update(newData, {
 		where: { id },
 		returning: true,
 		plain: true,
@@ -316,7 +316,7 @@ const update = async (id, newData, callback) =>
  * @param {String} id post id
  */
 const remove = async (id) => {
-	await PostsTemplate.destroy({ where: { id } }).catch((error) => {
+	await Posts.destroy({ where: { id } }).catch((error) => {
 		console.log(error);
 		throw new Error(error);
 	});

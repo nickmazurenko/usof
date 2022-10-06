@@ -2,7 +2,7 @@ const db = require("../config/db.config");
 const { DataTypes, Sequelize } = require("sequelize");
 const genProfilePicture = (index) =>
 	`https://secure.gravatar.com/avatar/${index}?s=164&d=identicon`;
-const UsersTemplate = db.define(
+const Users = db.define(
 	"users",
 	{
 		id: {
@@ -83,4 +83,4 @@ const UsersTemplate = db.define(
 	}
 );
 
-module.exports = UsersTemplate;
+module.exports = Users;

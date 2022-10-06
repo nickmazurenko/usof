@@ -30,6 +30,7 @@ const retrieveAll = async (id, callback) => {
 		})
 	);
 	return callback(
+		null,
 		responseHandler(true, 200, "Comments retrieval successful", commentsInfo)
 	);
 };

@@ -1,9 +1,9 @@
-const { LikesTemplate, UsersTemplate } = require("../templates");
+const { Likes, Users } = require("../tables");
 const handlers = require("../helpers/handlers");
 const sequelize = require("sequelize");
 
 const getPostLikes = async (id, callback) => {
-	const likes = await LikesTemplate.findAll({
+	const likes = await Likes.findAll({
 		where: {
 			post_id: id,
 		},
@@ -15,7 +15,7 @@ const getPostLikes = async (id, callback) => {
 			[sequelize.literal("user.login"), "login"],
 		],
 		include: {
-			model: UsersTemplate,
+			model: Users,
 			attributes: [],
 		},
 	}).catch((error) => {
@@ -47,7 +47,7 @@ const getPostLikes = async (id, callback) => {
 };
 
 const getCommentLikes = async (id, callback) => {
-	const likes = await LikesTemplate.findAll({
+	const likes = await Likes.findAll({
 		where: {
 			comment_id: id,
 		},
@@ -59,7 +59,7 @@ const getCommentLikes = async (id, callback) => {
 			[sequelize.literal("user.login"), "login"],
 		],
 		include: {
-			model: UsersTemplate,
+			model: Users,
 			attributes: [],
 		},
 	}).catch((error) => {
@@ -93,12 +93,12 @@ const getCommentLikes = async (id, callback) => {
 const create = async (like, callback) => {
 	try {
 		const { type, ...params } = like;
-		const dbLike = await LikesTemplate.findOne({
+		const dbLike = await Likes.findOne({
 			where: params,
 		});
 
 		if (dbLike) {
-			await LikesTemplate.update(
+			await Likes.update(
 				{ type },
 				{
 					where: params,
@@ -109,7 +109,7 @@ const create = async (like, callback) => {
 				handlers.responseHandler(true, 200, "Like type update successful", null)
 			);
 		}
-		await LikesTemplate.create(like);
+		await Likes.create(like);
 		return callback(
 			null,
 			handlers.responseHandler(true, 200, "Like creation successful", null)
@@ -129,7 +129,7 @@ const create = async (like, callback) => {
 };
 
 const remove = async (params, callback) => {
-	await LikesTemplate.destroy({ where: params }).catch((error) => {
+	await Likes.destroy({ where: params }).catch((error) => {
 		console.log(error);
 		return callback(
 			handlers.responseHandler(
@@ -149,20 +149,20 @@ const remove = async (params, callback) => {
 };
 
 const removePostLikes = async (post_id) => {
-	await LikesTemplate.destroy({ where: { post_id } }).catch((error) => {
+	await Likes.destroy({ where: { post_id } }).catch((error) => {
 		console.log(error);
 		throw new Error(error);
 	});
 };
 const removeCommentLikes = async (comment_id) => {
-	await LikesTemplate.destroy({ where: { comment_id } }).catch((error) => {
+	await Likes.destroy({ where: { comment_id } }).catch((error) => {
 		console.log(error);
 		throw new Error(error);
 	});
 };
 
 const retrieveOne = async (params) =>
-	await LikesTemplate.findOne({ where: params }).catch((error) => {
+	await Likes.findOne({ where: params }).catch((error) => {
 		console.log(error);
 		throw new Error(error);
 	});
