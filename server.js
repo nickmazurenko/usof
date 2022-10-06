@@ -3,7 +3,6 @@ const morgan = require("morgan");
 const helmet = require("helmet");
 const cors = require("cors");
 const compression = require("compression");
-const path = require("path");
 const http = require("http");
 const index = require("./src/routers/index");
 const config = require("./src/config/keys.config");

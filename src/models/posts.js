@@ -223,7 +223,6 @@ const retrieveAll = async ({ user, sort, page }, categoryTitle = "") => {
 		throw new Error("An error occurred during posts retrieval");
 	});
 	const pagingData = getPagingData(postsRaw, page);
-	console.log(pagingData);
 	pagingData.posts = pagingData.posts.map((post) =>
 		dbResponse(
 			post,

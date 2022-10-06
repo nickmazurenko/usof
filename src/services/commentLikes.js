@@ -27,7 +27,7 @@ const create = async (like, callback) => {
 	const { type, ...params } = like;
 	const comment = await commentsModel.retrieveOne(like.comment_id);
 	const dbLike = await likesModel.retrieveOne(params);
-	if (!dbLike && dbLike?.type !== type && comment.userId !== like.user_id) {
+	if ((!dbLike || dbLike?.type !== type) && comment.userId !== like.user_id) {
 		if (type === "like") {
 			await usersModel.addRatingId(comment.userId);
 		} else {
