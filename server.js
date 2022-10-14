@@ -15,8 +15,7 @@ app.use(compression());
 
 app.use(morgan("dev"));
 
-app.options("*", cors());
-app.use(cors({ origin: config.SERVER.LINK + config.SERVER.PORT }));
+app.use(cors());
 
 app.use(helmet());
 
