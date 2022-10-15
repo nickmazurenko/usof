@@ -28,6 +28,7 @@ const retrieveOne = async (id, callback) => {
 	);
 };
 
+// TODO: check if action data is set right
 const updateAvatar = async ({ user, avatarName }, callback) => {
 	const avatar = createLink(avatarName);
 	const id = user.id;
@@ -35,7 +36,10 @@ const updateAvatar = async ({ user, avatarName }, callback) => {
 	deletePreviousFile(user);
 	callback(
 		null,
-		handlers.responseHandler(true, 200, "Avatar upload successful", null)
+		handlers.responseHandler(true, 200, "Avatar upload successful", {
+			id: user.id,
+			profilePicture: avatar,
+		})
 	);
 };
 

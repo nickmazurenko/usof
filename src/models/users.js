@@ -222,7 +222,7 @@ const verifyEmail = async (email, login) => {
  * @param {String} avatar
  */
 const updateAvatar = async (id, avatar) => {
-	await Users.update(
+	const data = await Users.update(
 		{
 			profilePicture: avatar,
 		},
@@ -233,6 +233,7 @@ const updateAvatar = async (id, avatar) => {
 		console.log(error);
 		throw new Error(error);
 	});
+	return data;
 };
 
 /**
