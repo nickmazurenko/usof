@@ -6,7 +6,9 @@ const compression = require("compression");
 const http = require("http");
 const index = require("./src/routers/index");
 const config = require("./src/config/keys.config");
-
+const session = require("express-session");
+const { admin, adminRouter } = require("./adminPanel");
+const memoryStore = new session.MemoryStore();
 const express = require("express");
 
 const app = express();
@@ -16,6 +18,16 @@ app.use(compression());
 app.use(morgan("dev"));
 
 app.use(cors());
+app.use(
+	session({
+		secret: config.JWT.SECRET,
+		store: memoryStore,
+		resave: false,
+		saveUninitialized: false,
+		cookie: { maxAge: 1000 * 60 * 10 },
+	})
+);
+app.use(admin.options.rootPath, adminRouter);
 
 app.use(helmet());
 
