@@ -28,9 +28,12 @@ export default users = (action, state = initialState) => {
         loading: false,
       };
     case Types.PATCH_AVATAR:
+      state.users[
+        state.users.findIndex((user) => user.id === action.data.id)
+      ].profilePicture = action.data.profilePicture;
       return {
         ...state,
-        users: action.data,
+        users: state.users,
         loading: false,
       };
     default:
