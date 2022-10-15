@@ -24,11 +24,6 @@
 		"dev:client": "npm start",
 		"dev": "concurrently \"npm run dev:server\" \"npm run dev:client\""
 	},
-	"nodemonConfig": {
-		"ignore": [
-			"../usof-backend"
-		]
-	},
 	"eslintConfig": {
 		"extends": [
 			"react-app",

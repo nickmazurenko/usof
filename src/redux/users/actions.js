@@ -6,12 +6,12 @@ export const getUsers = () => async (dispatch) => {
     const response = await Users.usersData();
     dispatch({
       type: Types.GET_USERS,
-      payload: response.data.data,
+      data: response.data.data,
     });
   } catch (error) {
     dispatch({
       type: Types.USERS_ERROR,
-      payload: {
+      data: {
         msg: error.response.statusText,
         status: error.response.status,
       },
@@ -24,12 +24,12 @@ export const getUserId = (id) => async (dispatch) => {
     const response = await Users.userIdData(id);
     dispatch({
       type: Types.GET_USER_ID,
-      payload: response.data.data,
+      data: response.data.data,
     });
   } catch (error) {
     dispatch({
       type: Types.USERS_ERROR,
-      payload: {
+      data: {
         msg: error.response.statusText,
         status: error.response.status,
       },
@@ -42,12 +42,12 @@ export const createUser = (data) => async (dispatch) => {
     const response = await Users.createUser(data);
     dispatch({
       type: Types.POST_USER,
-      payload: response.data.data,
+      data: response.data.data,
     });
   } catch (error) {
     dispatch({
       type: Types.USERS_ERROR,
-      payload: {
+      data: {
         msg: error.response.statusText,
         status: error.response.status,
       },
@@ -60,12 +60,12 @@ export const updateAvatar = (data) => async (dispatch) => {
     const response = await Users.updateAvatar(data);
     dispatch({
       type: Types.PATCH_AVATAR,
-      payload: response.data.data,
+      data: response.data.data,
     });
   } catch (error) {
     dispatch({
       type: Types.USERS_ERROR,
-      payload: {
+      data: {
         msg: error.response.statusText,
         status: error.response.status,
       },
@@ -78,12 +78,12 @@ export const updateUser = (data, id) => async (dispatch) => {
     const response = await Users.updateUser(data, id);
     dispatch({
       type: Types.PATCH_USER,
-      payload: response.data.data,
+      data: response.data.data,
     });
   } catch (error) {
     dispatch({
       type: Types.USERS_ERROR,
-      payload: {
+      data: {
         msg: error.response.statusText,
         status: error.response.status,
       },
@@ -96,12 +96,12 @@ export const deleteUser = (id) => async (dispatch) => {
     const response = await Users.deleteUser(id);
     dispatch({
       type: Types.DELETE_USER,
-      payload: response.data.data,
+      data: response.data.data,
     });
   } catch (error) {
     dispatch({
       type: Types.USERS_ERROR,
-      payload: {
+      data: {
         msg: error.response.statusText,
         status: error.response.status,
       },
