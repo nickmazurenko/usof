@@ -1,15 +1,38 @@
-import axios from "axios";
-import { Endpoints } from "./endpoints";
+/* eslint-disable implicit-arrow-linebreak */
+import axios from 'axios';
+import Endpoints from './endpoints';
 
-const usersData = () => {
-  return axios.get(Endpoints.users);
+export const usersData = () => axios.get(Endpoints.users);
+
+export const userIdData = (id) =>
+  axios.get(Endpoints.userId.replace('{id}', id));
+
+export const createUser = (data) => {
+  const headers = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  return axios.post(Endpoints.createUser, data, headers);
 };
 
-const currentUserData = (id) => {
-  return axios.get(Endpoints.currentUser.replace("{id}", id));
+export const updateAvatar = (data) => {
+  const headers = {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  };
+  return axios.patch(Endpoints.updateAvatar, data, headers);
 };
 
-export const Users = {
-  usersData,
-  currentUserData,
+export const updateUser = (data, id) => {
+  const headers = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+  return axios.patch(Endpoints.updateUser.replace('{id}', id), data, headers);
 };
+
+export const deleteUser = (id) =>
+  axios.delete(Endpoints.deleteUser.replace('{id}', id));
