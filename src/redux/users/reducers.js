@@ -36,6 +36,25 @@ export default users = (action, state = initialState) => {
         users: state.users,
         loading: false,
       };
+    case Types.PATCH_USER:
+      state.users[state.users.findIndex((user) => user.id === action.data.id)] = action.data;
+      return {
+        ...state,
+        users: state.users,
+        loading: false,
+      };
+    case Types.DELETE_USER:
+      return {
+        ...state,
+        users: state.users.filter((user) => user.id !== action.data),
+        loading: false,
+      };
+    case Types.USERS_ERROR:
+      return {
+        ...state,
+        error: action.data,
+        loading: false,
+      };
     default:
       return state;
   }
