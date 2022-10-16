@@ -1,6 +1,6 @@
 /* eslint-disable implicit-arrow-linebreak */
 import axios from 'axios';
-import Endpoints from './endpoints';
+import * as Endpoints from './endpoints';
 
 export const usersData = () => axios.get(Endpoints.users);
 
