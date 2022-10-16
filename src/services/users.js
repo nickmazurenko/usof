@@ -47,7 +47,7 @@ const removeUser = async (id, callback) => {
 	await UsersModel.removeUser({ id });
 	callback(
 		null,
-		handlers.responseHandler(true, 200, "User removed successfully", null)
+		handlers.responseHandler(true, 200, "User removed successfully", {id})
 	);
 };
 
@@ -63,7 +63,7 @@ const updateUser = async (params, callback) => {
 			: {}),
 	};
 	await UsersModel.updateUser(params.id, newData);
-	const newUser = await UsersModel.retrieveOne({ id: params.id }, callback);
+	const newUser = await UsersModel.retrieveOneWithInfo( params.id, callback);
 	callback(
 		null,
 		handlers.responseHandler(true, 200, "User data update successful", newUser)
