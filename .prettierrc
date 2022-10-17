@@ -1,9 +1,9 @@
 {
   "tabWidth": 2,
-  "useTabs": true,
+  "useTabs": false,
   "semi": true,
-  "singleQuote": false,
-  "trailingComma": "es5",
+  "singleQuote": true,
+  "trailingComma": "all",
   "bracketSpacing": true,
   "jsxBracketSameLine": true,
   "arrowParents": "always"

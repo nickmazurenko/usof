@@ -1,12 +1,12 @@
+const sequelize = require('sequelize');
 const {
-	Users,
-	Posts,
-	Categories,
-	Comments,
-} = require("../tables");
-const sequelize = require("sequelize");
-const { responseHandler } = require("../helpers/handlers");
-const { dbResponse } = require("../helpers/db");
+  Users,
+  Posts,
+  Categories,
+  Comments,
+} = require('../tables');
+const { responseHandler } = require('../helpers/handlers');
+const { dbResponse } = require('../helpers/db');
 
 /**
  * user template for registration
@@ -14,10 +14,10 @@ const { dbResponse } = require("../helpers/db");
  * @returns user model object fitting template
  */
 const User = (user) => ({
-	login: user.login,
-	password: user.password,
-	fullName: user.fullName,
-	email: user.email,
+  login: user.login,
+  password: user.password,
+  fullName: user.fullName,
+  email: user.email,
 });
 
 /**
@@ -26,20 +26,20 @@ const User = (user) => ({
  * @returns
  */
 const UserFull = (rawData) => ({
-	...(rawData.login ? { login: rawData.login } : {}),
-	...(rawData.password ? { password: rawData.password } : {}),
-	...(rawData.fullName ? { fullName: rawData.fullName } : {}),
-	...(rawData.email ? { email: rawData.email } : {}),
-	...(rawData.rating ? { rating: rawData.rating } : {}),
-	...(rawData.views ? { views: rawData.views } : {}),
-	...(rawData.role ? { role: rawData.role } : {}),
-	...(rawData.tokenInvalidationDate
-		? { tokenInvalidationDate: rawData.tokenInvalidationDate }
-		: {}),
-	...(rawData.isEmailVerified
-		? { isEmailVerified: rawData.isEmailVerified }
-		: {}),
-	...(rawData.profilePicture ? { profilePicture: rawData.profilePicture } : {}),
+  ...(rawData.login ? { login: rawData.login } : {}),
+  ...(rawData.password ? { password: rawData.password } : {}),
+  ...(rawData.fullName ? { fullName: rawData.fullName } : {}),
+  ...(rawData.email ? { email: rawData.email } : {}),
+  ...(rawData.rating ? { rating: rawData.rating } : {}),
+  ...(rawData.views ? { views: rawData.views } : {}),
+  ...(rawData.role ? { role: rawData.role } : {}),
+  ...(rawData.tokenInvalidationDate
+    ? { tokenInvalidationDate: rawData.tokenInvalidationDate }
+    : {}),
+  ...(rawData.isEmailVerified
+    ? { isEmailVerified: rawData.isEmailVerified }
+    : {}),
+  ...(rawData.profilePicture ? { profilePicture: rawData.profilePicture } : {}),
 });
 
 /**
@@ -47,13 +47,12 @@ const UserFull = (rawData) => ({
  * @param {Object} params
  * @returns user fitting given conditions in params
  */
-const retrieveOne = async (params) =>
-	await Users.findOne({
-		where: params,
-	}).catch((error) => {
-		console.log(error);
-		throw new Error("No such user");
-	});
+const retrieveOne = async (params) => await Users.findOne({
+  where: params,
+}).catch((error) => {
+  console.log(error);
+  throw new Error('No such user');
+});
 
 /**
  * Fetching user data with additional info about posts and comments
@@ -61,65 +60,65 @@ const retrieveOne = async (params) =>
  * @returns user with data
  */
 const retrieveOneWithInfo = async (id) => {
-	let result = await Users.findOne({
-		where: { id },
-		attributes: [
-			"id",
-			"login",
-			"profile_picture",
-			"full_name",
-			"email",
-			"views",
-			"rating",
-			"created_at",
-			[sequelize.literal("COUNT(DISTINCT(posts.id))"), "posts_count"],
-			[sequelize.literal("COUNT(DISTINCT(comments.id))"), "comments_count"],
-			[
-				sequelize.literal("COUNT(DISTINCT(category_title))"),
-				"categories_count",
-			],
-		],
-		include: [
-			{
-				required: false,
-				model: Posts,
-				attributes: [],
-				include: {
-					attributes: [],
-					required: false,
-					model: Categories,
-				},
-			},
-			{
-				attributes: [],
-				required: false,
-				model: Comments,
-			},
-		],
-		group: ["users.id"],
-	}).catch((error) => {
-		console.log(error);
-		throw new Error("An error occurred during user retrieval");
-	});
+  let result = await Users.findOne({
+    where: { id },
+    attributes: [
+      'id',
+      'login',
+      'profile_picture',
+      'full_name',
+      'email',
+      'views',
+      'rating',
+      'created_at',
+      [sequelize.literal('COUNT(DISTINCT(posts.id))'), 'posts_count'],
+      [sequelize.literal('COUNT(DISTINCT(comments.id))'), 'comments_count'],
+      [
+        sequelize.literal('COUNT(DISTINCT(category_title))'),
+        'categories_count',
+      ],
+    ],
+    include: [
+      {
+        required: false,
+        model: Posts,
+        attributes: [],
+        include: {
+          attributes: [],
+          required: false,
+          model: Categories,
+        },
+      },
+      {
+        attributes: [],
+        required: false,
+        model: Comments,
+      },
+    ],
+    group: ['users.id'],
+  }).catch((error) => {
+    console.log(error);
+    throw new Error('An error occurred during user retrieval');
+  });
 
-	if (!result || result.length === 0) {
-		throw new Error(`No user with this id: ${id}`);
-	}
-	result = dbResponse(
-		result,
-		"id",
-		"login",
-		"rating",
-		"email",
-		"views",
-		"full_name",
-		"profile_picture",
-		"created_at",
-		"posts_count",
-		"categories_count",
-		"comments_count"
-	);
-	return result;
+  if (!result || result.length === 0) {
+    throw new Error(`No user with this id: ${id}`);
+  }
+  result = dbResponse(
+    result,
+    'id',
+    'login',
+    'rating',
+    'email',
+    'views',
+    'full_name',
+    'profile_picture',
+    'created_at',
+    'posts_count',
+    'categories_count',
+    'comments_count',
+  );
+  return result;
 };
 
 /**
@@ -128,74 +127,71 @@ const retrieveOneWithInfo = async (id) => {
  * @returns all currently known users
  */
 const retrieveAll = async (callback) => {
-	const result = await Users.findAll({
-		attributes: [
-			"id",
-			"login",
-			"profilePicture",
-			"rating",
-			"views",
-			"created_at",
-			"fullName",
-			"email",
-			[sequelize.literal("COUNT(DISTINCT(posts.id))"), "posts_count"],
-			[
-				sequelize.literal("COUNT(DISTINCT(category_title))"),
-				"categories_count",
-			],
-		],
-		include: [
-			{
-				required: false,
-				model: Posts,
-				attributes: [],
-				include: {
-					attributes: [],
-					required: false,
-					model: Categories,
-				},
-			},
-		],
-		group: ["users.id"],
-		order: [[sequelize.col("posts_count"), "DESC"]],
-	}).catch((error) => {
-		console.log(error);
-		return callback(responseHandler(false, 500, "Server error!", null), null);
-	});
+  const result = await Users.findAll({
+    attributes: [
+      'id',
+      'login',
+      'profilePicture',
+      'rating',
+      'views',
+      'created_at',
+      'fullName',
+      'email',
+      [sequelize.literal('COUNT(DISTINCT(posts.id))'), 'posts_count'],
+      [
+        sequelize.literal('COUNT(DISTINCT(category_title))'),
+        'categories_count',
+      ],
+    ],
+    include: [
+      {
+        required: false,
+        model: Posts,
+        attributes: [],
+        include: {
+          attributes: [],
+          required: false,
+          model: Categories,
+        },
+      },
+    ],
+    group: ['users.id'],
+    order: [[sequelize.col('posts_count'), 'DESC']],
+  }).catch((error) => {
+    console.log(error);
+    return callback(responseHandler(false, 500, 'Server error!', null), null);
+  });
 
-	const users = result.map((user) =>
-		dbResponse(
-			user,
-			"id",
-			"login",
-			"profilePicture",
-			"email",
-			"fullName",
-			"rating",
-			"views",
-			"created_at",
-			"posts_count",
-			"categories_count"
-		)
-	);
-	if (users?.length === 0) {
-		return callback(responseHandler(false, 404, "No users found", null), null);
-	}
+  const users = result.map((user) => dbResponse(
+    user,
+    'id',
+    'login',
+    'profilePicture',
+    'email',
+    'fullName',
+    'rating',
+    'views',
+    'created_at',
+    'posts_count',
+    'categories_count',
+  ));
+  if (users?.length === 0) {
+    return callback(responseHandler(false, 404, 'No users found', null), null);
+  }
 
-	return callback(
-		responseHandler(true, 200, "Successfully retrieved all users", users)
-	);
+  return callback(
+    responseHandler(true, 200, 'Successfully retrieved all users', users),
+  );
 };
 
 /**
  * Adding given user to database
  * @param {Object} user
  */
-const create = async (user) =>
-	await Users.create(user).catch((error) => {
-		console.log(error);
-		throw new Error("Error occurred during registration!");
-	});
+const create = async (user) => await Users.create(user).catch((error) => {
+  console.log(error);
+  throw new Error('Error occurred during registration!');
+});
 
 /**
  * Updating email verification status in database
@@ -203,17 +199,17 @@ const create = async (user) =>
  * @param {String} login
  */
 const verifyEmail = async (email, login) => {
-	await Users.update(
-		{
-			isEmailVerified: true,
-		},
-		{
-			where: { email, login },
-		}
-	).catch((error) => {
-		console.log(error);
-		throw new Error("No user with given login");
-	});
+  await Users.update(
+    {
+      isEmailVerified: true,
+    },
+    {
+      where: { email, login },
+    },
+  ).catch((error) => {
+    console.log(error);
+    throw new Error('No user with given login');
+  });
 };
 
 /**
@@ -222,18 +218,18 @@ const verifyEmail = async (email, login) => {
  * @param {String} avatar
  */
 const updateAvatar = async (id, avatar) => {
-	const data = await Users.update(
-		{
-			profilePicture: avatar,
-		},
-		{
-			where: { id },
-		}
-	).catch((error) => {
-		console.log(error);
-		throw new Error(error);
-	});
-	return data;
+  const data = await Users.update(
+    {
+      profilePicture: avatar,
+    },
+    {
+      where: { id },
+    },
+  ).catch((error) => {
+    console.log(error);
+    throw new Error(error);
+  });
+  return data;
 };
 
 /**
@@ -242,17 +238,17 @@ const updateAvatar = async (id, avatar) => {
  * @param {String} newPassword
  */
 const updatePassword = async (login, newPassword) => {
-	await Users.update(
-		{
-			password: newPassword,
-		},
-		{
-			where: { login },
-		}
-	).catch((error) => {
-		console.log(error);
-		throw new Error("No user with given login");
-	});
+  await Users.update(
+    {
+      password: newPassword,
+    },
+    {
+      where: { login },
+    },
+  ).catch((error) => {
+    console.log(error);
+    throw new Error('No user with given login');
+  });
 };
 
 /**
@@ -260,13 +256,13 @@ const updatePassword = async (login, newPassword) => {
  * @param {String} id
  */
 const addViewsId = async (id) => {
-	await Users.increment("views", {
-		by: 1,
-		where: { id },
-	}).catch((error) => {
-		console.log(error);
-		throw new Error("No user with given id");
-	});
+  await Users.increment('views', {
+    by: 1,
+    where: { id },
+  }).catch((error) => {
+    console.log(error);
+    throw new Error('No user with given id');
+  });
 };
 
 /**
@@ -274,13 +270,13 @@ const addViewsId = async (id) => {
  * @param {String} id
  */
 const addRatingId = async (id) => {
-	await Users.increment("rating", {
-		by: 1,
-		where: { id },
-	}).catch((error) => {
-		console.log(error);
-		throw new Error("No user with given id");
-	});
+  await Users.increment('rating', {
+    by: 1,
+    where: { id },
+  }).catch((error) => {
+    console.log(error);
+    throw new Error('No user with given id');
+  });
 };
 
 /**
@@ -288,17 +284,17 @@ const addRatingId = async (id) => {
  * @param {String} id
  */
 const removeRatingId = async (id) => {
-	await Users.decrement("rating", {
-		by: 1,
-		where: { id },
-	}).catch((error) => {
-		if (error.parent.code === "ER_DATA_OUT_OF_RANGE") {
-			return;
-		} else {
-			console.log(error);
-			throw new Error("No user with given id");
-		}
-	});
+  await Users.decrement('rating', {
+    by: 1,
+    where: { id },
+  }).catch((error) => {
+    if (error.parent.code === 'ER_DATA_OUT_OF_RANGE') {
+
+    } else {
+      console.log(error);
+      throw new Error('No user with given id');
+    }
+  });
 };
 
 /**
@@ -306,17 +302,17 @@ const removeRatingId = async (id) => {
  * @param {String} id
  */
 const updateTokenInvalidation = async (id) => {
-	await Users.update(
-		{
-			tokenInvalidationDate: new Date().toISOString(),
-		},
-		{
-			where: { id },
-		}
-	).catch((error) => {
-		console.log(error);
-		throw new Error("No user with given id");
-	});
+  await Users.update(
+    {
+      tokenInvalidationDate: new Date().toISOString(),
+    },
+    {
+      where: { id },
+    },
+  ).catch((error) => {
+    console.log(error);
+    throw new Error('No user with given id');
+  });
 };
 
 /**
@@ -324,12 +320,12 @@ const updateTokenInvalidation = async (id) => {
  * @param {Object} params
  */
 const removeUser = async (params) => {
-	await Users.destroy({
-		where: params,
-	}).catch((error) => {
-		console.log(error);
-		throw new Error("No user with such params");
-	});
+  await Users.destroy({
+    where: params,
+  }).catch((error) => {
+    console.log(error);
+    throw new Error('No user with such params');
+  });
 };
 
 /**
@@ -338,28 +334,28 @@ const removeUser = async (params) => {
  * @param {Object} newData new user data
  */
 const updateUser = async (id, newData) => {
-	await Users.update(newData, {
-		where: { id },
-	}).catch((error) => {
-		console.log(error);
-		throw new Error(error);
-	});
+  await Users.update(newData, {
+    where: { id },
+  }).catch((error) => {
+    console.log(error);
+    throw new Error(error);
+  });
 };
 
 module.exports = {
-	User,
-	UserFull,
-	create,
-	verifyEmail,
-	addViewsId,
-	addRatingId,
-	removeRatingId,
-	removeUser,
-	updatePassword,
-	updateAvatar,
-	updateUser,
-	updateTokenInvalidation,
-	retrieveAll,
-	retrieveOne,
-	retrieveOneWithInfo,
+  User,
+  UserFull,
+  create,
+  verifyEmail,
+  addViewsId,
+  addRatingId,
+  removeRatingId,
+  removeUser,
+  updatePassword,
+  updateAvatar,
+  updateUser,
+  updateTokenInvalidation,
+  retrieveAll,
+  retrieveOne,
+  retrieveOneWithInfo,
 };

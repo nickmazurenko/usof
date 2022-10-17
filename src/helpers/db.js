@@ -5,14 +5,14 @@
  * @returns data from database fitting given conditions in params
  */
 const dbResponse = (template, ...params) => {
-	const result = {};
+  const result = {};
 
-	params.forEach((key) => {
-		result[key] = template.getDataValue(key);
-	});
-	return result;
+  params.forEach((key) => {
+    result[key] = template.getDataValue(key);
+  });
+  return result;
 };
 
 module.exports = array = {
-	dbResponse,
+  dbResponse,
 };
