@@ -5,17 +5,6 @@ const bcrypt = require("bcryptjs");
 const db = require("./src/config/db.config");
 const Users = require("./src/tables/users");
 const config = require("./src/config/keys.config");
-// const session = require('express-session');
-// const SequelizeStore = require("connect-session-sequelize")(session.Store);
-
-// const store = new SequelizeStore({
-//     db: db,
-//     table: "Session",
-//     expiration: 1000 * 60 * 10,
-//     checkExpirationInterval: 1000 * 60 * 2
-// });
-
-// store.sync();
 
 const authenticate = async (login, password) => {
 	const target = await Users.findOne({ where: { login: login } });
@@ -37,12 +26,13 @@ AdminJS.registerAdapter({
 const adminOptions = {
 	databases: [db],
 	branding: {
-		companyName: "Usof Admin Panel",
+		companyName: "usof admin panel",
 	},
 	locale: {
 		translations: {
 			properties: {
-				email: "Login",
+				email: "Email",
+				role: "Role",
 			},
 		},
 	},

@@ -132,8 +132,8 @@ const sendPasswordReset = async (email, callback) => {
 	return data;
 };
 
-const sendEmailVerification = async ({ login }, callback) => {
-	const dbUser = await UsersModel.retrieveOne({ login });
+const sendEmailVerification = async ({ email }, callback) => {
+	const dbUser = await UsersModel.retrieveOne({ email });
 	if (dbUser === null) {
 		callback(
 			handlers.responseHandler(false, 404, "No user with such login", null),
@@ -148,7 +148,7 @@ const sendEmailVerification = async ({ login }, callback) => {
 			null
 		);
 	}
-	const data = { email: dbUser.email, login };
+	const data = { email: dbUser.email, login: dbUser.login};
 	jwt.sign(
 		{ data },
 		config.JWT.EMAIL_SECRET,
@@ -175,9 +175,7 @@ const sendEmailVerification = async ({ login }, callback) => {
 
 			return callback(
 				null,
-				handlers.responseHandler(true, 200, "Email sent", {
-					token,
-				})
+				handlers.responseHandler(true, 200, "Email sent", null)
 			);
 		}
 	);

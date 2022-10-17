@@ -22,8 +22,8 @@ app.use(
 	session({
 		secret: config.JWT.SECRET,
 		store: memoryStore,
-		resave: false,
-		saveUninitialized: false,
+		resave: true,
+		saveUninitialized: true,
 		cookie: { maxAge: 1000 * 60 * 10 },
 	})
 );

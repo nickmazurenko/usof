@@ -34,8 +34,12 @@ router.route("/register").post(
  */
 router
 	.route("/confirm-email")
-	.get(
-		check("login", "Your login is not valid").exists().isLength({ min: 5 }),
+	.post(
+		check("email", "Email is required")
+			.exists()
+			.trim()
+			.normalizeEmail()
+			.isEmail(),
 		authController.sendEmailVerification
 	);
 
