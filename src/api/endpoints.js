@@ -19,3 +19,4 @@ export const loginUser = `${config.URL}/api/auth/login`;
 export const logoutUser = `${config.URL}/api/auth/logout`;
 export const confirmUserEmail = `${config.URL}/api/auth/confirm-email`;
 export const resetUserPassword = `${config.URL}/api/auth/password-reset`;
+export const resetUserPasswordToken = `${config.URL}/api/auth/password-reset/{token}`;
