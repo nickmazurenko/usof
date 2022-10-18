@@ -13,13 +13,8 @@ export const loadCurrentUser = () => axios.get(Endpoints.currentUserData);
 
 export const logoutUser = () => axios.post(Endpoints.logoutUser);
 
-export const registerUser = (login, password, confirmPassword, email) => {
-  const body = JSON.stringify({
-    login,
-    password,
-    confirmPassword,
-    email,
-  });
+export const registerUser = (params) => {
+  const body = JSON.stringify(params);
 
   return axios.post(Endpoints.registerUser, body, headers);
 };
