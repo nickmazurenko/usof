@@ -48,7 +48,7 @@ const auth = async (request, response, callback) => {
     }
   } else {
     return response
-      .status(403)
+      .status(401)
       .json(
         handlers.responseHandler(
           false,
