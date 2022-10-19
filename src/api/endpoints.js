@@ -22,7 +22,7 @@ export const resetUserPassword = `${config.URL}/api/auth/password-reset`;
 export const resetUserPasswordToken = `${config.URL}/api/auth/password-reset/{token}`;
 
 /**
- * Posts endpoints
+ * Posts
  */
 
 export const posts = `${config.URL}/api/posts`;
@@ -30,9 +30,22 @@ export const postId = `${config.URL}/api/posts/{id}`;
 export const createPost = `${config.URL}/api/posts`;
 export const updatePost = `${config.URL}/api/posts/{id}`;
 export const deletePost = `${config.URL}/api/posts/{id}`;
+export const getCategoryPosts = `${config.URL}/api/categories/posts/{id}`;
+
+/**
+ * Post comments
+ */
 export const createPostComment = `${config.URL}/api/posts/comments/{id}`;
 export const getPostComments = `${config.URL}/api/posts/comments/{id}`;
+
+/**
+ * Post likes
+ */
 export const getPostLikes = `${config.URL}/api/posts/likes`;
 export const createPostLike = `${config.URL}/api/posts/likes/{id}`;
 export const deletePostLike = `${config.URL}/api/posts/likes/{id}`;
+
+/**
+ * Post categories
+ */
 export const getPostCategories = `${config.URL}/api/posts/categories/{id}`;
