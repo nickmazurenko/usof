@@ -135,10 +135,11 @@ const create = async (post, callback) => {
     }
     const newCategories = [];
     for (const title of newCategoriesRaw) {
-      const found =				categoriesDescription.length
-				&& categoriesDescription.find(
-				  (item) => item.tag_name === title.toLowerCase(),
-				);
+      const found =
+        categoriesDescription.length &&
+        categoriesDescription.find(
+          (item) => item.tag_name === title.toLowerCase(),
+        );
       const object = {
         categoryTitle: title,
         description: '',
@@ -160,10 +161,15 @@ const create = async (post, callback) => {
     }
 
     await postCategoriesModel.createMultiple(allCategories);
-
+    const responsePost = await retrieveOne(dbPost.id);
     callback(
       null,
-      handlers.responseHandler(true, 200, 'Post creation successful', dbPost.id),
+      handlers.responseHandler(
+        true,
+        200,
+        'Post creation successful',
+        responsePost,
+      ),
     );
     await transaction.commit();
   } catch (error) {
@@ -232,10 +238,11 @@ const update = async ({ postId, post }, callback) => {
       }
       const newCategories = [];
       for (const title of newCategoriesRaw) {
-        const found =					categoriesDescription.length
-					&& categoriesDescription.find(
-					  (item) => item.tag_name === title.toLowerCase(),
-					);
+        const found =
+          categoriesDescription.length &&
+          categoriesDescription.find(
+            (item) => item.tag_name === title.toLowerCase(),
+          );
         const object = {
           categoryTitle: title,
           description: '',
@@ -262,10 +269,15 @@ const update = async ({ postId, post }, callback) => {
     } else {
       dbPost = await postsModel.update(postId, post, callback);
     }
-
+    const responsePost = await retrieveOne(dbPost.id);
     callback(
       null,
-      handlers.responseHandler(true, 200, 'Post update successful', dbPost.id),
+      handlers.responseHandler(
+        true,
+        200,
+        'Post update successful',
+        responsePost,
+      ),
     );
     await transaction.commit();
   } catch (error) {
@@ -294,7 +306,7 @@ const remove = async (id, callback) => {
 
     return callback(
       null,
-      handlers.responseHandler(true, 200, 'Post removal successful', null),
+      handlers.responseHandler(true, 200, 'Post removal successful', id),
     );
   } catch (error) {
     console.log(error);
