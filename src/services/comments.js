@@ -44,15 +44,15 @@ const retrieveOne = async (id, callback) => {
 
 const update = async ({ commentId, comment }, callback) => {
   try {
-    const dbComment = await commentsModel.update(commentId, comment);
-
+    await commentsModel.update(commentId, comment);
+    const responseComment = await commentsModel.retrieveOne(commentId);
     callback(
       null,
       handlers.responseHandler(
         true,
         200,
         'Comment update successful',
-        dbComment.id,
+        responseComment,
       ),
     );
   } catch (error) {

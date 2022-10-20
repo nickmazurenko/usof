@@ -2,6 +2,12 @@ const sequelize = require('sequelize');
 const { Likes, Users } = require('../tables');
 const handlers = require('../helpers/handlers');
 
+const retrieveOne = async (params) =>
+  await Likes.findOne({ where: params }).catch((error) => {
+    console.log(error);
+    throw new Error(error);
+  });
+
 const getPostLikes = async (id, callback) => {
   const likes = await Likes.findAll({
     where: {
@@ -104,15 +110,27 @@ const create = async (like, callback) => {
           where: params,
         },
       );
+      const responseLike = await retrieveOne(params);
       return callback(
         null,
-        handlers.responseHandler(true, 200, 'Like type update successful', null),
+        handlers.responseHandler(
+          true,
+          200,
+          'Like type update successful',
+          responseLike,
+        ),
       );
     }
     await Likes.create(like);
+    const responseLike = await retrieveOne(params);
     return callback(
       null,
-      handlers.responseHandler(true, 200, 'Like creation successful', null),
+      handlers.responseHandler(
+        true,
+        200,
+        'Like creation successful',
+        responseLike,
+      ),
     );
   } catch (error) {
     console.log(error);
@@ -160,11 +178,6 @@ const removeCommentLikes = async (comment_id) => {
     throw new Error(error);
   });
 };
-
-const retrieveOne = async (params) => await Likes.findOne({ where: params }).catch((error) => {
-  console.log(error);
-  throw new Error(error);
-});
 
 module.exports = {
   getPostLikes,
