@@ -1,4 +1,3 @@
-import actions from '../notifications/actions';
 import * as Types from './types';
 
 const initialState = {
@@ -50,7 +49,7 @@ export default comments = (action, state = initialState) => {
     case Types.COMMENT_ERROR:
       return {
         ...state,
-        error: actions.data,
+        error: action.data,
         loading: false,
       };
     default:
