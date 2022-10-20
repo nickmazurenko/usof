@@ -111,9 +111,12 @@ const create = async (category, callback) => {
     }
 
     const result = await categoriesModel.create(category);
+    const responseCategory = await categoriesModel.retrieveOne({
+      id: result.id,
+    });
     return callback(
       null,
-      responseHandler(true, 200, 'Category successfully created', result.id),
+      responseHandler(true, 200, 'Category successfully created', responseCategory),
     );
   } catch (error) {
     console.log(error);
@@ -124,9 +127,12 @@ const create = async (category, callback) => {
 const update = async ({ category, id }, callback) => {
   try {
     await categoriesModel.update(category, id);
+    const responseCategory = await categoriesModel.retrieveOne({
+      id,
+    });
     return callback(
       null,
-      responseHandler(true, 200, 'Category successfully updated', null),
+      responseHandler(true, 200, 'Category successfully updated', responseCategory),
     );
   } catch (error) {
     console.log(error);
@@ -138,7 +144,7 @@ const remove = async (id, callback) => {
     await categoriesModel.remove(id);
     return callback(
       null,
-      responseHandler(true, 200, 'Category successfully updated', null),
+      responseHandler(true, 200, 'Category successfully deleted', id),
     );
   } catch (error) {
     console.log(error);
