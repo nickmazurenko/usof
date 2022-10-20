@@ -1,4 +1,4 @@
-import { setAlert } from '../alert/actions';
+import createNotification from '../notifications/actions';
 import * as Types from './types';
 import * as Posts from '../../api/posts';
 
@@ -10,7 +10,7 @@ export const getPosts = (params) => async (dispatch) => {
       data: response.data.data,
     });
   } catch (error) {
-    dispatch(setAlert(error.response.data.message, 'danger'));
+    dispatch(createNotification(error.response.data.message, 'danger'));
     dispatch({
       type: Types.POST_ERROR,
       data: { message: error.response.message, status: error.response.status },
@@ -26,7 +26,7 @@ export const getCategoryPosts = (id) => async (dispatch) => {
       data: response.data.data,
     });
   } catch (error) {
-    dispatch(setAlert(error.response.data.message, 'danger'));
+    dispatch(createNotification(error.response.data.message, 'danger'));
     dispatch({
       type: Types.POST_ERROR,
       data: { message: error.response.message, status: error.response.status },
@@ -42,7 +42,7 @@ export const getPost = (id) => async (dispatch) => {
       data: response.data.data,
     });
   } catch (error) {
-    dispatch(setAlert(error.response.data.message, 'danger'));
+    dispatch(createNotification(error.response.data.message, 'danger'));
     dispatch({
       type: Types.POST_ERROR,
       data: {
@@ -56,10 +56,10 @@ export const getPost = (id) => async (dispatch) => {
 export const createPost = (data) => async (dispatch) => {
   try {
     const response = await Posts.createPost(data);
-    dispatch(setAlert(response.data.message, 'success'));
+    dispatch(createNotification(response.data.message, 'success'));
     dispatch(getPosts());
   } catch (error) {
-    dispatch(setAlert(error.response.data.message, 'danger'));
+    dispatch(createNotification(error.response.data.message, 'danger'));
     dispatch({
       type: Types.POST_ERROR,
       data: {
@@ -77,9 +77,9 @@ export const deletePost = (id) => async (dispatch) => {
       type: Types.DELETE_POST,
       data: id,
     });
-    dispatch(setAlert(response.data.message, 'success'));
+    dispatch(createNotification(response.data.message, 'success'));
   } catch (error) {
-    dispatch(setAlert(error.response.data.message, 'danger'));
+    dispatch(createNotification(error.response.data.message, 'danger'));
     dispatch({
       type: Types.POST_ERROR,
       data: {
@@ -97,9 +97,9 @@ export const updatePost = (data, id) => async (dispatch) => {
       type: Types.UPDATE_POST,
       data: id,
     });
-    dispatch(setAlert(response.data.message, 'success'));
+    dispatch(createNotification(response.data.message, 'success'));
   } catch (error) {
-    dispatch(setAlert(error.response.data.message, 'danger'));
+    dispatch(createNotification(error.response.data.message, 'danger'));
     dispatch({
       type: Types.POST_ERROR,
       data: {

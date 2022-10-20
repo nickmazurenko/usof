@@ -33,19 +33,24 @@ export const deletePost = `${config.URL}/api/posts/{id}`;
 export const getCategoryPosts = `${config.URL}/api/categories/posts/{id}`;
 
 /**
- * Post comments
+ * Comments
  */
 export const createPostComment = `${config.URL}/api/posts/comments/{id}`;
 export const getPostComments = `${config.URL}/api/posts/comments/{id}`;
 
 /**
- * Post likes
+ *Likes
  */
 export const getPostLikes = `${config.URL}/api/posts/likes`;
 export const createPostLike = `${config.URL}/api/posts/likes/{id}`;
 export const deletePostLike = `${config.URL}/api/posts/likes/{id}`;
 
 /**
- * Post categories
+ * Categories
  */
-export const getPostCategories = `${config.URL}/api/posts/categories/{id}`;
+export const categories = `${config.URL}/api/categories`;
+export const categoriesId = `${config.URL}/api/categories/{id}`;
+export const createCategory = `${config.URL}/api/categories`;
+export const updateCategory = `${config.URL}/api/categories/{id}`;
+export const deleteCategory = `${config.URL}/api/categories/{id}`;
+export const postCategories = `${config.URL}/api/posts/categories/{id}`;

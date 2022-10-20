@@ -1,6 +1,7 @@
 import axios from 'axios';
 import * as Auth from '../../api/auth';
 import * as Types from './types';
+import createNotification from '../notifications/actions';
 
 const setAuthToken = (token) => {
   if (token) {
@@ -50,7 +51,7 @@ export const login = () => async (dispatch) => {
       data: response.data.data,
     });
 
-    dispatch(setAlert(response.data.massage, 'success'));
+    dispatch(createNotification(response.data.massage, 'success'));
 
     dispatch(loadCurrentUser());
   } catch (error) {
@@ -68,7 +69,7 @@ export const logout = () => async (dispatch) => {
       data: response.data.data,
     });
 
-    dispatch(setAlert(response.data.massage, 'success'));
+    dispatch(createNotification(response.data.massage, 'success'));
   } catch (error) {
     dispatch({
       type: Types.AUTH_ERROR,
@@ -84,7 +85,7 @@ export const confirmEmail = () => async (dispatch) => {
       data: response.data.data,
     });
 
-    dispatch(setAlert(response.data.massage, 'success'));
+    dispatch(createNotification(response.data.massage, 'success'));
   } catch (error) {
     dispatch({
       type: Types.AUTH_ERROR,
@@ -100,7 +101,7 @@ export const resetUserPassword = () => async (dispatch) => {
       data: response.data.data,
     });
 
-    dispatch(setAlert(response.data.massage, 'success'));
+    dispatch(createNotification(response.data.massage, 'success'));
   } catch (error) {
     dispatch({
       type: Types.AUTH_ERROR,
@@ -116,7 +117,7 @@ export const resetUserPasswordToken = (token) => async (dispatch) => {
       data: response.data.data,
     });
 
-    dispatch(setAlert(response.data.massage, 'success'));
+    dispatch(createNotification(response.data.massage, 'success'));
   } catch (error) {
     dispatch({
       type: Types.AUTH_ERROR,

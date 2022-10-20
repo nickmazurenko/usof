@@ -27,8 +27,13 @@ export default posts = (action, state = initialState) => {
         ...state,
         posts: state.posts.filter((post) => post.id !== action.data),
       };
+    case Types.CREATE_POST:
+      return {
+        ...state,
+        posts: [action.data, ...state.posts],
+      };
     case Types.UPDATE_POST:
-      state.posts = state.posts[
+      state.posts[
         state.posts
           .map((x, i) => [i, x])
           .filter((x) => x[1].id === action.data.id)[0][0]
