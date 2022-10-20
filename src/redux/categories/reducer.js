@@ -61,7 +61,6 @@ export default tags = (action, state = initialState) => {
       ] = action.data;
       return {
         ...state,
-        posts,
         loading: false,
       };
     case Types.CATEGORIES_ERROR:

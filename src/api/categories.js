@@ -20,8 +20,8 @@ export const getPostCategories = (id) =>
 export const createCategory = (data) =>
   axios.post(Endpoints.createCategory, data, headers);
 
-export const updateCategory = (data) =>
-  axios.patch(Endpoints.updateCategory, data, headers);
+export const updateCategory = (id, data) =>
+  axios.patch(Endpoints.updateCategory.replace('{id}', id), data, headers);
 
 export const deleteCategory = (id) =>
   axios.delete(Endpoints.deleteCategory.replace('{id}', id));

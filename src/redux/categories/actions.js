@@ -45,8 +45,9 @@ export const deleteCategory = (id) => async (dispatch) => {
     const response = await categoriesApi.deleteCategory(id);
     dispatch({
       type: Types.DELETE_CATEGORY,
-      data: response.data.data,
+      data: id,
     });
+    dispatch(createNotification(response.data.message, 'success'));
   } catch (error) {
     dispatch(createNotification(error.response.data.message, 'danger'));
     dispatch({
@@ -97,9 +98,9 @@ export const createCategory = (data) => async (dispatch) => {
   }
 };
 
-export const updateCategory = (data) => async (dispatch) => {
+export const updateCategory = (id, data) => async (dispatch) => {
   try {
-    const response = await categoriesApi.updateCategory(data);
+    const response = await categoriesApi.updateCategory(id, data);
     dispatch({
       type: Types.UPDATE_CATEGORY,
       data: response.data.data,

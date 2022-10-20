@@ -1,5 +1,6 @@
 import * as Users from '../../api/users';
 import * as Types from './types';
+import createNotification from '../notifications/actions';
 
 export const getUsers = () => async (dispatch) => {
   try {
@@ -96,8 +97,9 @@ export const deleteUser = (id) => async (dispatch) => {
     const response = await Users.deleteUser(id);
     dispatch({
       type: Types.DELETE_USER,
-      data: response.data.data,
+      data: id,
     });
+    dispatch(createNotification(response.data.message, 'success'));
   } catch (error) {
     dispatch({
       type: Types.USERS_ERROR,
