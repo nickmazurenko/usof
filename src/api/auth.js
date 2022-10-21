@@ -9,9 +9,13 @@ const headers = {
   },
 };
 
-export const loadCurrentUser = () => axios.get(Endpoints.currentUserData);
+export const loadCurrentUser = () => {
+  return axios.get(Endpoints.currentUserData);
+};
 
-export const logoutUser = () => axios.post(Endpoints.logoutUser);
+export const logoutUser = () => {
+  return axios.post(Endpoints.logoutUser);
+};
 
 export const registerUser = (params) => {
   const body = JSON.stringify(params);
@@ -19,9 +23,8 @@ export const registerUser = (params) => {
   return axios.post(Endpoints.registerUser, body, headers);
 };
 
-export const loginUser = (login, email, password) => {
-  const body = JSON.stringify({ login, email, password });
-
+export const loginUser = (email, password) => {
+  const body = JSON.stringify({ email, password });
   return axios.post(Endpoints.loginUser, body, headers);
 };
 

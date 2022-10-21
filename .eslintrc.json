@@ -5,7 +5,7 @@
     "es2021": true,
     "node": true
   },
-  "extends": ["airbnb-base"],
+  "extends": ["airbnb-base", "eslint:recommended", "plugin:react/recommended"],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true,
@@ -13,6 +13,9 @@
     }
   },
   "rules": {
+    "react/react-in-jsx-scope": "off",
+    "react/display-name": "off",
+    "react/prop-types": "off",
     "no-unused-vars": 1,
     "no-multi-assign": 0,
     "no-return-await": 0,
@@ -23,6 +26,7 @@
     "no-param-reassign": 0,
     "no-await-in-loop": 0,
     "comma-dangle": 0,
+    "arrow-body-style": ["error", "always"],
     "no-restricted-syntax": [
       "error",
       "ForInStatement",

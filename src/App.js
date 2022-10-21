@@ -1,23 +1,29 @@
 // import logo from './logo.svg';
+import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import RegisterScreen from './components/RegisterScreen';
+
+import LoginPage from './pages/Login';
+import RegisterPage from './pages/Register';
+
 import store from './store';
 
-const App = () => (
-  <Provider store={store}>
-    <Router>
-      <main className='container content'>
-        <Routes>
-          <Route path='/register' element={<RegisterScreen />} />
-          {/* <Route element={<ProtectedRoute />}>
-          <Route path='/user-profile' element={<ProfileScreen />} />
-        </Route> */}
-        </Routes>
-      </main>
-    </Router>
-  </Provider>
-);
+const App = () => {
+  return (
+    <Provider store={store}>
+      <div className='min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8'>
+        <div className='max-w-md w-full space-y-8'>
+          <Router>
+            <Routes>
+              <Route path='/login' element={<LoginPage />} />
+              <Route path='/register' element={<RegisterPage />} />
+            </Routes>
+          </Router>
+        </div>
+      </div>
+    </Provider>
+  );
+};
 
 export default App;
