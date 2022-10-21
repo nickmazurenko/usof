@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginFields } from '../../constants/formFields';
+import { loginFields } from '../constants/formFields';
 import FormAction from './FormAction';
 import FormExtra from './FormExtra';
 import Input from './Input';
-import { login as loginUser } from '../../slices/auth/actions';
+import { login as loginUser } from '../slices/auth/actions';
 
 const fields = loginFields;
 const fieldsState = {};

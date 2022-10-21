@@ -19,7 +19,7 @@ const loginFields = [
   },
 ];
 
-const signupFields = [
+const registerFields = [
   {
     labelText: 'Login',
     labelFor: 'login',
@@ -32,10 +32,10 @@ const signupFields = [
   {
     labelText: 'Full Name',
     labelFor: 'full-name',
-    id: 'full-name',
+    id: 'fullName',
     type: 'text',
     autoComplete: 'fullName',
-    isRequired: true,
+    isRequired: false,
     placeholder: 'Full Name',
   },
   {
@@ -59,7 +59,7 @@ const signupFields = [
   {
     labelText: 'Confirm Password',
     labelFor: 'confirm-password',
-    id: 'confirm-password',
+    id: 'confirmPassword',
     type: 'password',
     autoComplete: 'confirm-password',
     isRequired: true,
@@ -67,4 +67,4 @@ const signupFields = [
   },
 ];
 
-export { loginFields, signupFields };
+export { loginFields, registerFields };

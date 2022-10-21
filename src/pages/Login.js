@@ -1,5 +1,5 @@
-import Header from '../components/Auth/Header';
-import Login from '../components/Auth/Login';
+import Header from '../components/Header';
+import Login from '../components/Login';
 
 const LoginPage = () => {
   return (

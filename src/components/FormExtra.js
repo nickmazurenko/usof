@@ -6,11 +6,11 @@ const FormExtra = () => {
           id='remember-me'
           name='remember-me'
           type='checkbox'
-          className='h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded'
+          className='h-4 w-4 text-purple-500 focus:ring-purple-400 border-gray-300 rounded'
         />
         <label
           htmlFor='remember-me'
-          className='ml-2 block text-sm text-gray-900'>
+          className='ml-2 block text-sm text-white'>
           Remember me
         </label>
       </div>
@@ -18,7 +18,7 @@ const FormExtra = () => {
       <div className='text-sm'>
         <a
           href='#'
-          className='font-medium text-purple-600 hover:text-purple-500'>
+          className='font-medium text-pink-500 hover:text-pink-400'>
           Forgot your password?
         </a>
       </div>
