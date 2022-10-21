@@ -228,7 +228,15 @@ const logout = async (dbUser, callback) => {
 };
 
 const login = async (user, callback) => {
-  const dbUser = await UsersModel.retrieveOne({ login: user.login });
+  const { password, ...params } = user;
+  const search = JSON.parse(JSON.stringify(params));
+  if (!search) {
+    throw new Error('No such user');
+  }
+  console.log('aaa', search);
+  const dbUser = await UsersModel.retrieveOne(
+    JSON.parse(JSON.stringify(params)),
+  );
 
   if (!dbUser) {
     callback(

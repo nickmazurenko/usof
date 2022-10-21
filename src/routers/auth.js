@@ -59,7 +59,6 @@ router
   .route('/login')
   .post(
     [
-      check('login', 'Your login is not valid').isLength({ min: 5 }),
       check('password', 'Password can not be empty').not().isEmpty(),
     ],
     authController.login,
