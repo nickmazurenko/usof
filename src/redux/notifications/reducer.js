@@ -2,7 +2,7 @@ import * as Types from './types';
 
 const initialState = [];
 
-export default notify = (action, state = initialState) => {
+export default notifications = (action, state = initialState) => {
   switch (action.type) {
     case Types.CREATE_NOTIFICATION:
       return [...state, action.data];

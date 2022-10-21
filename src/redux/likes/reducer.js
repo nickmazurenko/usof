@@ -24,13 +24,13 @@ export default likes = (action, state = initialState) => {
     case Types.CREATE_COMMENT_LIKE:
       return {
         ...state,
-        commentLikes: [action.data, state.commentLikes],
+        commentLikes: [action.data, ...state.commentLikes],
         loading: false,
       };
     case Types.CREATE_POST_LIKE:
       return {
         ...state,
-        postLikes: [action.data, state.postLikes],
+        postLikes: [action.data, ...state.postLikes],
         loading: false,
       };
     case Types.DELETE_POST_LIKE:
