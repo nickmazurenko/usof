@@ -1,10 +1,14 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Alert } from 'flowbite-react';
 import { loginFields } from '../constants/formFields';
 import FormAction from './FormAction';
 import FormExtra from './FormExtra';
 import Input from './Input';
-import { login as loginUser } from '../slices/auth/actions';
+import {
+  login as loginUser,
+  loadCurrentUser as loadUser,
+} from '../features/auth/actions';
 import Loading from './FormLoading';
 
 const fields = loginFields;
@@ -36,6 +40,14 @@ const Login = () => {
 
   return (
     <div className='container'>
+      {error ? (
+        <Alert color='failure'>
+          <span>
+            <span className='font-medium'>{error}</span>
+            {error.message}
+          </span>
+        </Alert>
+      ) : null}
       {loading ? (
         <Loading />
       ) : (

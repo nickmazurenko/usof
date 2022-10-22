@@ -1,12 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 import * as Auth from '../../api/auth';
 
-export const setAuthToken = (token) => {
-  if (token) {
-    axios.defaults.headers.common['x-auth-token'] = token;
-  } else {
-    delete axios.defaults.headers.common['x-auth-token'];
-  }
+export const setAuthToken = () => {
+  // eslint-disable-next-line operator-linebreak
+  axios.defaults.headers.common['x-auth-token'] =
+    localStorage.getItem('x-auth-token');
 };
 
 export const loadCurrentUser = createAsyncThunk(
@@ -14,7 +13,7 @@ export const loadCurrentUser = createAsyncThunk(
   async () => {
     try {
       const response = await Auth.loadCurrentUser();
-      return response.data;
+      return response.data.data;
     } catch (error) {
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);
@@ -29,8 +28,10 @@ export const login = createAsyncThunk(
   async ({ email, password }, { rejectWithValue }) => {
     try {
       const response = await Auth.loginUser(email, password);
-      setAuthToken(response.data.data.token);
-      return response.data;
+      localStorage.setItem('x-auth-token', response.data.data.token);
+      setAuthToken();
+      const { data } = await Auth.loadCurrentUser();
+      return data.data;
     } catch (error) {
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);
@@ -44,8 +45,11 @@ export const logout = createAsyncThunk(
   'auth/logout',
   async (params, { rejectWithValue }) => {
     try {
+      setAuthToken();
       const response = await Auth.logoutUser();
-      return response.data;
+      localStorage.removeItem('x-auth-token');
+      delete axios.defaults.headers.common['x-auth-token'];
+      return response.data.data;
     } catch (error) {
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);
@@ -60,8 +64,9 @@ export const register = createAsyncThunk(
   async (params, { rejectWithValue }) => {
     try {
       const response = await Auth.registerUser(params);
+      setAuthToken();
       loadCurrentUser();
-      return response.data;
+      return response.data.data;
     } catch (error) {
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);
@@ -76,7 +81,7 @@ export const confirmEmail = createAsyncThunk(
   async ({ email }, { rejectWithValue }) => {
     try {
       const response = await Auth.confirmUserEmail(email);
-      return response.data;
+      return response.data.data;
     } catch (error) {
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);
@@ -88,10 +93,10 @@ export const confirmEmail = createAsyncThunk(
 
 export const resetPassword = createAsyncThunk(
   'auth/resetPassword',
-  async (params, { rejectWithValue }) => {
+  async (email, { rejectWithValue }) => {
     try {
-      const response = await Auth.resetUserPassword();
-      return response.data;
+      const response = await Auth.resetUserPassword(email);
+      return response.data.data;
     } catch (error) {
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);
@@ -106,7 +111,7 @@ export const resetPasswordToken = createAsyncThunk(
   async ({ newPassword }, { rejectWithValue }) => {
     try {
       const response = await Auth.resetUserPasswordToken(newPassword);
-      return response.data;
+      return response.data.data;
     } catch (error) {
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);

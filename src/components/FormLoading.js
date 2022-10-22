@@ -10,7 +10,7 @@ const Line = ({ id }) => {
 const Loading = ({ count = 2, additional = true }) => {
   const lines = [];
   for (let i = 0; i < count; i++) {
-    lines.push(<Line id={i} />);
+    lines.push(<Line id={i} key={i} />);
   }
   return (
     <div role='status' className='space-y-6 p-4 max-w-sm ml-5 animate-pulse'>
