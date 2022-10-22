@@ -1,4 +1,4 @@
-import Header from '../components/Header';
+import Header from '../components/FormHeader';
 import Signup from '../components/Register';
 
 const SignupPage = () => {

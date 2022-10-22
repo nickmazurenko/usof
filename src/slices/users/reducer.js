@@ -24,7 +24,11 @@ const usersSlice = createSlice({
       state.loading = false;
     },
     [Actions.updateUser.fulfilled]: (state, action) => {
-      state.users[state.users.findIndex((user) => user.id === action.data.id)] = action.data;
+      state.users[
+        state.users.findIndex((user) => {
+          return user.id === action.data.id;
+        })
+      ] = action.data;
       if (state.user.id === action.data.id) {
         state.user = action.data;
       }
@@ -35,7 +39,9 @@ const usersSlice = createSlice({
       state.loading = false;
     },
     [Actions.deleteUser.fulfilled]: (state, action) => {
-      state.users.filter((user) => user.id !== action.data.id);
+      state.users.filter((user) => {
+        return user.id !== action.data.id;
+      });
       state.loading = false;
     },
   },
