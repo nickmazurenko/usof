@@ -14,8 +14,8 @@ const UsersPage = () => {
   console.log(usersStatus, data, loading, error);
 
   useEffect(() => {
-    if (usersStatus !== 'full') dispatch(getUsers(currentPage));
-  });
+    dispatch(getUsers(currentPage));
+  }, [dispatch]);
 
   const loadUsers = () => {
     setCurrentPage(currentPage + 1);

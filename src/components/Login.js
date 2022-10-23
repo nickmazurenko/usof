@@ -20,6 +20,7 @@ fields.forEach((field) => {
 
 const Login = () => {
   const { loading, error, isAuthenticated } = useSelector((state) => {
+    console.log(state);
     return state.auth;
   });
   const dispatch = useDispatch();

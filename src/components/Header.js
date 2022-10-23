@@ -39,7 +39,12 @@ const UserMenu = ({ user }) => {
         arrowIcon={false}
         inline={true}
         label={
-          <Avatar alt='User settings' img={profilePicture} rounded={true} />
+          <img
+            className='w-12 h-12 rounded-full'
+            crossOrigin='anonymous'
+            src={profilePicture}
+            alt='user photo'
+          />
         }>
         <Dropdown.Header>
           <span className='block text-sm'>{fullName || login}</span>

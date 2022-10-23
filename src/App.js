@@ -2,7 +2,7 @@
 import React from 'react';
 import { Flowbite } from 'flowbite-react';
 import './App.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
 import LoginPage from './pages/Login';
 import RegisterPage from './pages/Register';
@@ -32,6 +32,7 @@ const App = () => {
               <Route path='/register' element={<RegisterPage />} />
               <Route path='/profile' element={<ProfilePage />} />
               <Route path='/users' element={<UsersPage />} />
+              {/* <Route path='*' element={<Navigate to='/' replace />} /> */}
             </Routes>
           </Router>
         </div>

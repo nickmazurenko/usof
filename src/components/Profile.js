@@ -33,6 +33,7 @@ const Profile = ({ user }) => {
     <div>
       <div className='w-full pt-5'>
         <img
+          crossOrigin='anonymous'
           src={profilePicture}
           className='rounded-full mx-auto w-1/3 shadow-md border-4 border-white transition duration-200 transform hover:scale-110'></img>
       </div>

@@ -10,7 +10,7 @@ const headers = {
 
 export const usersData = (page) => {
   console.log('there');
-  return axios.get(Endpoints.users);
+  return axios.get(Endpoints.users, { params: { page } });
 };
 
 export const userIdData = (id) => {

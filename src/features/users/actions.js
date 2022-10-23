@@ -1,46 +1,84 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import * as Users from '../../api/users';
+import {
+  usersPending as _usersPending,
+  usersError as _usersError,
+  getUsers as _getUsers,
+  getUser as _getUser,
+  deleteUser as _deleteUser,
+  createUser as _createUser,
+  updateAvatar as _updateAvatar,
+  updateUser as _updateUser,
+} from './reducer';
 
-export const getUsers = createAsyncThunk(
-  'users/getUsers',
-  async (page, { rejectWithValue }) => {
-    console.log('there');
+export const getUsers = (page) => {
+  return async (dispatch) => {
+    dispatch(_usersPending());
     try {
-      const { data } = await Users.usersData(page);
-      return data.data;
+      const response = await Users.usersData(page);
+      dispatch(_getUsers(response.data.data));
     } catch (error) {
-      if (error.response && error.response.data.message) {
-        return rejectWithValue(error.response.data.message);
-      }
-      return rejectWithValue(error.message);
+      dispatch(_usersError(response.data.message));
     }
-  }
-);
+  };
+};
 
-export const getUser = createAsyncThunk('users/retrieveOne', async (id) => {
-  const response = await Users.userIdData(id);
-  return response.data.data;
-});
+export const getUser = (id) => {
+  return async (dispatch) => {
+    dispatch(_usersPending());
+    try {
+      const response = await Users.userIdData(id);
+      dispatch(_getUser(response.data.data));
+    } catch (error) {
+      dispatch(_usersError(response.data.message));
+    }
+  };
+};
 
-export const createUser = createAsyncThunk('users/create', async (user) => {
-  const response = await Users.createUser(user);
-  return response.data.data;
-});
+export const createUser = (data) => {
+  return async (dispatch) => {
+    dispatch(_usersPending());
+    try {
+      const response = await Users.createUser(data);
+      dispatch(_createUser(response.data.data));
+    } catch (error) {
+      dispatch(_usersError(response.data.message));
+    }
+  };
+};
 
-export const updateUser = createAsyncThunk('users/update', async (user) => {
-  const response = await Users.updateUser(user);
-  return response.data.data;
-});
+export const updateUser = (data) => {
+  return async (dispatch) => {
+    dispatch(_usersPending());
+    try {
+      const response = await Users.updateUser(data);
+      dispatch(_updateUser(response.data.data));
+    } catch (error) {
+      dispatch(_usersError(response.data.message));
+    }
+  };
+};
 
-export const updateAvatar = createAsyncThunk(
-  'users/updateAvatar',
-  async (avatar) => {
-    const response = await Users.updateAvatar(avatar);
-    return response.data.data;
-  }
-);
+export const updateAvatar = (avatar) => {
+  return async (dispatch) => {
+    dispatch(_usersPending());
+    try {
+      const response = await Users.updateAvatar(avatar);
+      dispatch(_updateAvatar(response.data.data));
+    } catch (error) {
+      dispatch(_usersError(response.data.message));
+    }
+  };
+};
 
-export const deleteUser = createAsyncThunk('users/delete', async (id) => {
-  const response = await Users.deleteUser(id);
-  return id;
-});
+export const deleteUser = (id) => {
+  return async (dispatch) => {
+    dispatch(_usersPending());
+    try {
+      const response = await Users.deleteUser(id);
+      dispatch(_deleteUser(id));
+    } catch (error) {
+      dispatch(_usersError(response.data.message));
+    }
+  };
+};
