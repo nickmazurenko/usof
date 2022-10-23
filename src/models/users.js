@@ -1,12 +1,8 @@
 const sequelize = require('sequelize');
-const {
-  Users,
-  Posts,
-  Categories,
-  Comments,
-} = require('../tables');
+const { Users, Posts, Categories, Comments } = require('../tables');
 const { responseHandler } = require('../helpers/handlers');
 const { dbResponse } = require('../helpers/db');
+const { getUsersPagination, getUsersPagingData } = require('../helpers/pagination');
 
 /**
  * user template for registration
@@ -47,12 +43,13 @@ const UserFull = (rawData) => ({
  * @param {Object} params
  * @returns user fitting given conditions in params
  */
-const retrieveOne = async (params) => await Users.findOne({
-  where: params,
-}).catch((error) => {
-  console.log(error);
-  throw new Error('No such user');
-});
+const retrieveOne = async (params) =>
+  await Users.findOne({
+    where: params,
+  }).catch((error) => {
+    console.log(error);
+    throw new Error('No such user');
+  });
 
 /**
  * Fetching user data with additional info about posts and comments
@@ -65,18 +62,16 @@ const retrieveOneWithInfo = async (id) => {
     attributes: [
       'id',
       'login',
-      'profile_picture',
-      'full_name',
+      'profilePicture',
+      'fullName',
       'email',
+      'role',
       'views',
       'rating',
-      'created_at',
-      [sequelize.literal('COUNT(DISTINCT(posts.id))'), 'posts_count'],
-      [sequelize.literal('COUNT(DISTINCT(comments.id))'), 'comments_count'],
-      [
-        sequelize.literal('COUNT(DISTINCT(category_title))'),
-        'categories_count',
-      ],
+      'createdAt',
+      [sequelize.literal('COUNT(DISTINCT(posts.id))'), 'postsCount'],
+      [sequelize.literal('COUNT(DISTINCT(comments.id))'), 'commentsCount'],
+      [sequelize.literal('COUNT(DISTINCT(category_title))'), 'categoriesCount'],
     ],
     include: [
       {
@@ -111,12 +106,13 @@ const retrieveOneWithInfo = async (id) => {
     'rating',
     'email',
     'views',
-    'full_name',
-    'profile_picture',
-    'created_at',
-    'posts_count',
-    'categories_count',
-    'comments_count',
+    'role',
+    'fullName',
+    'profilePicture',
+    'createdAt',
+    'postsCount',
+    'categoriesCount',
+    'commentsCount',
   );
   return result;
 };
@@ -126,21 +122,25 @@ const retrieveOneWithInfo = async (id) => {
  * @param {Function} callback
  * @returns all currently known users
  */
-const retrieveAll = async (callback) => {
-  const result = await Users.findAll({
+const retrieveAll = async ({ sort, page }, callback) => {
+  const { limit, offset } = getUsersPagination(page);
+  const rawUsers = await Users.findAndCountAll({
+    limit,
+    offset,
+    subQuery: false,
     attributes: [
       'id',
       'login',
       'profilePicture',
       'rating',
       'views',
-      'created_at',
+      'createdAt',
       'fullName',
       'email',
-      [sequelize.literal('COUNT(DISTINCT(posts.id))'), 'posts_count'],
+      [sequelize.literal('COUNT(DISTINCT(posts.id))'), 'postsCount'],
       [
         sequelize.literal('COUNT(DISTINCT(category_title))'),
-        'categories_count',
+        'categoriesCount',
       ],
     ],
     include: [
@@ -156,31 +156,34 @@ const retrieveAll = async (callback) => {
       },
     ],
     group: ['users.id'],
-    order: [[sequelize.col('posts_count'), 'DESC']],
+    order: [[sequelize.col('postsCount'), 'DESC']],
   }).catch((error) => {
     console.log(error);
     return callback(responseHandler(false, 500, 'Server error!', null), null);
   });
 
-  const users = result.map((user) => dbResponse(
-    user,
-    'id',
-    'login',
-    'profilePicture',
-    'email',
-    'fullName',
-    'rating',
-    'views',
-    'created_at',
-    'posts_count',
-    'categories_count',
-  ));
-  if (users?.length === 0) {
+  const pagingData = getUsersPagingData(rawUsers, page);
+  pagingData.users = pagingData.users.map((user) =>
+    dbResponse(
+      user,
+      'id',
+      'login',
+      'profilePicture',
+      'email',
+      'fullName',
+      'rating',
+      'views',
+      'createdAt',
+      'postsCount',
+      'categoriesCount',
+    ),
+  );
+  if (pagingData.users?.length === 0) {
     return callback(responseHandler(false, 404, 'No users found', null), null);
   }
 
   return callback(
-    responseHandler(true, 200, 'Successfully retrieved all users', users),
+    responseHandler(true, 200, 'Successfully retrieved all users', pagingData),
   );
 };
 
@@ -188,10 +191,11 @@ const retrieveAll = async (callback) => {
  * Adding given user to database
  * @param {Object} user
  */
-const create = async (user) => await Users.create(user).catch((error) => {
-  console.log(error);
-  throw new Error('Error occurred during registration!');
-});
+const create = async (user) =>
+  await Users.create(user).catch((error) => {
+    console.log(error);
+    throw new Error('Error occurred during registration!');
+  });
 
 /**
  * Updating email verification status in database
@@ -289,7 +293,6 @@ const removeRatingId = async (id) => {
     where: { id },
   }).catch((error) => {
     if (error.parent.code === 'ER_DATA_OUT_OF_RANGE') {
-
     } else {
       console.log(error);
       throw new Error('No user with given id');

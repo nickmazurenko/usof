@@ -9,7 +9,8 @@ const { User, UserFull } = require('../models/users');
  */
 const getUsers = handlers.asyncHandler(async (request, response) => {
   try {
-    await usersService.retrieveAll((error, data) => {
+    const { sort, page } = request.query;
+    await usersService.retrieveAll({ sort, page }, (error, data) => {
       if (error) {
         console.log(error);
         return response.status(error.code).json(error);
@@ -117,7 +118,7 @@ const removeUser = handlers.asyncHandler(async (request, response) => {
         handlers.responseHandler(
           false,
           403,
-          'You don\'t have permission to remove users',
+          "You don't have permission to remove users",
           null,
         ),
       );
@@ -162,7 +163,7 @@ const updateUser = handlers.asyncHandler(async (request, response) => {
         handlers.responseHandler(
           false,
           403,
-          'You don\'t have permission to update users data',
+          "You don't have permission to update users data",
           null,
         ),
       );

@@ -3,7 +3,7 @@ const UsersModel = require('../models/users');
 const { createLink, deletePreviousFile } = require('../middleware/avatar');
 
 const loadUser = async (id, callback) => {
-  const user = await UsersModel.retrieveOne({ id }, callback);
+  const user = await UsersModel.retrieveOneWithInfo(id, callback);
   if (user) {
     return callback(
       null,
@@ -17,7 +17,7 @@ const loadUser = async (id, callback) => {
   );
 };
 
-const retrieveAll = async (callback) => UsersModel.retrieveAll(callback);
+const retrieveAll = async (params, callback) => UsersModel.retrieveAll(params, callback);
 
 const retrieveOne = async (id, callback) => {
   const user = await UsersModel.retrieveOneWithInfo(id);
