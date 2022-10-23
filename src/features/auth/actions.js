@@ -1,122 +1,114 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import {
+  register as _register,
+  login as _login,
+  logout as _logout,
+  loadCurrentUser as _loadCurrentUser,
+  confirmEmail as _confirmEmail,
+  resetPassword as _resetPassword,
+  resetPasswordToken as _resetPasswordToken,
+  authError,
+  authPending,
+} from './reducer';
 import * as Auth from '../../api/auth';
 
-export const setAuthToken = () => {
-  // eslint-disable-next-line operator-linebreak
-  axios.defaults.headers.common['x-auth-token'] =
-    localStorage.getItem('x-auth-token');
+export const setAuthToken = (token) => {
+  if (token) {
+    axios.defaults.headers.common['x-auth-token'] = token;
+  } else {
+    delete axios.defaults.headers.common['x-auth-token'];
+  }
 };
 
-export const loadCurrentUser = createAsyncThunk(
-  'auth/loadCurrentUser',
-  async (params, { rejectWithValue }) => {
-    try {
-      const { data } = await Auth.loadCurrentUser();
-      return data.data;
-    } catch (error) {
-      if (error.response && error.response.data.message) {
-        return rejectWithValue(error.response.data.message);
-      }
-      return rejectWithValue(error.message);
+export const loadCurrentUser = () => {
+  return async (dispatch) => {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
     }
-  }
-);
+    dispatch(authPending());
+    try {
+      const response = await Auth.loadCurrentUser();
+      dispatch(_loadCurrentUser(response.data.data));
+    } catch (error) {
+      dispatch(authError(error));
+    }
+  };
+};
 
-export const login = createAsyncThunk(
-  'auth/login',
-  async ({ email, password }, { rejectWithValue }) => {
+export const login = ({ email, password }) => {
+  return async (dispatch) => {
+    dispatch(authPending());
     try {
       const response = await Auth.loginUser(email, password);
       localStorage.setItem('x-auth-token', response.data.data.token);
-      setAuthToken();
-      const { data } = await Auth.loadCurrentUser();
-      return data.data;
+      dispatch(_login(response.data.data.token));
+      dispatch(loadCurrentUser());
     } catch (error) {
-      if (error.response && error.response.data.message) {
-        return rejectWithValue(error.response.data.message);
-      }
-      return rejectWithValue(error.message);
+      dispatch(authError(response.data.message));
     }
-  }
-);
+  };
+};
 
-export const logout = createAsyncThunk(
-  'auth/logout',
-  async (params, { rejectWithValue }) => {
+export const logout = () => {
+  return async (dispatch) => {
+    dispatch(authPending());
     try {
-      setAuthToken();
       const response = await Auth.logoutUser();
       localStorage.removeItem('x-auth-token');
       delete axios.defaults.headers.common['x-auth-token'];
-      return response.data.data;
+      dispatch(_logout(response.data.data));
     } catch (error) {
-      if (error.response && error.response.data.message) {
-        return rejectWithValue(error.response.data.message);
-      }
-      return rejectWithValue(error.message);
+      dispatch(authError(response.data.message));
     }
-  }
-);
+  };
+};
 
-export const register = createAsyncThunk(
-  'auth/register',
-  async (params, { rejectWithValue }) => {
+export const register = (user) => {
+  return async (dispatch) => {
+    dispatch(authPending());
     try {
-      const response = await Auth.registerUser(params);
-      setAuthToken();
+      const response = await Auth.registerUser(user);
       loadCurrentUser();
-      return response.data.data;
+      dispatch(_register(response.data.data));
     } catch (error) {
-      if (error.response && error.response.data.message) {
-        return rejectWithValue(error.response.data.message);
-      }
-      return rejectWithValue(error.message);
+      dispatch(authError(response.data.message));
     }
-  }
-);
+  };
+};
 
-export const confirmEmail = createAsyncThunk(
-  'auth/confirmEmail',
-  async ({ email }, { rejectWithValue }) => {
+export const confirmEmail = (email) => {
+  return async (dispatch) => {
+    dispatch(authPending());
     try {
       const response = await Auth.confirmUserEmail(email);
-      return response.data.data;
+      dispatch(_confirmEmail(response.data.data));
     } catch (error) {
-      if (error.response && error.response.data.message) {
-        return rejectWithValue(error.response.data.message);
-      }
-      return rejectWithValue(error.message);
+      dispatch(authError(response.data.message));
     }
-  }
-);
+  };
+};
 
-export const resetPassword = createAsyncThunk(
-  'auth/resetPassword',
-  async (email, { rejectWithValue }) => {
+export const resetPassword = (email) => {
+  return async (dispatch) => {
+    dispatch(authPending());
     try {
       const response = await Auth.resetUserPassword(email);
-      return response.data.data;
+      dispatch(_resetPassword(response.data.data));
     } catch (error) {
-      if (error.response && error.response.data.message) {
-        return rejectWithValue(error.response.data.message);
-      }
-      return rejectWithValue(error.message);
+      dispatch(authError(response.data.message));
     }
-  }
-);
+  };
+};
 
-export const resetPasswordToken = createAsyncThunk(
-  'auth/resetPasswordToken',
-  async ({ newPassword }, { rejectWithValue }) => {
+export const resetPasswordToken = ({ newPassword }) => {
+  return async (dispatch) => {
+    dispatch(authPending());
     try {
       const response = await Auth.resetUserPasswordToken(newPassword);
-      return response.data.data;
+      dispatch(_resetPasswordToken(response.data.data));
     } catch (error) {
-      if (error.response && error.response.data.message) {
-        return rejectWithValue(error.response.data.message);
-      }
-      return rejectWithValue(error.message);
+      dispatch(authError(response.data.message));
     }
-  }
-);
+  };
+};

@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import * as Actions from './actions';
 
 const initialState = {
   loading: false,
@@ -12,99 +11,64 @@ const initialState = {
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
-  extraReducers: {
-    // Registration
-    [Actions.register.pending]: (state, { payload }) => {
+  reducers: {
+    authPending: (state) => {
       state.loading = true;
-      state.error = null;
     },
-    [Actions.register.fulfilled]: (state, { payload }) => {
-      state.user = payload;
-      state.loading = false;
-    },
-    [Actions.register.rejected]: (state, { payload }) => {
+    authError: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
+      state.user = null;
     },
-    // Login
-    [Actions.login.pending]: (state, { payload }) => {
-      state.loading = true;
+    register: (state, { payload }) => {
+      state.loading = false;
       state.error = null;
     },
-    [Actions.login.fulfilled]: (state, { payload }) => {
+    login: (state, { payload }) => {
+      localStorage.setItem('token', payload);
       state.loading = false;
+      state.error = null;
       state.user = payload;
       state.isAuthenticated = true;
     },
-    [Actions.login.rejected]: (state, { payload }) => {
+    logout: (state) => {
       state.loading = false;
-      state.error = payload;
-    },
-    // loading Current User
-    [Actions.loadCurrentUser.pending]: (state, { payload }) => {
-      state.loading = true;
       state.error = null;
+      state.user = null;
+      state.isAuthenticated = false;
     },
-    [Actions.loadCurrentUser.fulfilled]: (state, { payload }) => {
+    loadCurrentUser: (state, { payload }) => {
       state.loading = false;
+      state.error = null;
       state.user = payload;
     },
-    [Actions.loadCurrentUser.rejected]: (state, { payload }) => {
+    confirmEmail: (state) => {
       state.loading = false;
-      state.error = payload;
-    },
-    // Logout
-    [Actions.logout.pending]: (state, { payload }) => {
-      state.loading = true;
       state.error = null;
     },
-    [Actions.logout.fulfilled]: (state, { payload }) => {
+    resetPassword: (state) => {
       state.loading = false;
+      state.error = null;
+    },
+    resetPasswordToken: (state) => {
+      state.user = null;
       state.isAuthenticated = false;
-      localStorage.removeItem('token');
-    },
-    [Actions.logout.rejected]: (state, { payload }) => {
       state.loading = false;
-      state.error = payload;
-    },
-    // Request password reset
-    [Actions.resetPassword.pending]: (state, { payload }) => {
-      state.loading = true;
       state.error = null;
-    },
-    [Actions.resetPassword.fulfilled]: (state, { payload }) => {
-      state.loading = false;
-    },
-    [Actions.resetPassword.rejected]: (state, { payload }) => {
-      state.loading = false;
-      state.error = payload;
-    },
-    // Reset password with token
-    [Actions.resetPasswordToken.pending]: (state, { payload }) => {
-      state.loading = true;
-      state.error = null;
-    },
-    [Actions.resetPasswordToken.fulfilled]: (state, { payload }) => {
-      state.loading = false;
-    },
-    [Actions.resetPasswordToken.rejected]: (state, { payload }) => {
-      state.loading = false;
-      state.error = payload;
-    },
-    // Request email confirmation
-    [Actions.confirmEmail.pending]: (state, { payload }) => {
-      state.loading = true;
-      state.error = null;
-    },
-    [Actions.confirmEmail.fulfilled]: (state, { payload }) => {
-      state.loading = false;
-    },
-    [Actions.confirmEmail.rejected]: (state, { payload }) => {
-      state.loading = false;
-      state.error = payload;
     },
   },
 });
+
+export const {
+  register,
+  login,
+  logout,
+  authError,
+  authPending,
+  resetPassword,
+  resetPasswordToken,
+  loadCurrentUser,
+  confirmEmail,
+} = authSlice.actions;
 
 export default authSlice.reducer;

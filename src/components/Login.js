@@ -20,7 +20,6 @@ fields.forEach((field) => {
 
 const Login = () => {
   const { loading, error, isAuthenticated } = useSelector((state) => {
-    console.log(state);
     return state.auth;
   });
   const dispatch = useDispatch();
@@ -44,8 +43,8 @@ const Login = () => {
       {error ? (
         <Alert color='failure'>
           <span>
-            <span className='font-medium'>{error}</span>
-            {error.message}
+            <span className='font-medium'>{error.code}</span>
+            <p>{error.message}</p>
           </span>
         </Alert>
       ) : null}

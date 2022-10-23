@@ -3,13 +3,17 @@ import React from 'react';
 import { Flowbite } from 'flowbite-react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-
 import LoginPage from './pages/Login';
 import RegisterPage from './pages/Register';
 import ProfilePage from './pages/Profile';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import UsersPage from './pages/Users';
+import { setAuthToken } from './features/auth/actions';
+
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
 
 const App = () => {
   return (

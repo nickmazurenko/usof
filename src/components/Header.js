@@ -3,8 +3,8 @@
 import { useSelector, useDispatch } from 'react-redux';
 import React from 'react';
 import { HiViewGrid, HiLogout, HiUser, HiHome } from 'react-icons/hi';
-import { Dropdown, Navbar, Avatar } from 'flowbite-react';
-import { loadCurrentUser, logout } from '../features/auth/actions';
+import { Dropdown, Navbar } from 'flowbite-react';
+import { logout } from '../features/auth/actions';
 
 const AuthButtons = () => {
   return (
@@ -29,9 +29,6 @@ const UserMenu = ({ user }) => {
   const signOut = () => {
     dispatch(logout());
   };
-  const loadProfile = () => {
-    dispatch(loadCurrentUser());
-  };
   const { profilePicture, email, fullName, login } = user;
   return (
     <div className='flex md:order-2'>
@@ -50,11 +47,9 @@ const UserMenu = ({ user }) => {
           <span className='block text-sm'>{fullName || login}</span>
           <span className='block text-sm font-medium truncate'>{email}</span>
         </Dropdown.Header>
-        <Dropdown.Item icon={HiUser}>
-          <a onClick={loadProfile} href='/profile'>
-            Profile
-          </a>
-        </Dropdown.Item>
+        <a href='/profile'>
+          <Dropdown.Item icon={HiUser}>Profile</Dropdown.Item>
+        </a>
         <Dropdown.Item icon={HiViewGrid}>My Posts</Dropdown.Item>
         <Dropdown.Divider />
         <Dropdown.Item onClick={signOut} icon={HiLogout}>
@@ -80,7 +75,7 @@ const Header = () => {
           alt='Use Of Logo'
         />
       </Navbar.Brand>
-      {isAuthenticated ? <UserMenu user={user} /> : <AuthButtons />}
+      {isAuthenticated && !error ? <UserMenu user={user} /> : <AuthButtons />}
       <Navbar.Collapse>
         <Navbar.Link href='/' active={true}>
           <HiHome className='text-3xl' />
