@@ -1,11 +1,16 @@
 import { useSelector } from 'react-redux';
 import ProfileComponent from '../components/Profile';
+import CardLoader from '../components/CardLoader';
 
 const ProfilePage = () => {
-  const { user } = useSelector((state) => {
+  const { user, loading } = useSelector((state) => {
     return state.auth;
   });
-  return <ProfileComponent user={user} />;
+  return loading ? (
+    <CardLoader />
+  ) : (
+    <ProfileComponent user={user} loading={loading} />
+  );
 };
 
 export default ProfilePage;

@@ -8,9 +8,14 @@ const headers = {
   },
 };
 
-export const usersData = () => { return axios.get(Endpoints.users); };
+export const usersData = (page) => {
+  console.log('there');
+  return axios.get(Endpoints.users);
+};
 
-export const userIdData = (id) => { return axios.get(Endpoints.userId.replace('{id}', id)); };
+export const userIdData = (id) => {
+  return axios.get(Endpoints.userId.replace('{id}', id));
+};
 
 export const createUser = (data) => {
   const body = JSON.stringify(data);
@@ -27,4 +32,6 @@ export const updateUser = (data, id) => {
   axios.patch(Endpoints.updateUser.replace('{id}', id), body, headers);
 };
 
-export const deleteUser = (id) => { return axios.delete(Endpoints.deleteUser.replace('{id}', id)); };
+export const deleteUser = (id) => {
+  return axios.delete(Endpoints.deleteUser.replace('{id}', id));
+};

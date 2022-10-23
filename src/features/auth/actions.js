@@ -10,10 +10,10 @@ export const setAuthToken = () => {
 
 export const loadCurrentUser = createAsyncThunk(
   'auth/loadCurrentUser',
-  async () => {
+  async (params, { rejectWithValue }) => {
     try {
-      const response = await Auth.loadCurrentUser();
-      return response.data.data;
+      const { data } = await Auth.loadCurrentUser();
+      return data.data;
     } catch (error) {
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);

@@ -1,6 +1,4 @@
-import { Tooltip } from 'flowbite-react';
 import {
-  HiAcademicCap,
   HiCalendar,
   HiChat,
   HiDocumentText,
