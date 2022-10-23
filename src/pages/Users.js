@@ -3,6 +3,7 @@ import { Pagination } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { getUsers } from '../features/users/actions';
 import CardLoader from '../components/CardLoader';
+import UsersTable from '../components/usersPage/UsersTable';
 
 const UsersPage = () => {
   const dispatch = useDispatch();
@@ -17,20 +18,25 @@ const UsersPage = () => {
     dispatch(getUsers(currentPage));
   }, [dispatch]);
 
-  const loadUsers = () => {
-    setCurrentPage(currentPage + 1);
-    dispatch(getUsers(currentPage + 1));
+  const loadUsers = (page) => {
+    setCurrentPage(page);
+    dispatch(getUsers(page));
   };
   return (
     <>
       {loading ? (
         <CardLoader />
       ) : (
-        <Pagination
-          currentPage={currentPage}
-          totalPages={data.totalPages}
-          onPageChange={loadUsers}
-        />
+        <div>
+          <UsersTable users={data.users} loading={loading} />
+          <div className='flex items-center justify-center py-10 sm:px-6 lg:px-8'>
+            <Pagination
+              currentPage={currentPage}
+              totalPages={data.totalPages}
+              onPageChange={loadUsers}
+            />
+          </div>
+        </div>
       )}
     </>
   );

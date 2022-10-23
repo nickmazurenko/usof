@@ -33,6 +33,11 @@ const UserMenu = ({ user }) => {
   return (
     <div className='flex md:order-2'>
       <Dropdown
+        style={{
+          padding: 0,
+          color: 'transparent',
+        }}
+        color='transparent'
         arrowIcon={false}
         inline={true}
         label={

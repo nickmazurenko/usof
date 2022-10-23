@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 :root {
   --yellow-200: #675c37;
   --yellow-050: #464236;
@@ -16,6 +17,11 @@
 }
 
 body {
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   background-color: #373e98 !important;
   padding-top: 0 !important;
 }
