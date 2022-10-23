@@ -18,7 +18,7 @@ export const getUsers = (page) => {
       const response = await Users.usersData(page);
       dispatch(_getUsers(response.data.data));
     } catch (error) {
-      dispatch(_usersError(response.data.message));
+      dispatch(_usersError(error));
     }
   };
 };
@@ -27,10 +27,11 @@ export const getUser = (id) => {
   return async (dispatch) => {
     dispatch(_usersPending());
     try {
+      console.log('there');
       const response = await Users.userIdData(id);
       dispatch(_getUser(response.data.data));
     } catch (error) {
-      dispatch(_usersError(response.data.message));
+      dispatch(_usersError(error));
     }
   };
 };
@@ -42,7 +43,7 @@ export const createUser = (data) => {
       const response = await Users.createUser(data);
       dispatch(_createUser(response.data.data));
     } catch (error) {
-      dispatch(_usersError(response.data.message));
+      dispatch(_usersError(error));
     }
   };
 };
@@ -54,7 +55,7 @@ export const updateUser = (data) => {
       const response = await Users.updateUser(data);
       dispatch(_updateUser(response.data.data));
     } catch (error) {
-      dispatch(_usersError(response.data.message));
+      dispatch(_usersError(error));
     }
   };
 };
@@ -66,7 +67,7 @@ export const updateAvatar = (avatar) => {
       const response = await Users.updateAvatar(avatar);
       dispatch(_updateAvatar(response.data.data));
     } catch (error) {
-      dispatch(_usersError(response.data.message));
+      dispatch(_usersError(error));
     }
   };
 };
@@ -78,7 +79,7 @@ export const deleteUser = (id) => {
       const response = await Users.deleteUser(id);
       dispatch(_deleteUser(id));
     } catch (error) {
-      dispatch(_usersError(response.data.message));
+      dispatch(_usersError(error));
     }
   };
 };

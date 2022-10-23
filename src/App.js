@@ -15,6 +15,7 @@ import Footer from './components/Footer';
 import Header from './components/Header';
 import UsersPage from './pages/Users';
 import { setAuthToken } from './features/auth/actions';
+import UserPage from './pages/User';
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -37,6 +38,7 @@ const App = () => {
         <div>
           <Router>
             <Routes>
+              <Route path='/user' element={<UserPage />} />
               <Route path='/login' element={<LoginPage />} />
               <Route path='/register' element={<RegisterPage />} />
               <Route path='/profile' element={<ProfilePage />} />
