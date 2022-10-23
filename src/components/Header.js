@@ -40,14 +40,14 @@ const UserMenu = ({ user }) => {
         }>
         <Dropdown.Header>
           <span className='block text-sm'>{fullName || login}</span>
-          <span className='block text-sm font-medium truncate'>
-            {email}
-          </span>
+          <span className='block text-sm font-medium truncate'>{email}</span>
         </Dropdown.Header>
         <Dropdown.Item icon={HiUser}>Profile</Dropdown.Item>
         <Dropdown.Item icon={HiViewGrid}>My Posts</Dropdown.Item>
         <Dropdown.Divider />
-        <Dropdown.Item onClick={signOut} icon={HiLogout}>Sign out</Dropdown.Item>
+        <Dropdown.Item onClick={signOut} icon={HiLogout}>
+          Sign out
+        </Dropdown.Item>
       </Dropdown>
       <Navbar.Toggle />
     </div>
@@ -71,11 +71,11 @@ const Header = () => {
       {isAuthenticated ? <UserMenu user={user} /> : <AuthButtons />}
       <Navbar.Collapse>
         <Navbar.Link href='/' active={true}>
-        Home
+          <HiHome className='text-3xl' />
         </Navbar.Link>
-        <Navbar.Link href='/posts'>Posts</Navbar.Link>
-        <Navbar.Link href='/users'>Users</Navbar.Link>
-        <Navbar.Link href='/ask'>Ask Question</Navbar.Link>
+        <Navbar.Link href='/posts'><span className='text-2xl'>Posts</span></Navbar.Link>
+        <Navbar.Link href='/users'><span className='text-2xl'>Users</span></Navbar.Link>
+        <Navbar.Link href='/ask'><span className='text-2xl'>Ask Question</span></Navbar.Link>
       </Navbar.Collapse>
     </Navbar>
   );
