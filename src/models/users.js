@@ -123,10 +123,7 @@ const retrieveOneWithInfo = async (id) => {
  * @returns all currently known users
  */
 const retrieveAll = async ({ sort, page }, callback) => {
-  const { limit, offset } = getUsersPagination(page);
-  const rawUsers = await Users.findAndCountAll({
-    limit,
-    offset,
+  const rawUsers = await Users.findAll({
     subQuery: false,
     attributes: [
       'id',
@@ -162,8 +159,7 @@ const retrieveAll = async ({ sort, page }, callback) => {
     return callback(responseHandler(false, 500, 'Server error!', null), null);
   });
 
-  const pagingData = getUsersPagingData(rawUsers, page);
-  pagingData.users = pagingData.users.map((user) =>
+  const result = rawUsers.map((user) =>
     dbResponse(
       user,
       'id',
@@ -178,12 +174,12 @@ const retrieveAll = async ({ sort, page }, callback) => {
       'categoriesCount',
     ),
   );
-  if (pagingData.users?.length === 0) {
+  if (result?.length === 0) {
     return callback(responseHandler(false, 404, 'No users found', null), null);
   }
 
   return callback(
-    responseHandler(true, 200, 'Successfully retrieved all users', pagingData),
+    responseHandler(true, 200, 'Successfully retrieved all users', result),
   );
 };
 
