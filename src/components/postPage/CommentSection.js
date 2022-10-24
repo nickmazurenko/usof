@@ -29,7 +29,7 @@ const CommentSection = ({ post }) => {
     <div>
       <div className='flex justify-between items-center my-5 mx-2'>
         <h2 className='text-lg lg:text-2xl font-bold text-gray-900 dark:text-white'>
-          Comments ({post.commentsCount})
+          Comments ({comments.length})
         </h2>
       </div>
       <div className='mb-6'>
@@ -41,7 +41,7 @@ const CommentSection = ({ post }) => {
             id='comment'
             value={commentState}
             onChange={handleChange}
-            rows='6'
+            rows='3'
             className='px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 dark:text-white dark:placeholder-gray-400 dark:bg-gray-800'
             placeholder='Write a comment...'
             required></textarea>
