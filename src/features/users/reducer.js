@@ -31,7 +31,7 @@ const usersSlice = createSlice({
       state.user = payload;
     },
     createUser: (state, { payload }) => {
-      state.users.users = [payload, ...state.users.users];
+      state.users = [payload, ...state.users];
       state.loading = false;
       state.error = null;
     },
@@ -39,7 +39,7 @@ const usersSlice = createSlice({
       state.loading = false;
       state.error = null;
       state.users[
-        state.users.users.findIndex((user) => {
+        state.users.findIndex((user) => {
           return user.id === payload.id;
         })
       ] = payload;
@@ -50,7 +50,7 @@ const usersSlice = createSlice({
       state.loading = false;
       state.error = null;
       state.users[
-        state.users.users.findIndex((user) => {
+        state.users.findIndex((user) => {
           return user.id === payload.id;
         })
       ].profilePicture = payload.profilePicture;
@@ -63,7 +63,7 @@ const usersSlice = createSlice({
     deleteUser: (state, { payload }) => {
       state.loading = false;
       state.error = null;
-      state.users.users.filter((user) => {
+      state.users.filter((user) => {
         return user.id !== payload.id;
       });
     },

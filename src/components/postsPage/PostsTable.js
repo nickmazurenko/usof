@@ -2,28 +2,22 @@
 import { Dropdown, Pagination } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import {
-  HiArrowNarrowUp,
+  HiChat,
   HiDocumentText,
-  HiDownload,
   HiEye,
   HiSearch,
   HiSortAscending,
   HiSortDescending,
-  HiThumbUp,
   HiUser,
 } from 'react-icons/hi';
-import UserCard from './UserCard';
+import PostCard from './PostCard';
 
-const itemsCount = 10;
+const itemsCount = 5;
 
-const UsersTable = ({ users }) => {
+const PostsTable = ({ posts }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [sort, setSort] = useState({ param: 'rating', ascending: false });
-  const [allUsers, setAllUsers] = useState(
-    [...users].sort((a, b) => {
-      return b.rating - a.rating;
-    })
-  );
+  const [sort, setSort] = useState({ param: 'likesCount', ascending: false });
+  const [allPosts, setAllPosts] = useState(posts);
 
   const sortBy = (param) => {
     // eslint-disable-next-line prefer-const
@@ -32,16 +26,16 @@ const UsersTable = ({ users }) => {
       ascending: sort.param === param ? !sort.ascending : false,
     };
     setSort(newSort);
-    const sorted = [...allUsers].sort((a, b) => {
+    const sorted = [...allPosts].sort((a, b) => {
       return newSort.ascending
         ? a[newSort.param] - b[newSort.param]
         : b[newSort.param] - a[newSort.param];
     });
-    setAllUsers(sorted);
+    setAllPosts(sorted);
   };
 
   const [currentUsers, setCurrentUsers] = useState(
-    allUsers.slice(
+    allPosts.slice(
       (currentPage - 1) * itemsCount,
       (currentPage - 1) * itemsCount + itemsCount
     )
@@ -49,11 +43,11 @@ const UsersTable = ({ users }) => {
 
   const startSearch = (search) => {
     setCurrentUsers(
-      allUsers.filter((user) => {
+      allPosts.filter((post) => {
         return (
-          user.fullName.toLowerCase().includes(search.toLowerCase()) ||
-          user.email.toLowerCase().includes(search.toLowerCase()) ||
-          user.login.toLowerCase().includes(search.toLowerCase())
+          post.title.toLowerCase().includes(search.toLowerCase()) ||
+          post.content.toLowerCase().includes(search.toLowerCase()) ||
+          post.login.toLowerCase().includes(search.toLowerCase())
         );
       })
     );
@@ -62,7 +56,7 @@ const UsersTable = ({ users }) => {
   const loadUsers = (page) => {
     setCurrentPage(page);
     setCurrentUsers(
-      allUsers.slice(
+      allPosts.slice(
         (page - 1) * itemsCount,
         (page - 1) * itemsCount + itemsCount
       )
@@ -71,7 +65,7 @@ const UsersTable = ({ users }) => {
 
   useEffect(() => {
     loadUsers(currentPage);
-  }, [allUsers]);
+  }, [allPosts]);
 
   return (
     <>
@@ -93,10 +87,10 @@ const UsersTable = ({ users }) => {
             }>
             <Dropdown.Item
               onClick={() => {
-                sortBy('rating');
+                sortBy('commentsCount');
               }}
-              icon={HiThumbUp}>
-              <span className='text-white'>Rating</span>
+              icon={HiChat}>
+              Comments
             </Dropdown.Item>
             <Dropdown.Item
               onClick={() => {
@@ -107,17 +101,17 @@ const UsersTable = ({ users }) => {
             </Dropdown.Item>
             <Dropdown.Item
               onClick={() => {
-                sortBy('postsCount');
+                sortBy('date');
               }}
               icon={HiDocumentText}>
-              Post Count
+              Date
             </Dropdown.Item>
             <Dropdown.Item
               onClick={() => {
-                sortBy('role');
+                sortBy('likesCount');
               }}
               icon={HiUser}>
-              Admins
+              Likes
             </Dropdown.Item>
           </Dropdown>
           <label htmlFor='table-search' className='sr-only'>
@@ -133,27 +127,27 @@ const UsersTable = ({ users }) => {
                 if (e.target.value.length) startSearch(e.target.value);
                 else {
                   setCurrentUsers(
-                    allUsers.slice(
+                    allPosts.slice(
                       (currentPage - 1) * itemsCount,
                       (currentPage - 1) * itemsCount + itemsCount
                     )
                   );
                 }
               }}
-              id='table-search-users'
+              id='table-search-posts'
               className='block p-2 pl-10 w-60 text-sm rounded-lg border bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500'
-              placeholder='Search for users'
+              placeholder='Search for posts'
             />
           </div>
         </div>
-        <div className='flex items-center flex-wrap'>
+        <div className='flex mx-5 items-center flex-wrap'>
           {currentUsers.length ? (
-            currentUsers.map((user) => {
-              return <UserCard key={user.id} user={user} />;
+            currentUsers.map((post) => {
+              return <PostCard key={post.id} post={post} />;
             })
           ) : (
             <div className='flex h-full items-center py-10 px-5 font-medium whitespace-nowrap text-gray-300'>
-              <p className='text-4xl text-center'>No such users</p>
+              <p className='text-4xl text-center'>No such posts</p>
             </div>
           )}
         </div>
@@ -161,7 +155,7 @@ const UsersTable = ({ users }) => {
       <div className='flex items-center justify-center py-10 sm:px-6 lg:px-8'>
         <Pagination
           currentPage={currentPage}
-          totalPages={Math.ceil(allUsers.length / itemsCount)}
+          totalPages={Math.ceil(allPosts.length / itemsCount)}
           onPageChange={loadUsers}
         />
       </div>
@@ -169,4 +163,4 @@ const UsersTable = ({ users }) => {
   );
 };
 
-export default UsersTable;
+export default PostsTable;

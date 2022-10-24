@@ -6,7 +6,6 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Navigate,
 } from 'react-router-dom';
 import LoginPage from './pages/Login';
 import RegisterPage from './pages/Register';
@@ -16,6 +15,7 @@ import Header from './components/Header';
 import UsersPage from './pages/Users';
 import { setAuthToken } from './features/auth/actions';
 import UserPage from './pages/User';
+import PostsPage from './pages/Posts';
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -43,6 +43,8 @@ const App = () => {
               <Route path='/register' element={<RegisterPage />} />
               <Route path='/profile' element={<ProfilePage />} />
               <Route path='/users' element={<UsersPage />} />
+              <Route path='/posts' element={<PostsPage />} />
+              <Route path='/posts/:categoryId' element={<PostsPage />} />
               {/* <Route path='*' element={<Navigate to='/' replace />} /> */}
             </Routes>
           </Router>

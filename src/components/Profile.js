@@ -8,7 +8,8 @@ import {
   HiUser,
   HiViewGrid,
 } from 'react-icons/hi';
-import PostCard from './PostComponent/PostCard';
+import CardLoader from './CardLoader';
+import PostCard from './postsPage/PostCard';
 
 /* eslint-disable object-curly-newline */
 const getDate = (date) => {
@@ -29,6 +30,7 @@ const Profile = ({ user }) => {
     postsCount,
     commentsCount,
     categoriesCount,
+    recentPosts,
   } = user;
   return (
     <div className='grid grid-cols-1 lg:grid-cols-2 lg:gap-10 px-10 py-5'>
@@ -102,13 +104,17 @@ const Profile = ({ user }) => {
           <HiMail className='m-2 h-10 inline-block' /> {email}
         </div>
       </div>
-      <div className='space-y-5'>
+      <div>
         <h1 className='w-full font-bold my-5 text-center text-3xl text-gray-200'>
           Recent Posts
         </h1>
-        <PostCard />
-        <PostCard />
-        <PostCard />
+        {recentPosts.length ? (
+          recentPosts.map((post) => {
+            return <PostCard key={post.id} post={post} />;
+          })
+        ) : (
+          <CardLoader />
+        )}
       </div>
     </div>
   );

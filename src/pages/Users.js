@@ -6,7 +6,7 @@ import UsersTable from '../components/usersPage/UsersTable';
 
 const UsersPage = () => {
   const dispatch = useDispatch();
-  const { loading, error, users, usersStatus } = useSelector((state) => {
+  const { loading, error, users } = useSelector((state) => {
     return state.users;
   });
   useEffect(() => {

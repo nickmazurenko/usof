@@ -27,7 +27,6 @@ export const getUser = (id) => {
   return async (dispatch) => {
     dispatch(_usersPending());
     try {
-      console.log('there');
       const response = await Users.userIdData(id);
       dispatch(_getUser(response.data.data));
     } catch (error) {

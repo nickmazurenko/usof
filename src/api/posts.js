@@ -8,20 +8,26 @@ const headers = {
   },
 };
 
-export const getPosts = (params = {}) =>
-  axios.get(Endpoints.posts, { params }, headers);
+export const getPosts = (params = {}) => {
+  return axios.get(Endpoints.posts, { params }, headers);
+};
 
-export const getIdPost = (id) =>
-  axios.get(Endpoints.postId.replace('{id}', id));
+export const getIdPost = (id) => {
+  return axios.get(Endpoints.postId.replace('{id}', id));
+};
 
-export const createPost = (data) =>
-  axios.post(Endpoints.createPost, data, headers);
+export const createPost = (data) => {
+  return axios.post(Endpoints.createPost, data, headers);
+};
 
-export const deletePost = (id) =>
-  axios.delete(Endpoints.deletePost.replace('{id}', id));
+export const deletePost = (id) => {
+  return axios.delete(Endpoints.deletePost.replace('{id}', id));
+};
 
-export const updatePost = (data, id) =>
-  axios.patch(Endpoints.updatePost.replace('{id}', id), data, headers);
+export const updatePost = (data, id) => {
+  return axios.patch(Endpoints.updatePost.replace('{id}', id), data, headers);
+};
 
-export const getCategoryPosts = (id) =>
-  axios.patch(Endpoints.getCategoryPosts.replace('{id}', id));
+export const getCategoryPosts = (id) => {
+  return axios.get(Endpoints.getCategoryPosts.replace('{id}', id));
+};

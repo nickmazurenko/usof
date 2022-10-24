@@ -8,6 +8,9 @@ const ProfilePage = () => {
   const { user, loading } = useSelector((state) => {
     return state.auth;
   });
+  const { posts } = useSelector((state) => {
+    return state.posts;
+  });
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(loadCurrentUser());
@@ -15,7 +18,17 @@ const ProfilePage = () => {
   return loading ? (
     <CardLoader />
   ) : (
-    <ProfileComponent user={user} loading={loading} />
+    <ProfileComponent
+      user={{
+        ...user,
+        recentPosts: posts
+          .filter((post) => {
+            return post.userId === user.id;
+          })
+          .slice(0, 3),
+      }}
+      loading={loading}
+    />
   );
 };
 

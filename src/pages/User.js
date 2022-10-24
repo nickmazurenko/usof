@@ -4,20 +4,35 @@ import { useLocation } from 'react-router-dom';
 import ProfileComponent from '../components/Profile';
 import CardLoader from '../components/CardLoader';
 import { getUser } from '../features/users/actions';
+import { getPosts } from '../features/posts/actions';
 
 const UserPage = (props) => {
   const dispatch = useDispatch();
   const { state } = useLocation();
   useEffect(() => {
     dispatch(getUser(state.id));
+    dispatch(getPosts());
   }, [dispatch]);
   const { user, loading } = useSelector((storeState) => {
     return storeState.users;
   });
+  const { posts } = useSelector((storeState) => {
+    return storeState.posts;
+  });
   return loading || !user ? (
     <CardLoader />
   ) : (
-    <ProfileComponent user={user} loading={loading} />
+    <ProfileComponent
+      user={{
+        ...user,
+        recentPosts: posts
+          .filter((post) => {
+            return post.userId === user.id;
+          })
+          .slice(0, 3),
+      }}
+      loading={loading}
+    />
   );
 };
 
