@@ -6,7 +6,7 @@ import CardLoader from '../components/CardLoader';
 import { getUser } from '../features/users/actions';
 import { getPosts } from '../features/posts/actions';
 
-const UserPage = (props) => {
+const UserPage = () => {
   const dispatch = useDispatch();
   const { state } = useLocation();
   useEffect(() => {

@@ -16,6 +16,7 @@ import UsersPage from './pages/Users';
 import { setAuthToken } from './features/auth/actions';
 import UserPage from './pages/User';
 import PostsPage from './pages/Posts';
+import Post from './pages/Post';
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -44,6 +45,7 @@ const App = () => {
               <Route path='/profile' element={<ProfilePage />} />
               <Route path='/users' element={<UsersPage />} />
               <Route path='/posts' element={<PostsPage />} />
+              <Route path='/post/:postId' element={<Post />} />
               <Route path='/posts/:categoryId' element={<PostsPage />} />
               <Route path='/posts/users/:userId' element={<PostsPage />} />
               {/* <Route path='*' element={<Navigate to='/' replace />} /> */}

@@ -15,7 +15,6 @@ const PostsPage = () => {
 
   const { loading, error, posts, categoryPosts, userPosts } = useSelector(
     (storeState) => {
-      console.log(storeState);
       return storeState.posts;
     }
   );

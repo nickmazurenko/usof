@@ -18,6 +18,12 @@ const PostsTable = ({ posts }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [sort, setSort] = useState({ param: 'likesCount', ascending: false });
   const [allPosts, setAllPosts] = useState(posts);
+  const [currentPosts, setCurrentPosts] = useState(
+    allPosts.slice(
+      (currentPage - 1) * itemsCount,
+      (currentPage - 1) * itemsCount + itemsCount
+    )
+  );
 
   const sortBy = (param) => {
     // eslint-disable-next-line prefer-const
@@ -36,19 +42,11 @@ const PostsTable = ({ posts }) => {
         ? a[newSort.param] - b[newSort.param]
         : b[newSort.param] - a[newSort.param];
     });
-    console.log(newSort);
     setAllPosts(sorted);
   };
 
-  const [currentUsers, setCurrentUsers] = useState(
-    allPosts.slice(
-      (currentPage - 1) * itemsCount,
-      (currentPage - 1) * itemsCount + itemsCount
-    )
-  );
-
   const startSearch = (search) => {
-    setCurrentUsers(
+    setCurrentPosts(
       allPosts.filter((post) => {
         return (
           post.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -61,7 +59,7 @@ const PostsTable = ({ posts }) => {
 
   const loadUsers = (page) => {
     setCurrentPage(page);
-    setCurrentUsers(
+    setCurrentPosts(
       allPosts.slice(
         (page - 1) * itemsCount,
         (page - 1) * itemsCount + itemsCount
@@ -132,7 +130,7 @@ const PostsTable = ({ posts }) => {
               onChange={(e) => {
                 if (e.target.value.length) startSearch(e.target.value);
                 else {
-                  setCurrentUsers(
+                  setCurrentPosts(
                     allPosts.slice(
                       (currentPage - 1) * itemsCount,
                       (currentPage - 1) * itemsCount + itemsCount
@@ -147,8 +145,8 @@ const PostsTable = ({ posts }) => {
           </div>
         </div>
         <div className='flex mx-5 items-center flex-wrap'>
-          {currentUsers.length ? (
-            currentUsers.map((post) => {
+          {currentPosts.length ? (
+            currentPosts.map((post) => {
               return <PostCard key={post.id} post={post} />;
             })
           ) : (

@@ -6,6 +6,7 @@ import { combineReducers } from 'redux';
 import usersReducer from './features/users/reducer';
 import authReducer from './features/auth/reducer';
 import postsReducer from './features/posts/reducer';
+import commentsReducer from './features/comments/reducer';
 
 const persistConfig = {
   key: 'root',
@@ -21,6 +22,7 @@ const authPersistsConfig = {
 const rootReducer = combineReducers({
   users: usersReducer,
   posts: postsReducer,
+  comments: commentsReducer,
   auth: persistReducer(authPersistsConfig, authReducer),
 });
 

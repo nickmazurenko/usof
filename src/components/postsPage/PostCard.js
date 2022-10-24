@@ -1,6 +1,10 @@
 import { Button } from 'flowbite-react';
-import { HiEye, HiOutlineChat, HiOutlineThumbDown, HiOutlineThumbUp } from 'react-icons/hi';
-import { useNavigate } from 'react-router-dom';
+import {
+  HiEye,
+  HiOutlineChat,
+  HiOutlineThumbDown,
+  HiOutlineThumbUp,
+} from 'react-icons/hi';
 import moment from 'moment';
 import CardLoader from '../CardLoader';
 import Category from './Category';
@@ -10,17 +14,12 @@ const cutContent = (content) => {
 };
 
 const PostCard = ({ post }) => {
-  const navigate = useNavigate();
-  const routeChange = (path, params) => {
-    navigate(path, { state: params });
-  };
-
   return (
     <>
       {post ? (
         <div className='w-full flex items-center mt-5 bg-amber-200 rounded-xl'>
           <div className='w-full rounded-xl border p-5 '>
-            <div className='flex w-full items-center justify-between border-b pb-3'>
+            <div className='flex w-full items-center flex-wrap justify-between border-b pb-3'>
               <div
                 onClick={() => {
                   routeChange('/user', { id: post.userId });
@@ -57,7 +56,7 @@ const PostCard = ({ post }) => {
             </div>
 
             <div>
-              <div className='flex items-center justify-between text-gray-600 font-bold text-lg'>
+              <div className='flex flex-wrap items-center justify-between text-gray-600 font-bold text-lg'>
                 <div className='flex space-x-4 md:space-x-8'>
                   <div className='flex cursor-pointer items-center transition hover:text-slate-600'>
                     <HiOutlineChat size={25} />
@@ -76,13 +75,10 @@ const PostCard = ({ post }) => {
                     <span className='ml-2'>{post.views}</span>
                   </div>
                 </div>
-                <div className=' flex items-center space-x-2text-xs flex-none text-neutral-500'>
-                  <Button
-                    onClick={() => {
-                      routeChange('/post', { id: post.id });
-                    }}>
-                    See full...
-                  </Button>
+                <div className=' flex items-center text-xs flex-none text-neutral-500'>
+                  <a href={`/post/${post.id}`}>
+                    <Button>See full...</Button>
+                  </a>
                 </div>
               </div>
             </div>
