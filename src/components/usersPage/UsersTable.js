@@ -1,18 +1,45 @@
 /* eslint-disable operator-linebreak */
 import { Dropdown, Pagination } from 'flowbite-react';
 import { useEffect, useState } from 'react';
-import { HiDocumentText, HiEye, HiThumbUp, HiUser } from 'react-icons/hi';
+import {
+  HiArrowNarrowUp,
+  HiDocumentText,
+  HiDownload,
+  HiEye,
+  HiSortAscending,
+  HiSortDescending,
+  HiThumbUp,
+  HiUser,
+} from 'react-icons/hi';
 import UserCard from './UserCard';
 
 const itemsCount = 10;
 
 const UsersTable = ({ users }) => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [sort, setSort] = useState({ param: 'rating', ascending: false });
   const [allUsers, setAllUsers] = useState(
     [...users].sort((a, b) => {
       return b.rating - a.rating;
     })
   );
+
+  const sortBy = (param) => {
+    // eslint-disable-next-line prefer-const
+    const newSort = {
+      param,
+      ascending: sort.param === param ? !sort.ascending : false,
+    };
+    setSort(newSort);
+    const sorted = [...allUsers].sort((a, b) => {
+      return newSort.ascending
+        ? a[newSort.param] - b[newSort.param]
+        : b[newSort.param] - a[newSort.param];
+    });
+    console.log(newSort);
+    setAllUsers(sorted);
+  };
+
   const [currentUsers, setCurrentUsers] = useState(
     allUsers.slice(
       (currentPage - 1) * itemsCount,
@@ -42,14 +69,6 @@ const UsersTable = ({ users }) => {
     );
   };
 
-  const sortBy = (value) => {
-    // eslint-disable-next-line prefer-const
-    const sorted = [...allUsers].sort((a, b) => {
-      return b[value] - a[value];
-    });
-    setAllUsers(sorted);
-  };
-
   useEffect(() => {
     loadUsers(currentPage);
   }, [allUsers]);
@@ -58,13 +77,26 @@ const UsersTable = ({ users }) => {
     <>
       <div className='h-full w-full'>
         <div className='flex justify-between items-center p-4 border-5 border-white rounded-b-lg bg-gray-900'>
-          <Dropdown label='Sort'>
+          <Dropdown
+            arrowIcon={false}
+            label={
+              <>
+                <span className='mr-4'>
+                  {sort.param.charAt(0).toUpperCase() + sort.param.slice(1)}
+                </span>
+                {sort.ascending ? (
+                  <HiSortAscending size={25} />
+                ) : (
+                  <HiSortDescending size={25} />
+                )}
+              </>
+            }>
             <Dropdown.Item
               onClick={() => {
                 sortBy('rating');
               }}
               icon={HiThumbUp}>
-              <span className='text-white font-bold'>Rating</span>
+              <span className='text-white'>Rating</span>
             </Dropdown.Item>
             <Dropdown.Item
               onClick={() => {
