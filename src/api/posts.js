@@ -8,8 +8,8 @@ const headers = {
   },
 };
 
-export const getPosts = (params = {}) => {
-  return axios.get(Endpoints.posts, { params }, headers);
+export const getPosts = (id) => {
+  return axios.get(Endpoints.posts, { params: { id } }, headers);
 };
 
 export const getIdPost = (id) => {

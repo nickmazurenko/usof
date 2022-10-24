@@ -47,23 +47,25 @@ const Profile = ({ user }) => {
         <h3 className='w-full font-bold my-2 text-center text-1xl text-gray-300'>
           {login}
         </h3>
-        <div className='flex mt-4 text-2xl md:text-3xl'>
-          <div
-            title='Rating'
-            className='text-center w-1/3 p-4 mt-2 mr-2  bg-amber-200  rounded-xl border-2 cursor-pointer text-gray-800 font-bold'>
-            {rating} <HiThumbUp className='m-2 h-10 inline-block' />
+        <a href={`/posts/users/${user.id}`}>
+          <div className='flex mt-4 text-2xl md:text-3xl'>
+            <div
+              title='Rating'
+              className='text-center w-1/3 p-4 mt-2 mr-2  bg-amber-200  rounded-xl border-2 cursor-pointer text-gray-800 font-bold'>
+              {rating} <HiThumbUp className='m-2 h-10 inline-block' />
+            </div>
+            <div
+              title='Posts Count'
+              className='text-center w-1/3 p-4 mt-2 mr-2  bg-amber-200  rounded-xl border-2 cursor-pointer text-gray-800 font-bold'>
+              {postsCount} <HiDocumentText className='m-2 h-10 inline-block' />
+            </div>
+            <div
+              title='Views'
+              className='text-center w-1/3 p-4 mt-2 bg-amber-200  rounded-xl border-2 cursor-pointer text-gray-800 font-bold'>
+              {views} <HiEye className='m-2 h-10 inline-block' />
+            </div>
           </div>
-          <div
-            title='Posts Count'
-            className='text-center w-1/3 p-4 mt-2 mr-2  bg-amber-200  rounded-xl border-2 cursor-pointer text-gray-800 font-bold'>
-            {postsCount} <HiDocumentText className='m-2 h-10 inline-block' />
-          </div>
-          <div
-            title='Views'
-            className='text-center w-1/3 p-4 mt-2 bg-amber-200  rounded-xl border-2 cursor-pointer text-gray-800 font-bold'>
-            {views} <HiEye className='m-2 h-10 inline-block' />
-          </div>
-        </div>
+        </a>
         <div className='flex text-3xl'>
           <div
             title='Comments Count'
@@ -106,7 +108,7 @@ const Profile = ({ user }) => {
       </div>
       <div>
         <h1 className='w-full font-bold my-5 text-center text-3xl text-gray-200'>
-          Recent Posts
+          Top Posts
         </h1>
         {recentPosts.length ? (
           recentPosts.map((post) => {

@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import ProfileComponent from '../components/Profile';
 import CardLoader from '../components/CardLoader';
 import { loadCurrentUser } from '../features/auth/actions';
+import { getPosts } from '../features/posts/actions';
 
 const ProfilePage = () => {
   const { user, loading } = useSelector((state) => {
@@ -13,6 +14,7 @@ const ProfilePage = () => {
   });
   const dispatch = useDispatch();
   useEffect(() => {
+    dispatch(getPosts());
     dispatch(loadCurrentUser());
   }, [dispatch]);
   return loading ? (

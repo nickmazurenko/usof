@@ -1,7 +1,11 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { getCategoryPosts, getPosts } from '../features/posts/actions';
+import {
+  getCategoryPosts,
+  getPosts,
+  getUserPosts,
+} from '../features/posts/actions';
 import CardLoader from '../components/CardLoader';
 import PostsTable from '../components/postsPage/PostsTable';
 
@@ -9,13 +13,18 @@ const PostsPage = () => {
   const dispatch = useDispatch();
   const params = useParams();
 
-  const { loading, error, posts, categoryPosts } = useSelector((storeState) => {
-    return storeState.posts;
-  });
+  const { loading, error, posts, categoryPosts, userPosts } = useSelector(
+    (storeState) => {
+      console.log(storeState);
+      return storeState.posts;
+    }
+  );
   useEffect(() => {
-    console.log(params);
     if (params.categoryId) {
       dispatch(getCategoryPosts(params.categoryId));
+    }
+    if (params.userId) {
+      dispatch(getUserPosts(params.userId));
     }
     dispatch(getPosts());
   }, [dispatch]);
@@ -26,7 +35,11 @@ const PostsPage = () => {
       ) : (
         <div>
           <PostsTable
-            posts={params.categoryId ? categoryPosts : posts}
+            posts={() => {
+              if (params.categoryId) return categoryPosts;
+              if (params.userId) return userPosts;
+              return posts;
+            }}
             loading={loading}
           />
         </div>

@@ -4,6 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   posts: [],
   categoryPosts: [],
+  userPosts: [],
   post: null,
   loading: false,
   error: null,
@@ -25,6 +26,11 @@ const postsSlice = createSlice({
       state.loading = false;
       state.error = null;
       state.posts = payload;
+    },
+    getUserPosts: (state, { payload }) => {
+      state.loading = false;
+      state.error = null;
+      state.userPosts = payload;
     },
     getCategoryPosts: (state, { payload }) => {
       state.loading = false;
@@ -70,7 +76,8 @@ export const {
   updatePost,
   createPost,
   deletePost,
-  getCategoryPosts
+  getCategoryPosts,
+  getUserPosts,
 } = postsSlice.actions;
 
 export default postsSlice.reducer;

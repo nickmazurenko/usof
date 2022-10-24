@@ -1,7 +1,7 @@
 import { Button } from 'flowbite-react';
-import { HiEye, HiOutlineChat, HiOutlineThumbUp } from 'react-icons/hi';
+import { HiEye, HiOutlineChat, HiOutlineThumbDown, HiOutlineThumbUp } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
-import { posts } from '../../api/endpoints';
+import moment from 'moment';
 import CardLoader from '../CardLoader';
 import Category from './Category';
 
@@ -44,7 +44,7 @@ const PostCard = ({ post }) => {
                   </div>
                 ) : null}
                 <div className='text-xs flex-none text-neutral-500'>
-                  2 hours ago
+                  {moment(post.createdAt).fromNow()}
                 </div>
               </div>
             </div>
@@ -66,6 +66,10 @@ const PostCard = ({ post }) => {
                   <div className='flex cursor-pointer items-center transition hover:text-slate-600'>
                     <HiOutlineThumbUp size={25} />
                     <span className='ml-2'>{post.likesCount}</span>
+                  </div>
+                  <div className='flex cursor-pointer items-center transition hover:text-slate-600'>
+                    <HiOutlineThumbDown size={25} />
+                    <span className='ml-2'>{post.dislikesCount}</span>
                   </div>
                   <div className='flex cursor-pointer items-center transition hover:text-slate-600'>
                     <HiEye size={25} />

@@ -45,6 +45,7 @@ const App = () => {
               <Route path='/users' element={<UsersPage />} />
               <Route path='/posts' element={<PostsPage />} />
               <Route path='/posts/:categoryId' element={<PostsPage />} />
+              <Route path='/posts/users/:userId' element={<PostsPage />} />
               {/* <Route path='*' element={<Navigate to='/' replace />} /> */}
             </Routes>
           </Router>

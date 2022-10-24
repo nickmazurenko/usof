@@ -8,6 +8,7 @@ import {
   createPost as _createPost,
   updatePost as _updatePost,
   getCategoryPosts as _getCategoryPosts,
+  getUserPosts as _getUserPosts,
 } from './reducer';
 
 export const getPosts = (page) => {
@@ -16,6 +17,18 @@ export const getPosts = (page) => {
     try {
       const response = await Posts.getPosts(page);
       dispatch(_getPosts(response.data.data));
+    } catch (error) {
+      dispatch(postsError(error));
+    }
+  };
+};
+
+export const getUserPosts = (id) => {
+  return async (dispatch) => {
+    dispatch(postsPending());
+    try {
+      const response = await Posts.getPosts(id);
+      dispatch(_getUserPosts(response.data.data));
     } catch (error) {
       dispatch(postsError(error));
     }
