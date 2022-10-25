@@ -108,7 +108,7 @@ const sendPasswordReset = async (email, callback) => {
           null,
         );
       }
-      const link = '/api/auth/password-reset/';
+      const link = '/password-reset/';
       const subject = 'password reset';
       sendEmail(dbUser.email, subject, {
         link,
@@ -135,7 +135,7 @@ const sendEmailVerification = async ({ email }, callback) => {
   const dbUser = await UsersModel.retrieveOne({ email });
   if (dbUser === null) {
     callback(
-      handlers.responseHandler(false, 404, 'No user with such login', null),
+      handlers.responseHandler(false, 404, 'No user with such email', null),
       null,
     );
     return null;
@@ -239,7 +239,7 @@ const login = async (user, callback) => {
 
   if (!dbUser) {
     callback(
-      handlers.responseHandler(false, 404, 'No user with such login', null),
+      handlers.responseHandler(false, 404, 'No user with such email', null),
       null,
     );
     return null;

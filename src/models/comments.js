@@ -50,13 +50,6 @@ const retrieveAll = async (id, callback) => {
     'login',
     'profilePicture',
   ));
-  if (comments.length === 0) {
-    console.log('No comments were found');
-    return callback(
-      handlers.responseHandler(false, 404, 'No comments were found', null),
-      null,
-    );
-  }
 
   return comments;
 };

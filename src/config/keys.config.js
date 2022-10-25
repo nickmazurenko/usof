@@ -41,6 +41,7 @@ const config = {
     LINK: getEnvironmentVar('LINK'),
     PORT: getEnvironmentVar('PORT'),
   },
+  CLIENT_URL: getEnvironmentVar('CLIENT_URL'),
   LIMIT: getEnvironmentVar('POSTS_LIMIT'),
 };
 

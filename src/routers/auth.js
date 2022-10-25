@@ -58,9 +58,7 @@ router.route('/confirm-email/:token').get(authController.verifyEmail);
 router
   .route('/login')
   .post(
-    [
-      check('password', 'Password can not be empty').not().isEmpty(),
-    ],
+    [check('password', 'Password can not be empty').not().isEmpty()],
     authController.login,
   );
 
@@ -95,11 +93,17 @@ router
  *  @route    POST /api/auth/password-reset/:token
  *  @desc     confirm new password with a token from email, required parameter is a [new password]
  */
-router
-  .route('/password-reset/:token')
-  .post(
-    check('password', 'Password can not be empty').not().isEmpty(),
-    authController.resetPassword,
-  );
+router.route('/password-reset/:token').post(
+  check('password', 'Password can not be empty').exists().isLength({ min: 6 }),
+  check('confirmPassword', 'Passwords are not the same')
+    .exists()
+    .custom(async (confirmPassword, { req }) => {
+      const { password } = req.body;
+      if (password !== confirmPassword) {
+        throw new Error('Passwords are not the same');
+      }
+    }),
+  authController.resetPassword,
+);
 
 module.exports = router;

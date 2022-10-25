@@ -9,6 +9,7 @@ const config = require('../config/keys.config');
  */
 const sendEmail = async (email, subject, { link, token }) => {
   try {
+    const fullLink = subject === 'password reset' ? `${config.CLIENT_URL + link + token}` : `${config.EMAIL.LINK}${link}${token}`;
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -23,7 +24,7 @@ const sendEmail = async (email, subject, { link, token }) => {
       html: `
 				<p>
 					Hi there!<br> Please click on the link for ${subject}.<br>
-					<a href="${config.EMAIL.LINK}${link}${token}">Click me!</a>
+					<a href="${fullLink}">Click me!</a>
 				</p>
 				`,
     });
