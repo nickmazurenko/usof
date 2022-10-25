@@ -19,7 +19,6 @@ const commentsSlice = createSlice({
     commentsError: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
-      state.comments = [];
       toast.error(payload.message, {
         autoClose: 5000,
         closeOnClick: true,
