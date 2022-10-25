@@ -68,7 +68,7 @@ const getCategoryPosts = async (params, callback) => {
       };
     }),
   );
-  const postsWithInfo = dbPosts.posts.map((post) => ({
+  const postsWithInfo = dbPosts.map((post) => ({
     ...postsInfo.find((info) => info && info.id === post.id),
     ...post,
   }));

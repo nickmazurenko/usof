@@ -21,6 +21,7 @@ const retrieveAll = async (id, callback) => {
       'content',
       'createdAt',
       [sequelize.literal('user.login'), 'login'],
+      [sequelize.literal('user.profile_picture'), 'profilePicture'],
     ],
     include: {
       model: Users,
@@ -47,6 +48,7 @@ const retrieveAll = async (id, callback) => {
     'content',
     'createdAt',
     'login',
+    'profilePicture',
   ));
   if (comments.length === 0) {
     console.log('No comments were found');
@@ -71,7 +73,7 @@ const retrieveOne = async (id) => {
       'postId',
       [sequelize.literal('user.profile_picture'), 'profilePicture'],
       [sequelize.literal('user.login'), 'login'],
-      ['content', 'commentContent'],
+      ['content', 'content'],
       'createdAt',
       'updatedAt',
     ],
@@ -98,7 +100,7 @@ const retrieveOne = async (id) => {
     'userId',
     'profilePicture',
     'login',
-    'commentContent',
+    'content',
     'createdAt',
     'updatedAt',
   );

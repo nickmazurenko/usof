@@ -9,9 +9,9 @@ const likesModel = require('../models/likes');
 const commentsModel = require('../models/comments');
 
 const retrieveAll = async (params, callback) => {
-  const pagingData = await postsModel.retrieveAll(params);
+  const posts = await postsModel.retrieveAll(params);
   const postsRawInfo = await postsModel.countAll();
-  if (!pagingData.posts[0].id) {
+  if (!posts[0].id) {
     return callback(
       handlers.responseHandler(false, 404, 'No posts were found', null),
       null,
@@ -40,18 +40,18 @@ const retrieveAll = async (params, callback) => {
       };
     }),
   );
-  const postsWithInfo = pagingData.posts.map((post) => ({
+  const postsWithInfo = posts.map((post) => ({
     ...post,
     ...postsInfo.find((info) => info && info.id === post.id),
   }));
   return callback(
     null,
-    handlers.responseHandler(true, 200, 'All posts successfully retrieved', {
-      totalItems: pagingData.totalItems,
-      totalPages: pagingData.totalPages,
-      currentPage: pagingData.currentPage,
-      posts: postsWithInfo,
-    }),
+    handlers.responseHandler(
+      true,
+      200,
+      'All posts successfully retrieved',
+      postsWithInfo,
+    ),
   );
 };
 
@@ -161,7 +161,7 @@ const create = async (post, callback) => {
     }
 
     await postCategoriesModel.createMultiple(allCategories);
-    const responsePost = await retrieveOne(dbPost.id);
+    const responsePost = await retrieveOne(dbPost.id, callback);
     callback(
       null,
       handlers.responseHandler(

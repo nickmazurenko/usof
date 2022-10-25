@@ -1,11 +1,5 @@
 const sequelize = require('sequelize');
-const {
-  Users,
-  Posts,
-  Comments,
-  Categories,
-  Likes,
-} = require('../tables');
+const { Users, Posts, Comments, Categories, Likes } = require('../tables');
 const handlers = require('../helpers/handlers');
 const { dbResponse } = require('../helpers/db');
 const { getPagingData, getPagination } = require('../helpers/pagination');
@@ -36,19 +30,20 @@ const PostFull = (rawData, userRole, isOwner) => ({
   ...(rawData.status && userRole === 'admin' ? { status: rawData.status } : {}),
 });
 
-const countComments = async (id) => await Posts.count({
-  where: {
-    id,
-  },
-  include: {
-    model: Comments,
-    required: false,
-    attributes: [],
-  },
-}).catch((error) => {
-  console.log(error);
-  throw new Error(error);
-});
+const countComments = async (id) =>
+  await Posts.count({
+    where: {
+      id,
+    },
+    include: {
+      model: Comments,
+      required: false,
+      attributes: [],
+    },
+  }).catch((error) => {
+    console.log(error);
+    throw new Error(error);
+  });
 
 /**
  * @desc Counts categories and comments
@@ -155,28 +150,25 @@ const retrieveOne = async (id) => {
  * @param {String} categoryTitle [optional] category name to filter posts
  * @returns
  */
-const retrieveAll = async ({ user, sort, page }, categoryTitle = '') => {
+const retrieveAll = async ({ user, sort, id }, categoryTitle = '') => {
   const where = {
+    ...(id ? { userId: id } : {}),
     ...(categoryTitle === ''
       ? {}
       : { '$categories.category_title$': categoryTitle }),
     ...(user
       ? {
-        [sequelize.Op.or]: [
-          { status: 'active' },
-          {
-            status: 'inactive',
-            ...(user.role === 'user' ? { user_id: user.id } : {}),
-          },
-        ],
-			  }
+          [sequelize.Op.or]: [
+            { status: 'active' },
+            {
+              status: 'inactive',
+              ...(user.role === 'user' ? { user_id: user.id } : {}),
+            },
+          ],
+        }
       : { status: 'active' }),
   };
-  const { limit, offset } = getPagination(page);
-  const postsRaw = await Posts.findAndCountAll({
-    limit,
-    offset,
-    subQuery: false,
+  const postsRaw = await Posts.findAll({
     where,
     attributes: [
       'id',
@@ -215,32 +207,32 @@ const retrieveAll = async ({ user, sort, page }, categoryTitle = '') => {
         attributes: [],
       },
     ],
-    group: ['posts.id'],
     order: [[sort || 'like_count', 'DESC']],
   }).catch((error) => {
     console.log(error);
     throw new Error('An error occurred during posts retrieval');
   });
-  const pagingData = getPagingData(postsRaw, page);
-  pagingData.posts = pagingData.posts.map((post) => dbResponse(
-    post,
-    'id',
-    'userId',
-    'profilePicture',
-    'login',
-    'title',
-    'postContent',
-    'createdAt',
-    'updatedAt',
-    'views',
-    'categories',
-    'status',
-  ));
-  if (pagingData.posts.length === 0) {
+  const result = postsRaw.map((post) =>
+    dbResponse(
+      post,
+      'id',
+      'userId',
+      'profilePicture',
+      'login',
+      'title',
+      'content',
+      'createdAt',
+      'updatedAt',
+      'views',
+      'categories',
+      'status',
+    ),
+  );
+  if (result.length === 0) {
     throw new Error('No posts were found');
   }
 
-  return pagingData;
+  return result;
 };
 
 /**
@@ -249,6 +241,7 @@ const retrieveAll = async ({ user, sort, page }, categoryTitle = '') => {
  */
 const addViewsId = async (id) => {
   await Posts.increment('views', {
+    silent: true,
     by: 1,
     where: { id },
   }).catch((error) => {
@@ -263,23 +256,24 @@ const addViewsId = async (id) => {
  * @param {Function} callback
  * @returns created post
  */
-const create = async (post, callback) => await Posts.create({
-  title: post.title,
-  user_id: post.userId,
-  content: post.content,
-}).catch((error) => {
-  console.log(error);
-  callback(
-    handlers.responseHandler(
-      false,
-      500,
-      'An error occurred during post creation',
+const create = async (post, callback) =>
+  await Posts.create({
+    title: post.title,
+    user_id: post.userId,
+    content: post.content,
+  }).catch((error) => {
+    console.log(error);
+    callback(
+      handlers.responseHandler(
+        false,
+        500,
+        'An error occurred during post creation',
+        null,
+      ),
       null,
-    ),
-    null,
-  );
-  return null;
-});
+    );
+    return null;
+  });
 
 /**
  * @desc updating post under given id
@@ -287,23 +281,24 @@ const create = async (post, callback) => await Posts.create({
  * @param {Object} newData post data
  * @param {Function} callback
  */
-const update = async (id, newData, callback) => await Posts.update(newData, {
-  where: { id },
-  returning: true,
-  plain: true,
-}).catch((error) => {
-  console.log(error);
-  callback(
-    handlers.responseHandler(
-      false,
-      500,
-      'An error occurred during post update',
+const update = async (id, newData, callback) =>
+  await Posts.update(newData, {
+    where: { id },
+    returning: true,
+    plain: true,
+  }).catch((error) => {
+    console.log(error);
+    callback(
+      handlers.responseHandler(
+        false,
+        500,
+        'An error occurred during post update',
+        null,
+      ),
       null,
-    ),
-    null,
-  );
-  return null;
-});
+    );
+    return null;
+  });
 
 /**
  * @desc Removing post under given id
