@@ -1,4 +1,3 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import {
   register as _register,
@@ -70,7 +69,6 @@ export const register = (user) => {
     dispatch(authPending());
     try {
       const response = await Auth.registerUser(user);
-      loadCurrentUser();
       dispatch(_register(response.data.data));
     } catch (error) {
       dispatch(authError(error));

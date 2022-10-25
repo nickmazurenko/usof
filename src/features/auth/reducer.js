@@ -3,10 +3,10 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   loading: false,
   resetPasswordLoading: true,
-  token: localStorage.getItem('x-auth-token'),
   user: {},
   isAuthenticated: false,
   error: null,
+  registerSuccess: false
 };
 
 const authSlice = createSlice({
@@ -25,16 +25,18 @@ const authSlice = createSlice({
       state.error = payload;
       state.isAuthenticated = false;
       state.user = null;
+      state.registerSuccess = false;
     },
     register: (state, { payload }) => {
       state.loading = false;
       state.error = null;
+      state.registerSuccess = true;
     },
     login: (state, { payload }) => {
       localStorage.setItem('token', payload);
       state.loading = false;
-      state.error = null;
       state.user = payload;
+      state.error = null;
       state.isAuthenticated = true;
     },
     logout: (state) => {

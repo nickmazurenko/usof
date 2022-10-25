@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { HiBadgeCheck } from 'react-icons/hi';
 import { registerFields } from '../../constants/formFields';
 import FormAction from './FormAction';
 import Input from './Input';
@@ -15,11 +17,14 @@ fields.forEach((field) => {
 });
 
 const Register = () => {
-  const { loading } = useSelector((state) => {
-    return state.auth;
-  });
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [registerState, setRegisterState] = useState(fieldsState);
+  const [success, setSuccess] = useState(false);
+
+  const { loading, error, registerSuccess } = useSelector((state) => {
+    return state.auth;
+  });
 
   const handleChange = (e) => {
     return setRegisterState({
@@ -32,6 +37,17 @@ const Register = () => {
     dispatch(registerUser(registerState));
   };
 
+  useEffect(() => {
+    if (registerSuccess) {
+      console.log('there');
+      setSuccess(true);
+      setTimeout(() => {
+        navigate('/login', { replace: true });
+        return setSuccess(false);
+      }, 1000);
+    }
+  }, [registerSuccess]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     createAccount();
@@ -43,25 +59,31 @@ const Register = () => {
         <Loading count={5} additional={false} />
       ) : (
         <form className='mt-8 space-y-6' onSubmit={handleSubmit}>
-          <div className=''>
-            {fields.map((field) => {
-              return (
-                <Input
-                  key={field.id}
-                  handleChange={handleChange}
-                  value={registerState[field.id]}
-                  labelText={field.labelText}
-                  labelFor={field.labelFor}
-                  id={field.id}
-                  name={field.name}
-                  type={field.type}
-                  isRequired={field.isRequired}
-                  placeholder={field.placeholder}
-                />
-              );
-            })}
-            <FormAction handleSubmit={handleSubmit} text='Signup' />
-          </div>
+          {success ? (
+            <div className='flex justify-center items-center text-9xl text-center text-white'>
+              <HiBadgeCheck />
+            </div>
+          ) : (
+            <div className=''>
+              {fields.map((field) => {
+                return (
+                  <Input
+                    key={field.id}
+                    handleChange={handleChange}
+                    value={registerState[field.id]}
+                    labelText={field.labelText}
+                    labelFor={field.labelFor}
+                    id={field.id}
+                    name={field.name}
+                    type={field.type}
+                    isRequired={field.isRequired}
+                    placeholder={field.placeholder}
+                  />
+                );
+              })}
+              <FormAction handleSubmit={handleSubmit} text='Signup' />
+            </div>
+          )}
         </form>
       )}
     </div>

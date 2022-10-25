@@ -57,9 +57,11 @@ const UserMenu = ({ user }) => {
         </a>
         <Dropdown.Item icon={HiViewGrid}>My Posts</Dropdown.Item>
         <Dropdown.Divider />
-        <Dropdown.Item onClick={signOut} icon={HiLogout}>
-          Sign out
-        </Dropdown.Item>
+        <a href='/login'>
+          <Dropdown.Item onClick={signOut} icon={HiLogout}>
+            Sign out
+          </Dropdown.Item>
+        </a>
       </Dropdown>
       <Navbar.Toggle />
     </div>

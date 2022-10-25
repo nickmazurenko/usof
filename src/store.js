@@ -16,7 +16,7 @@ const persistConfig = {
 const authPersistsConfig = {
   key: 'auth',
   storage,
-  blacklist: ['isAuthenticated, loading'],
+  blacklist: ['isAuthenticated', 'loading', 'error'],
 };
 
 const rootReducer = combineReducers({

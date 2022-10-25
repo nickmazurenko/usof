@@ -10,7 +10,6 @@ const ForgotPasswordModal = () => {
   const [emailSent, setEmailSent] = useState(false);
   const dispatch = useDispatch();
   const { resetPasswordLoading, error } = useSelector((state) => {
-    console.log(state.auth);
     return state.auth;
   });
   const sendEmail = () => {
