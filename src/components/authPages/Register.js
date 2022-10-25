@@ -15,7 +15,7 @@ fields.forEach((field) => {
 });
 
 const Register = () => {
-  const { loading, error } = useSelector((state) => {
+  const { loading } = useSelector((state) => {
     return state.auth;
   });
   const dispatch = useDispatch();

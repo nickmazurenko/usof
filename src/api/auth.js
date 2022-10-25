@@ -34,8 +34,8 @@ export const resetUserPassword = (email) => {
   return axios.post(Endpoints.resetUserPassword, body, headers);
 };
 
-export const resetUserPasswordToken = (password, token) => {
-  const body = JSON.stringify({ password });
+export const resetUserPasswordToken = (passwords, token) => {
+  const body = JSON.stringify(passwords);
   return axios.post(
     Endpoints.resetUserPasswordToken.replace('{token}', token),
     body,

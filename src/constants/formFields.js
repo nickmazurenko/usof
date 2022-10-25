@@ -19,6 +19,26 @@ const loginFields = [
   },
 ];
 
+const resetPasswordFields = [
+  {
+    labelText: 'Password',
+    labelFor: 'password',
+    id: 'password',
+    type: 'password',
+    autoComplete: 'current-password',
+    isRequired: true,
+    placeholder: 'Password',
+  },
+  {
+    labelText: 'Confirm Password',
+    labelFor: 'confirm-password',
+    id: 'confirmPassword',
+    type: 'password',
+    autoComplete: 'confirm-password',
+    isRequired: true,
+    placeholder: 'Confirm Password',
+  },
+];
 const registerFields = [
   {
     labelText: 'Login',
@@ -67,4 +87,4 @@ const registerFields = [
   },
 ];
 
-export { loginFields, registerFields };
+export { loginFields, registerFields, resetPasswordFields };

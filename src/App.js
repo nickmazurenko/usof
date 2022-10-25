@@ -14,6 +14,7 @@ import { setAuthToken } from './features/auth/actions';
 import UserPage from './pages/User';
 import PostsPage from './pages/Posts';
 import Post from './pages/Post';
+import PasswordResetPage from './pages/PasswordReset';
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -51,6 +52,7 @@ const App = () => {
               <Route path='/post/:postId' element={<Post />} />
               <Route path='/posts/:categoryId' element={<PostsPage />} />
               <Route path='/posts/users/:userId' element={<PostsPage />} />
+              <Route path='/password-reset/:token' element={<PasswordResetPage />} />
             </Routes>
           </Router>
         </div>

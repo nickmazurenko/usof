@@ -15,7 +15,7 @@ const Header = ({
       <h2 className='mt-6 text-center text-3xl font-extrabold text-white'>
         {heading}
       </h2>
-      <p className='mt-2 text-center text-sm text-white mt-5'>
+      <p className='mt-2 text-center text-sm text-white'>
         {paragraph}{' '}
         <Link
           to={linkUrl}

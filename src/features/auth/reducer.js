@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   loading: false,
+  resetPasswordLoading: true,
   token: localStorage.getItem('x-auth-token'),
   user: {},
   isAuthenticated: false,
@@ -15,8 +16,12 @@ const authSlice = createSlice({
     authPending: (state) => {
       state.loading = true;
     },
+    resetPasswordPending: (state) => {
+      state.resetPasswordLoading = true;
+    },
     authError: (state, { payload }) => {
       state.loading = false;
+      state.resetPasswordLoading = false;
       state.error = payload;
       state.isAuthenticated = false;
       state.user = null;
@@ -48,7 +53,7 @@ const authSlice = createSlice({
       state.error = null;
     },
     resetPassword: (state) => {
-      state.loading = false;
+      state.resetPasswordLoading = false;
       state.error = null;
     },
     resetPasswordToken: (state) => {
@@ -68,6 +73,7 @@ export const {
   authPending,
   resetPassword,
   resetPasswordToken,
+  resetPasswordPending,
   loadCurrentUser,
   confirmEmail,
 } = authSlice.actions;

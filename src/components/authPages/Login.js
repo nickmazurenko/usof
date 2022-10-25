@@ -10,7 +10,6 @@ import {
   loadCurrentUser as loadUser,
 } from '../../features/auth/actions';
 import Loading from './FormLoading';
-import ForgotPasswordModal from './ForgotPasswordModal';
 
 const fields = loginFields;
 const fieldsState = {};
@@ -75,7 +74,6 @@ const Login = () => {
           <FormAction handleSubmit={handleSubmit} text='Login' />
         </form>
       )}
-      <ForgotPasswordModal/>
     </div>
   );
 };

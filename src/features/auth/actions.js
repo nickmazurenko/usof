@@ -10,6 +10,7 @@ import {
   resetPasswordToken as _resetPasswordToken,
   authError,
   authPending,
+  resetPasswordPending,
 } from './reducer';
 import * as Auth from '../../api/auth';
 
@@ -45,7 +46,7 @@ export const login = ({ email, password }) => {
       dispatch(_login(response.data.data.token));
       dispatch(loadCurrentUser());
     } catch (error) {
-      dispatch(authError(response.data.message));
+      dispatch(authError(error));
     }
   };
 };
@@ -59,7 +60,7 @@ export const logout = () => {
       delete axios.defaults.headers.common['x-auth-token'];
       dispatch(_logout(response.data.data));
     } catch (error) {
-      dispatch(authError(response.data.message));
+      dispatch(authError(error));
     }
   };
 };
@@ -72,7 +73,7 @@ export const register = (user) => {
       loadCurrentUser();
       dispatch(_register(response.data.data));
     } catch (error) {
-      dispatch(authError(response.data.message));
+      dispatch(authError(error));
     }
   };
 };
@@ -84,31 +85,31 @@ export const confirmEmail = (email) => {
       const response = await Auth.confirmUserEmail(email);
       dispatch(_confirmEmail(response.data.data));
     } catch (error) {
-      dispatch(authError(response.data.message));
+      dispatch(authError(error));
     }
   };
 };
 
 export const resetPassword = (email) => {
   return async (dispatch) => {
-    dispatch(authPending());
+    dispatch(resetPasswordPending());
     try {
       const response = await Auth.resetUserPassword(email);
       dispatch(_resetPassword(response.data.data));
     } catch (error) {
-      dispatch(authError(response.data.message));
+      dispatch(authError(error));
     }
   };
 };
 
-export const resetPasswordToken = ({ newPassword }) => {
+export const resetPasswordToken = (passwords, token) => {
   return async (dispatch) => {
     dispatch(authPending());
     try {
-      const response = await Auth.resetUserPasswordToken(newPassword);
+      const response = await Auth.resetUserPasswordToken(passwords, token);
       dispatch(_resetPasswordToken(response.data.data));
     } catch (error) {
-      dispatch(authError(response.data.message));
+      dispatch(authError(error));
     }
   };
 };
