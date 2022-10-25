@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { HiBadgeCheck } from 'react-icons/hi';
+import { Alert } from 'flowbite-react';
 import { registerFields } from '../../constants/formFields';
 import FormAction from './FormAction';
 import Input from './Input';
@@ -55,6 +56,11 @@ const Register = () => {
 
   return (
     <div className='container'>
+      {error ? (
+        <Alert color='failure'>
+          <span>{error.message}</span>
+        </Alert>
+      ) : null}
       {loading ? (
         <Loading count={5} additional={false} />
       ) : (

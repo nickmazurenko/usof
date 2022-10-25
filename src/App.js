@@ -9,6 +9,7 @@ import {
   Navigate,
 } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
 import LoginPage from './pages/Login';
 import RegisterPage from './pages/Register';
 import ProfilePage from './pages/Profile';
@@ -20,6 +21,7 @@ import UserPage from './pages/User';
 import PostsPage from './pages/Posts';
 import Post from './pages/Post';
 import PasswordResetPage from './pages/PasswordReset';
+import 'react-toastify/dist/ReactToastify.css';
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -44,6 +46,7 @@ const App = () => {
         }}>
         <Header />
         <div>
+          <ToastContainer/>
           <Router>
             <Routes>
               <Route path='/user/:id' element={<UserPage />} />
@@ -61,7 +64,7 @@ const App = () => {
                 path='/password-reset/:token'
                 element={<PasswordResetPage />}
               />
-              <Route path='*' element={<Navigate to='/profile' replace />} />
+              <Route path='*' element={<Navigate to='/posts' replace />} />
             </Routes>
           </Router>
         </div>

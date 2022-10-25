@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 
 const initialState = {
   loading: false,
@@ -6,7 +7,7 @@ const initialState = {
   user: {},
   isAuthenticated: false,
   error: null,
-  registerSuccess: false
+  registerSuccess: false,
 };
 
 const authSlice = createSlice({
@@ -26,6 +27,16 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
       state.user = null;
       state.registerSuccess = false;
+      toast.error(payload.message, {
+        autoClose: 5000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: 'dark',
+      });
+    },
+    deleteError: (state, { payload }) => {
+      state.error = null;
     },
     register: (state, { payload }) => {
       state.loading = false;
@@ -78,6 +89,7 @@ export const {
   resetPasswordPending,
   loadCurrentUser,
   confirmEmail,
+  deleteError,
 } = authSlice.actions;
 
 export default authSlice.reducer;

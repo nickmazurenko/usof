@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Alert } from 'flowbite-react';
+import { toast } from 'react-toastify';
 import { HiBadgeCheck } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
 import { loginFields } from '../../constants/formFields';
@@ -51,14 +51,6 @@ const Login = () => {
 
   return (
     <div className='container'>
-      {error ? (
-        <Alert color='failure'>
-          <span>
-            <span className='font-medium'>{error.code}</span>
-            <p>{error.message}</p>
-          </span>
-        </Alert>
-      ) : null}
       {loading ? (
         <Loading />
       ) : (

@@ -10,6 +10,7 @@ import {
   authError,
   authPending,
   resetPasswordPending,
+  deleteError as _deleteError,
 } from './reducer';
 import * as Auth from '../../api/auth';
 
@@ -19,6 +20,12 @@ export const setAuthToken = (token) => {
   } else {
     delete axios.defaults.headers.common['x-auth-token'];
   }
+};
+
+const deleteError = (dispatch, timer = 5000) => {
+  setTimeout(() => {
+    dispatch(_deleteError());
+  }, timer);
 };
 
 export const loadCurrentUser = () => {
@@ -31,7 +38,8 @@ export const loadCurrentUser = () => {
       const response = await Auth.loadCurrentUser();
       dispatch(_loadCurrentUser(response.data.data));
     } catch (error) {
-      dispatch(authError(error));
+      dispatch(authError(error.response.data));
+      deleteError(dispatch);
     }
   };
 };
@@ -45,7 +53,8 @@ export const login = ({ email, password }) => {
       dispatch(_login(response.data.data.token));
       dispatch(loadCurrentUser());
     } catch (error) {
-      dispatch(authError(error));
+      dispatch(authError(error.response.data));
+      deleteError(dispatch);
     }
   };
 };
@@ -59,7 +68,8 @@ export const logout = () => {
       delete axios.defaults.headers.common['x-auth-token'];
       dispatch(_logout(response.data.data));
     } catch (error) {
-      dispatch(authError(error));
+      dispatch(authError(error.response.data));
+      deleteError(dispatch);
     }
   };
 };
@@ -71,7 +81,8 @@ export const register = (user) => {
       const response = await Auth.registerUser(user);
       dispatch(_register(response.data.data));
     } catch (error) {
-      dispatch(authError(error));
+      dispatch(authError(error.response.data));
+      deleteError(dispatch);
     }
   };
 };
@@ -83,7 +94,8 @@ export const confirmEmail = (email) => {
       const response = await Auth.confirmUserEmail(email);
       dispatch(_confirmEmail(response.data.data));
     } catch (error) {
-      dispatch(authError(error));
+      dispatch(authError(error.response.data));
+      deleteError(dispatch);
     }
   };
 };
@@ -95,7 +107,8 @@ export const resetPassword = (email) => {
       const response = await Auth.resetUserPassword(email);
       dispatch(_resetPassword(response.data.data));
     } catch (error) {
-      dispatch(authError(error));
+      dispatch(authError(error.response.data));
+      deleteError(dispatch);
     }
   };
 };
@@ -107,7 +120,8 @@ export const resetPasswordToken = (passwords, token) => {
       const response = await Auth.resetUserPasswordToken(passwords, token);
       dispatch(_resetPasswordToken(response.data.data));
     } catch (error) {
-      dispatch(authError(error));
+      dispatch(authError(error.response.data));
+      deleteError(dispatch);
     }
   };
 };

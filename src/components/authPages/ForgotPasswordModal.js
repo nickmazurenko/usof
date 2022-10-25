@@ -1,5 +1,13 @@
-import { Fragment, useState } from 'react';
-import { Modal, Button, Label, TextInput, Spinner } from 'flowbite-react';
+import { Fragment, useState, useEffect } from 'react';
+import {
+  Modal,
+  Button,
+  Label,
+  TextInput,
+  Spinner,
+  Alert,
+} from 'flowbite-react';
+import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { HiBadgeCheck } from 'react-icons/hi';
 import { resetPassword } from '../../features/auth/actions';
@@ -21,7 +29,6 @@ const ForgotPasswordModal = () => {
       }, 5000);
     }
   };
-
   return (
     <Fragment>
       <a
@@ -40,7 +47,7 @@ const ForgotPasswordModal = () => {
         }}>
         <Modal.Header />
         <Modal.Body>
-          {!resetPasswordLoading ? (
+          {resetPasswordLoading ? (
             <div className='text-center'>
               <Spinner size='xl' />
             </div>
