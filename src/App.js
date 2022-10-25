@@ -2,7 +2,12 @@
 import React from 'react';
 import { Flowbite } from 'flowbite-react';
 import './App.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import LoginPage from './pages/Login';
 import RegisterPage from './pages/Register';
@@ -52,7 +57,11 @@ const App = () => {
               <Route path='/post/:postId' element={<Post />} />
               <Route path='/posts/:categoryId' element={<PostsPage />} />
               <Route path='/posts/users/:userId' element={<PostsPage />} />
-              <Route path='/password-reset/:token' element={<PasswordResetPage />} />
+              <Route
+                path='/password-reset/:token'
+                element={<PasswordResetPage />}
+              />
+              <Route path='*' element={<Navigate to='/profile' replace />} />
             </Routes>
           </Router>
         </div>

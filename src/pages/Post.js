@@ -20,7 +20,7 @@ const PostPage = () => {
       {loading || !post ? (
         <CardLoader />
       ) : (
-        <div className='mx-auto w-full max-w-2xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert'>
+        <div className='px-5 w-full lg:w-3/5'>
           <PostBody post={post} />
           <CommentSection post={post} />
         </div>

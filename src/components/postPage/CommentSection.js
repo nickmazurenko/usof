@@ -46,9 +46,9 @@ const CommentSection = ({ post }) => {
             placeholder='Write a comment...'
             required></textarea>
         </div>
-        <Button onClick={addComment}>
-          Add comment
-        </Button>
+        <div className='w-1/3 mt-2'>
+          <Button onClick={addComment}>Add comment</Button>
+        </div>
         {post.commentsCount ? (
           <div>
             {loading ? (

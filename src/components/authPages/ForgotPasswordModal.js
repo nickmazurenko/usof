@@ -40,7 +40,7 @@ const ForgotPasswordModal = () => {
         }}>
         <Modal.Header />
         <Modal.Body>
-          {resetPasswordLoading ? (
+          {!resetPasswordLoading ? (
             <div className='text-center'>
               <Spinner size='xl' />
             </div>

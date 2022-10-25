@@ -6,7 +6,7 @@ import Category from '../postsPage/Category';
 
 const PostBody = ({ post }) => {
   return (
-    <div className='w-full flex items-center mt-5 rounded-xl bg-gray-800'>
+    <div className='w-full flex items-center mt-5 rounded-xl bg-gray-900'>
       <div className='w-full rounded-xl border p-5 '>
         <div className='flex w-full items-center flex-wrap justify-between border-b pb-3'>
           <a href={`/user/${post.userId}`}>
@@ -41,7 +41,7 @@ const PostBody = ({ post }) => {
                 truncate: 25,
                 attributes: {
                   className:
-                    'border-b border-blue-500 hover:border-none text-blue-500',
+                    'border-b border-blue-500 hover:border-none text-blue-500 whitespace-pre-line',
                 },
               }}>
               {post.postContent}

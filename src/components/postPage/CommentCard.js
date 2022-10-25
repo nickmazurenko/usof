@@ -21,7 +21,7 @@ const CommentCard = ({ comment }) => {
                   src={comment.profilePicture}
                 />
                 <div className='text-lg font-bold text-gray-300'>
-                  {comment.login}
+                  {comment.login || 'deleted'}
                 </div>
               </div>
               <div className='flex items-center space-x-2'>

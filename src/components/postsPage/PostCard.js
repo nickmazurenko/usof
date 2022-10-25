@@ -18,18 +18,18 @@ const PostCard = ({ post }) => {
   return (
     <>
       {post ? (
-        <div className='w-full flex items-center mt-5 bg-amber-200 rounded-xl'>
-          <div className='w-full rounded-xl border p-5 '>
-            <div className='flex w-full items-center flex-wrap justify-between border-b pb-3'>
+        <div className='w-full flex items-center mt-5 bg-gray-900 rounded-xl'>
+          <div className='w-full rounded-xl border border-gray-500 p-5 '>
+            <div className='flex w-full items-center flex-wrap justify-between border-gray-500 border-b-2 pb-3'>
               <a href={`/user/${post.userId}`}>
                 <div className='cursor-pointer flex items-center space-x-3'>
                   <img
-                    className='h-8 w-8 rounded-full bg-slate-400'
+                    className='h-8 w-8 rounded-full bg-slate-300'
                     crossOrigin='anonymous'
                     src={post.profilePicture}
                   />
-                  <div className='text-lg font-bold text-slate-700'>
-                    {post.login}
+                  <div className='text-lg font-bold text-slate-300'>
+                    {post.login || 'deleted'}
                   </div>
                 </div>
               </a>
@@ -48,14 +48,14 @@ const PostCard = ({ post }) => {
             </div>
 
             <div className='flex flex-col mt-4 mb-6'>
-              <div className='mb-3 text-xl font-bold'>{post.title}</div>
-              <div className='text-sm text-neutral-600'>
+              <div className='mb-3 text-xl text-gray-300 font-bold'>{post.title}</div>
+              <div className='text-sm text-neutral-400 whitespace-pre-line'>
                 {cutContent(post.content)}
               </div>
             </div>
 
             <div>
-              <div className='flex flex-wrap items-center justify-between text-gray-600 font-bold text-lg'>
+              <div className='flex flex-wrap items-center justify-between text-gray-400 font-bold text-lg'>
                 <div className='flex space-x-4 md:space-x-8'>
                   <div className='flex cursor-pointer items-center transition hover:text-slate-600'>
                     <HiOutlineChat size={25} />
