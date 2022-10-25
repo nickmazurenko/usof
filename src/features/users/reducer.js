@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-// import * as Actions from './actions';
+import { toast } from 'react-toastify';
 
 const initialState = {
   users: [],
@@ -18,6 +18,13 @@ const usersSlice = createSlice({
     usersError: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
+      toast.error(payload.message, {
+        autoClose: 5000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: 'dark',
+      });
     },
     getUsers: (state, { payload }) => {
       state.loading = false;

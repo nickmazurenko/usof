@@ -22,12 +22,6 @@ export const setAuthToken = (token) => {
   }
 };
 
-const deleteError = (dispatch, timer = 5000) => {
-  setTimeout(() => {
-    dispatch(_deleteError());
-  }, timer);
-};
-
 export const loadCurrentUser = () => {
   return async (dispatch) => {
     if (localStorage.token) {
@@ -39,7 +33,6 @@ export const loadCurrentUser = () => {
       dispatch(_loadCurrentUser(response.data.data));
     } catch (error) {
       dispatch(authError(error.response.data));
-      deleteError(dispatch);
     }
   };
 };
@@ -54,7 +47,6 @@ export const login = ({ email, password }) => {
       dispatch(loadCurrentUser());
     } catch (error) {
       dispatch(authError(error.response.data));
-      deleteError(dispatch);
     }
   };
 };
@@ -69,7 +61,6 @@ export const logout = () => {
       dispatch(_logout(response.data.data));
     } catch (error) {
       dispatch(authError(error.response.data));
-      deleteError(dispatch);
     }
   };
 };
@@ -82,7 +73,6 @@ export const register = (user) => {
       dispatch(_register(response.data.data));
     } catch (error) {
       dispatch(authError(error.response.data));
-      deleteError(dispatch);
     }
   };
 };
@@ -95,7 +85,6 @@ export const confirmEmail = (email) => {
       dispatch(_confirmEmail(response.data.data));
     } catch (error) {
       dispatch(authError(error.response.data));
-      deleteError(dispatch);
     }
   };
 };
@@ -108,7 +97,6 @@ export const resetPassword = (email) => {
       dispatch(_resetPassword(response.data.data));
     } catch (error) {
       dispatch(authError(error.response.data));
-      deleteError(dispatch);
     }
   };
 };
@@ -121,7 +109,6 @@ export const resetPasswordToken = (passwords, token) => {
       dispatch(_resetPasswordToken(response.data.data));
     } catch (error) {
       dispatch(authError(error.response.data));
-      deleteError(dispatch);
     }
   };
 };

@@ -16,7 +16,7 @@ export const getComments = (id) => {
       const response = await Comments.getPostComments(id);
       dispatch(_getComments(response.data.data));
     } catch (error) {
-      dispatch(commentsError(error));
+      dispatch(commentsError(error.response.data));
     }
   };
 };
@@ -28,7 +28,7 @@ export const getComment = (id) => {
       const response = await Comments.getIdComment(id);
       dispatch(_getComment(response.data.data));
     } catch (error) {
-      dispatch(commentsError(error));
+      dispatch(commentsError(error.response.data));
     }
   };
 };
@@ -42,7 +42,7 @@ export const createComment = (id, comment) => {
       console.log(response.data.data);
       dispatch(getComment(response.data.data));
     } catch (error) {
-      dispatch(commentsError(error));
+      dispatch(commentsError(error.response.data));
     }
   };
 };
@@ -54,7 +54,7 @@ export const updateComment = (comment) => {
       const response = await Comments.updateComment(comment);
       dispatch(_updateComment(response.data.data));
     } catch (error) {
-      dispatch(commentsError(error));
+      dispatch(commentsError(error.response.data));
     }
   };
 };
@@ -66,7 +66,7 @@ export const deleteComment = (id) => {
       const response = await Comments.deleteComment(id);
       dispatch(_deleteComment(response.data.data));
     } catch (error) {
-      dispatch(commentsError(error));
+      dispatch(commentsError(error.response.data));
     }
   };
 };

@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { toast } from 'react-toastify';
 // import * as Actions from './actions';
 
 const initialState = {
@@ -19,6 +20,13 @@ const commentsSlice = createSlice({
       state.loading = false;
       state.error = payload;
       state.comments = [];
+      toast.error(payload.message, {
+        autoClose: 5000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: 'dark',
+      });
     },
     getComments: (state, { payload }) => {
       state.loading = false;

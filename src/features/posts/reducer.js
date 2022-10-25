@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-// import * as Actions from './actions';
+import { toast } from 'react-toastify';
 
 const initialState = {
   posts: [],
@@ -21,6 +21,13 @@ const postsSlice = createSlice({
       state.loading = false;
       state.error = payload;
       state.users = null;
+      toast.error(payload.message, {
+        autoClose: 5000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: 'dark',
+      });
     },
     getPosts: (state, { payload }) => {
       state.loading = false;

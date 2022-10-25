@@ -18,7 +18,7 @@ export const getUsers = (page) => {
       const response = await Users.usersData(page);
       dispatch(_getUsers(response.data.data));
     } catch (error) {
-      dispatch(_usersError(error));
+      dispatch(_usersError(error.response.data));
     }
   };
 };
@@ -30,7 +30,7 @@ export const getUser = (id) => {
       const response = await Users.userIdData(id);
       dispatch(_getUser(response.data.data));
     } catch (error) {
-      dispatch(_usersError(error));
+      dispatch(_usersError(error.response.data));
     }
   };
 };
@@ -42,7 +42,7 @@ export const createUser = (data) => {
       const response = await Users.createUser(data);
       dispatch(_createUser(response.data.data));
     } catch (error) {
-      dispatch(_usersError(error));
+      dispatch(_usersError(error.response.data));
     }
   };
 };
@@ -54,7 +54,7 @@ export const updateUser = (data) => {
       const response = await Users.updateUser(data);
       dispatch(_updateUser(response.data.data));
     } catch (error) {
-      dispatch(_usersError(error));
+      dispatch(_usersError(error.response.data));
     }
   };
 };
@@ -66,7 +66,7 @@ export const updateAvatar = (avatar) => {
       const response = await Users.updateAvatar(avatar);
       dispatch(_updateAvatar(response.data.data));
     } catch (error) {
-      dispatch(_usersError(error));
+      dispatch(_usersError(error.response.data));
     }
   };
 };
@@ -78,7 +78,7 @@ export const deleteUser = (id) => {
       const response = await Users.deleteUser(id);
       dispatch(_deleteUser(id));
     } catch (error) {
-      dispatch(_usersError(error));
+      dispatch(_usersError(error.response.data));
     }
   };
 };

@@ -18,7 +18,7 @@ export const getPosts = (page) => {
       const response = await Posts.getPosts(page);
       dispatch(_getPosts(response.data.data));
     } catch (error) {
-      dispatch(postsError(error));
+      dispatch(postsError(error.response.data));
     }
   };
 };
@@ -30,7 +30,7 @@ export const getUserPosts = (id) => {
       const response = await Posts.getPosts(id);
       dispatch(_getUserPosts(response.data.data));
     } catch (error) {
-      dispatch(postsError(error));
+      dispatch(postsError(error.response.data));
     }
   };
 };
@@ -42,7 +42,7 @@ export const getCategoryPosts = (id) => {
       const response = await Posts.getCategoryPosts(id);
       dispatch(_getCategoryPosts(response.data.data));
     } catch (error) {
-      dispatch(postsError(error));
+      dispatch(postsError(error.response.data));
     }
   };
 };
@@ -54,7 +54,7 @@ export const getPost = (id) => {
       const response = await Posts.getIdPost(id);
       dispatch(_getPost(response.data.data));
     } catch (error) {
-      dispatch(postsError(error));
+      dispatch(postsError(error.response.data));
     }
   };
 };
@@ -66,7 +66,7 @@ export const createPost = (data) => {
       const response = await Posts.createPost(data);
       dispatch(_createPost(response.data.data));
     } catch (error) {
-      dispatch(postsError(error));
+      dispatch(postsError(error.response.data));
     }
   };
 };
@@ -78,7 +78,7 @@ export const updatePost = (data) => {
       const response = await Posts.updatePost(data);
       dispatch(_updatePost(response.data.data));
     } catch (error) {
-      dispatch(postsError(error));
+      dispatch(postsError(error.response.data));
     }
   };
 };
@@ -90,7 +90,7 @@ export const deletePost = (id) => {
       const response = await Posts.deletePost(id);
       dispatch(_deletePost(id));
     } catch (error) {
-      dispatch(postsError(error));
+      dispatch(postsError(error.response.data));
     }
   };
 };
