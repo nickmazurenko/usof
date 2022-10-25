@@ -35,8 +35,8 @@ const PostsTable = ({ posts }) => {
     const sorted = [...allPosts].sort((a, b) => {
       if (newSort.param === 'date') {
         return newSort.ascending
-          ? new Date(b.createdAt) - new Date(a.createdAt)
-          : new Date(a.createdAt) - new Date(b.createdAt);
+          ? new Date(a.createdAt) - new Date(b.createdAt)
+          : new Date(b.createdAt) - new Date(a.createdAt);
       }
       return newSort.ascending
         ? a[newSort.param] - b[newSort.param]

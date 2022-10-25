@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { registerFields } from '../constants/formFields';
+import { registerFields } from '../../constants/formFields';
 import FormAction from './FormAction';
 import Input from './Input';
-import { register as registerUser } from '../features/auth/actions';
+import { register as registerUser } from '../../features/auth/actions';
 import Loading from './FormLoading';
 
 const fields = registerFields;

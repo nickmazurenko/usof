@@ -51,7 +51,7 @@ const CommentSection = ({ post }) => {
         </Button>
         {post.commentsCount ? (
           <div>
-            {loading || comments.length === 0 ? (
+            {loading ? (
               <CardLoader />
             ) : (
               [...comments]

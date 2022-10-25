@@ -1,5 +1,5 @@
-import Header from '../components/FormHeader';
-import Signup from '../components/Register';
+import Header from '../components/authPages/FormHeader';
+import Signup from '../components/authPages/Register';
 
 const SignupPage = () => {
   return (

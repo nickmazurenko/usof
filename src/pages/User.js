@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import ProfileComponent from '../components/Profile';
 import CardLoader from '../components/CardLoader';
 import { getUser } from '../features/users/actions';
@@ -8,9 +8,9 @@ import { getPosts } from '../features/posts/actions';
 
 const UserPage = () => {
   const dispatch = useDispatch();
-  const { state } = useLocation();
+  const params = useParams();
   useEffect(() => {
-    dispatch(getUser(state.id));
+    dispatch(getUser(params.id));
     dispatch(getPosts());
   }, [dispatch]);
   const { user, loading } = useSelector((storeState) => {

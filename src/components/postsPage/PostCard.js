@@ -6,6 +6,7 @@ import {
   HiOutlineThumbUp,
 } from 'react-icons/hi';
 import moment from 'moment';
+import { useParams } from 'react-router-dom';
 import CardLoader from '../CardLoader';
 import Category from './Category';
 
@@ -20,20 +21,18 @@ const PostCard = ({ post }) => {
         <div className='w-full flex items-center mt-5 bg-amber-200 rounded-xl'>
           <div className='w-full rounded-xl border p-5 '>
             <div className='flex w-full items-center flex-wrap justify-between border-b pb-3'>
-              <div
-                onClick={() => {
-                  routeChange('/user', { id: post.userId });
-                }}
-                className='cursor-pointer flex items-center space-x-3'>
-                <img
-                  className='h-8 w-8 rounded-full bg-slate-400'
-                  crossOrigin='anonymous'
-                  src={post.profilePicture}
-                />
-                <div className='text-lg font-bold text-slate-700'>
-                  {post.login}
+              <a href={`/user/${post.userId}`}>
+                <div className='cursor-pointer flex items-center space-x-3'>
+                  <img
+                    className='h-8 w-8 rounded-full bg-slate-400'
+                    crossOrigin='anonymous'
+                    src={post.profilePicture}
+                  />
+                  <div className='text-lg font-bold text-slate-700'>
+                    {post.login}
+                  </div>
                 </div>
-              </div>
+              </a>
               <div className='flex items-center space-x-2'>
                 {post.categories.length ? (
                   <div className='flex flex-wrap text-white'>

@@ -18,7 +18,6 @@ const usersSlice = createSlice({
     usersError: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
-      state.users = null;
     },
     getUsers: (state, { payload }) => {
       state.loading = false;

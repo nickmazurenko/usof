@@ -2,11 +2,8 @@
 import React from 'react';
 import { Flowbite } from 'flowbite-react';
 import './App.css';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import LoginPage from './pages/Login';
 import RegisterPage from './pages/Register';
 import ProfilePage from './pages/Profile';
@@ -23,6 +20,10 @@ if (localStorage.token) {
 }
 
 const App = () => {
+  const { isAuthenticated } = useSelector((state) => {
+    return state.auth;
+  });
+
   return (
     <>
       <Flowbite
@@ -39,16 +40,17 @@ const App = () => {
         <div>
           <Router>
             <Routes>
-              <Route path='/user' element={<UserPage />} />
+              <Route path='/user/:id' element={<UserPage />} />
               <Route path='/login' element={<LoginPage />} />
               <Route path='/register' element={<RegisterPage />} />
-              <Route path='/profile' element={<ProfilePage />} />
+              {isAuthenticated ? (
+                <Route path='/profile' element={<ProfilePage />} />
+              ) : null}
               <Route path='/users' element={<UsersPage />} />
               <Route path='/posts' element={<PostsPage />} />
               <Route path='/post/:postId' element={<Post />} />
               <Route path='/posts/:categoryId' element={<PostsPage />} />
               <Route path='/posts/users/:userId' element={<PostsPage />} />
-              {/* <Route path='*' element={<Navigate to='/' replace />} /> */}
             </Routes>
           </Router>
         </div>

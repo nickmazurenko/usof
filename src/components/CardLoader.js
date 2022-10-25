@@ -2,7 +2,7 @@ const CardLoader = () => {
   return (
     <div
       role='status'
-      className='h-screen space-y-8 animate-pulse md:space-y-0 md:space-x-8 md:flex md:items-center'>
+      className='h-screen space-y-8 animate-pulse md:space-y-0 md:space-x-8 mx-5 md:flex md:items-center'>
       <div className='flex justify-center items-center w-full h-48 bg-gray-300 rounded sm:w-96 dark:bg-gray-700'>
         <svg
           className='w-12 h-12 text-gray-200'

@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Alert } from 'flowbite-react';
-import { loginFields } from '../constants/formFields';
+import { loginFields } from '../../constants/formFields';
 import FormAction from './FormAction';
 import FormExtra from './FormExtra';
 import Input from './Input';
 import {
   login as loginUser,
   loadCurrentUser as loadUser,
-} from '../features/auth/actions';
+} from '../../features/auth/actions';
 import Loading from './FormLoading';
+import ForgotPasswordModal from './ForgotPasswordModal';
 
 const fields = loginFields;
 const fieldsState = {};
@@ -74,6 +75,7 @@ const Login = () => {
           <FormAction handleSubmit={handleSubmit} text='Login' />
         </form>
       )}
+      <ForgotPasswordModal/>
     </div>
   );
 };

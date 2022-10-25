@@ -1,5 +1,6 @@
 import { HiOutlineThumbUp, HiOutlineThumbDown } from 'react-icons/hi';
 import moment from 'moment';
+import Linkify from 'linkify-react';
 import CardLoader from '../CardLoader';
 
 const CommentCard = ({ comment }) => {
@@ -24,13 +25,17 @@ const CommentCard = ({ comment }) => {
                 </div>
               </div>
               <div className='flex items-center space-x-2'>
-                <div className='text-xs flex-none text-gray-500'>{moment(comment.createdAt).fromNow()}</div>
+                <div className='text-xs flex-none text-gray-500'>
+                  {moment(comment.createdAt).fromNow()}
+                </div>
               </div>
             </div>
 
             <div className='flex ml-10 flex-col '>
               <div className='text-sm text-gray-400 font-medium'>
-                {comment.content}
+                <Linkify options={{ truncate: 25, attributes: { className: 'border-b border-blue-500 hover:border-none text-blue-500' } }}>
+                  {comment.content}
+                </Linkify>
               </div>
             </div>
             <div className='flex items-end flex-col justify-between'>

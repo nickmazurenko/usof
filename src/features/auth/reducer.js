@@ -18,6 +18,7 @@ const authSlice = createSlice({
     authError: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
+      state.isAuthenticated = false;
       state.user = null;
     },
     register: (state, { payload }) => {

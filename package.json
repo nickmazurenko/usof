@@ -12,6 +12,7 @@
 		"concurrently": "^7.4.0",
 		"flowbite": "^1.5.3",
 		"flowbite-react": "^0.2.1",
+		"linkify-react": "^4.0.2",
 		"moment": "^2.29.4",
 		"nodemon": "^2.0.20",
 		"prettier": "^2.7.1",

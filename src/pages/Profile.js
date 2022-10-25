@@ -10,12 +10,13 @@ const ProfilePage = () => {
     return state.auth;
   });
   const { posts } = useSelector((state) => {
+    console.log(state);
     return state.posts;
   });
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getPosts());
     dispatch(loadCurrentUser());
+    dispatch(getPosts());
   }, [dispatch]);
   return loading ? (
     <CardLoader />

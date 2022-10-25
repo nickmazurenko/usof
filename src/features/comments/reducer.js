@@ -28,7 +28,7 @@ const commentsSlice = createSlice({
     getComment: (state, { payload }) => {
       state.loading = false;
       state.error = null;
-      state.comments = [payload, ...state.comments];
+      state.comments.push(payload);
     },
     createComment: (state, { payload }) => {
       state.loading = false;
