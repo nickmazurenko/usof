@@ -13,6 +13,7 @@ const getCommentLikes = async (id, callback) => {
   const result = {
     likesCount,
     dislikesCount,
+    commentId: id,
     likes,
     dislikes,
   };

@@ -11,6 +11,7 @@ const getPostLikes = async (id, callback) => {
   const dislikesCount = dislikes.length;
 
   const result = {
+    postId: id,
     likesCount,
     dislikesCount,
     likes,

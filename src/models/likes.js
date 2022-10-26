@@ -3,7 +3,10 @@ const { Likes, Users } = require('../tables');
 const handlers = require('../helpers/handlers');
 
 const retrieveOne = async (params) =>
-  await Likes.findOne({ where: params }).catch((error) => {
+  await Likes.findOne({
+    where: params,
+    attributes: ['userId', 'id', 'commentId', 'postId'],
+  }).catch((error) => {
     console.log(error);
     throw new Error(error);
   });
@@ -14,8 +17,8 @@ const getPostLikes = async (id, callback) => {
       post_id: id,
     },
     attributes: [
-      'user_id',
-      'post_id',
+      'userId',
+      'postId',
       'type',
       'createdAt',
       [sequelize.literal('user.login'), 'login'],
@@ -36,18 +39,6 @@ const getPostLikes = async (id, callback) => {
       null,
     );
   });
-
-  if (likes.length === 0) {
-    return callback(
-      handlers.responseHandler(
-        false,
-        404,
-        'No likes for post with this id',
-        null,
-      ),
-      null,
-    );
-  }
 
   return likes;
 };
@@ -58,8 +49,8 @@ const getCommentLikes = async (id, callback) => {
       comment_id: id,
     },
     attributes: [
-      'user_id',
-      'comment_id',
+      'userId',
+      'commentId',
       'type',
       'createdAt',
       [sequelize.literal('user.login'), 'login'],
@@ -80,18 +71,6 @@ const getCommentLikes = async (id, callback) => {
       null,
     );
   });
-
-  if (likes.length === 0) {
-    return callback(
-      handlers.responseHandler(
-        false,
-        404,
-        'No likes for comment with this id',
-        null,
-      ),
-      null,
-    );
-  }
 
   return likes;
 };
@@ -162,7 +141,9 @@ const remove = async (params, callback) => {
 
   return callback(
     null,
-    handlers.responseHandler(true, 200, 'Like removal successful', null),
+    handlers.responseHandler(true, 200, 'Like removal successful', {
+      ...params,
+    }),
   );
 };
 
