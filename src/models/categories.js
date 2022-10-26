@@ -1,4 +1,5 @@
-const { Posts, Categories } = require('../tables');
+const sequelize = require('sequelize');
+const { Posts, Categories, PostCategories } = require('../tables');
 const handlers = require('../helpers/handlers');
 
 const getPostCategories = async (id, callback) => {
@@ -39,32 +40,75 @@ const getPostCategories = async (id, callback) => {
   );
 };
 
-const retrieveAll = async () => await Categories.findAll();
+const retrieveAll = async () =>
+  await Categories.findAll({
+    attributes: [
+      ['category_title', 'title'],
+      'description',
+      'id',
+      [
+        sequelize.literal(`(
+        SELECT COUNT(postCategories.category_id)
+        FROM postCategories
+        WHERE postCategories.category_id = categories.id
+      )`),
+        'postsCount',
+      ],
+    ],
+    include: [
+      {
+        model: PostCategories,
+        required: false,
+        attributes: [],
+      },
+    ],
+  });
 
-const retrieveOne = async (params) => await Categories.findOne({
-  where: params,
-}).catch((error) => {
-  console.log(error);
-  throw new Error('No such category');
-});
+const retrieveOne = async (params) =>
+  await Categories.findOne({
+    where: params,
+    attributes: [
+      ['category_title', 'title'],
+      'description',
+      'id',
+      [
+        sequelize.literal(`(
+        SELECT COUNT(postCategories.category_id)
+        FROM postCategories
+        WHERE postCategories.category_id = categories.id
+      )`),
+        'postsCount',
+      ],
+    ],
+    include: [
+      {
+        model: PostCategories,
+        required: false,
+        attributes: [],
+      },
+    ],
+  }).catch((error) => {
+    console.log(error);
+    throw new Error('No such category');
+  });
 
-const createMultiple = async (categories) => await Categories.bulkCreate(categories).catch((error) => {
-  console.log(error);
-  throw new Error('An error occurred during multiple categories creation');
-});
+const createMultiple = async (categories) =>
+  await Categories.bulkCreate(categories).catch((error) => {
+    console.log(error);
+    throw new Error('An error occurred during multiple categories creation');
+  });
 
-const create = async (category) => await Categories.create(category).catch((error) => {
-  console.log(error);
-  throw new Error(error);
-});
+const create = async (category) =>
+  await Categories.create(category).catch((error) => {
+    console.log(error);
+    throw new Error(error);
+  });
 
 const update = async (category, id) => {
-  await Categories.update(category, { where: { id } }).catch(
-    (error) => {
-      console.log(error);
-      throw new Error(error);
-    },
-  );
+  await Categories.update(category, { where: { id } }).catch((error) => {
+    console.log(error);
+    throw new Error(error);
+  });
 };
 
 const remove = async (id) => {

@@ -39,7 +39,8 @@ const retrieveOne = async (id, callback) => {
 const getCategoryPosts = async (params, callback) => {
   const { id, user, page } = params;
   const category = await categoriesModel.retrieveOne({ id });
-  const title = category.categoryTitle;
+  const { title } = category.dataValues;
+  console.log(category.dataValues);
   const dbPosts = await postsModel.retrieveAll({ user, page }, title);
   const postsRawInfo = await postsModel.countAll(title);
 

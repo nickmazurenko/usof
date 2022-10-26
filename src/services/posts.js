@@ -11,12 +11,6 @@ const commentsModel = require('../models/comments');
 const retrieveAll = async (params, callback) => {
   const posts = await postsModel.retrieveAll(params);
   const postsRawInfo = await postsModel.countAll();
-  if (!posts[0].id) {
-    return callback(
-      handlers.responseHandler(false, 404, 'No posts were found', null),
-      null,
-    );
-  }
   const postsInfo = await Promise.all(
     postsRawInfo.map(async (post) => {
       let likesCount = 0;

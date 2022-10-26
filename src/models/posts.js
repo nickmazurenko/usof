@@ -228,9 +228,6 @@ const retrieveAll = async ({ user, sort, id }, categoryTitle = '') => {
       'status',
     ),
   );
-  if (result.length === 0) {
-    throw new Error('No posts were found');
-  }
 
   return result;
 };
