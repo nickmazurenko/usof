@@ -10,8 +10,9 @@ import {
 import CommentCard from './CommentCard';
 import CardLoader from '../CardLoader';
 import { createComment, getComments } from '../../features/comments/actions';
+import config from '../../config';
 
-const COMMENTS_MAX = 4;
+const COMMENTS_MAX = config.COMMENTS_COUNT;
 
 const getSortedComments = (comments, sort, getAll) => {
   const sorted = [...comments].sort((a, b) => {

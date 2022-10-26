@@ -7,6 +7,7 @@ import usersReducer from './features/users/reducer';
 import authReducer from './features/auth/reducer';
 import postsReducer from './features/posts/reducer';
 import commentsReducer from './features/comments/reducer';
+import categoriesReducer from './features/categories/reducer';
 
 const persistConfig = {
   key: 'root',
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   users: usersReducer,
   posts: postsReducer,
   comments: commentsReducer,
+  categories: categoriesReducer,
   auth: persistReducer(authPersistsConfig, authReducer),
 });
 

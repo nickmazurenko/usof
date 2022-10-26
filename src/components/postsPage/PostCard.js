@@ -6,7 +6,6 @@ import {
   HiOutlineThumbUp,
 } from 'react-icons/hi';
 import moment from 'moment';
-import { useParams } from 'react-router-dom';
 import CardLoader from '../CardLoader';
 import Category from './Category';
 

@@ -1,6 +1,7 @@
 /* eslint-disable operator-linebreak */
 import { Button, Dropdown, Pagination } from 'flowbite-react';
 import moment from 'moment';
+import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import {
   HiChat,
@@ -14,8 +15,10 @@ import {
   HiOutlineCalendar,
 } from 'react-icons/hi';
 import PostCard from './PostCard';
+import config from '../../config';
+import UserCard from '../usersPage/UserCard';
 
-const itemsCount = 5;
+const itemsCount = config.POSTS_COUNT;
 
 const arraySort = (array, sort) => {
   return [...array].sort((a, b) => {
@@ -44,12 +47,15 @@ const slicePages = (array, currentPage) => {
   );
 };
 
-const PostsTable = ({ posts }) => {
+const PostsTable = ({ posts, category, user }) => {
+  const params = useParams();
   const [currentPage, setCurrentPage] = useState(1);
   const [sort, setSort] = useState({ param: 'likesCount', ascending: false });
   const [filter, setFilter] = useState('All time');
   const [allPosts, setAllPosts] = useState(posts);
-  const [currentPosts, setCurrentPosts] = useState(slicePages(allPosts, currentPage));
+  const [currentPosts, setCurrentPosts] = useState(
+    slicePages(allPosts, currentPage)
+  );
   const startFilter = (param) => {
     setFilter(param);
     setAllPosts(arrayFilter(allPosts, param));
@@ -70,7 +76,8 @@ const PostsTable = ({ posts }) => {
         return (
           post.title.toLowerCase().includes(search.toLowerCase()) ||
           post.content.toLowerCase().includes(search.toLowerCase()) ||
-          (post.login && post.login.toLowerCase().includes(search.toLowerCase()))
+          (post.login &&
+            post.login.toLowerCase().includes(search.toLowerCase()))
         );
       })
     );
@@ -81,6 +88,27 @@ const PostsTable = ({ posts }) => {
     setCurrentPosts(slicePages(allPosts, page));
   };
 
+  const getElement = () => {
+    if (params.categoryId) {
+      return (
+        <div className='flex flex-col space-y-2'>
+          <span className='text-3xl font-bold text-gray-500'>
+            {category.title}
+          </span>
+          <p className='text-gray-400'>{category.description}</p>
+          <div className='flex cursor-pointer items-center text-gray-400 transition hover:text-slate-600'>
+            <HiDocumentText size={35} />
+            <span className='ml-2 text-xl'>{category.postsCount}</span>
+          </div>
+        </div>
+      );
+    }
+    if (params.userId) {
+      return <UserCard user={user} />;
+    }
+    return <span className='text-3xl font-bold text-gray-500'>All Posts</span>;
+  };
+
   useEffect(() => {
     loadPosts(currentPage);
   }, [allPosts]);
@@ -89,14 +117,18 @@ const PostsTable = ({ posts }) => {
     <>
       <div className='h-full w-full'>
         <div className='flex flex-wrap bg-gray-900 p-5 justify-between items-center'>
-          <span className='text-3xl font-bold text-gray-500'>All Posts</span>
+          {getElement()}
           <div className='w-1/6'>
-            <Button>Create...</Button>
+            {params.categoryId || params.userId ? null : (
+              <Button>Create...</Button>
+            )}
           </div>
         </div>
         <div className='md:flex justify-between items-center p-4 border-5 border-white rounded-b-lg bg-gray-900'>
           <div className='flex w-full space-x-2'>
-            <Dropdown size='sm' arrowIcon={false}
+            <Dropdown
+              size='sm'
+              arrowIcon={false}
               label={
                 <>
                   <span className='mr-4'>
@@ -109,23 +141,73 @@ const PostsTable = ({ posts }) => {
                   )}
                 </>
               }>
-              <Dropdown.Item onClick={() => { sortBy('commentsCount'); }} icon={HiChat}> Comments </Dropdown.Item>
-              <Dropdown.Item onClick={() => { sortBy('views'); }} icon={HiEye}> Views </Dropdown.Item>
-              <Dropdown.Item onClick={() => { sortBy('date'); }} icon={HiDocumentText}> Date </Dropdown.Item>
-              <Dropdown.Item onClick={() => { sortBy('likesCount'); }} icon={HiUser}> Likes </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  sortBy('commentsCount');
+                }}
+                icon={HiChat}>
+                Comments
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  sortBy('views');
+                }}
+                icon={HiEye}>
+                Views
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  sortBy('date');
+                }}
+                icon={HiDocumentText}>
+                Date
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  sortBy('likesCount');
+                }}
+                icon={HiUser}>
+                Likes
+              </Dropdown.Item>
             </Dropdown>
 
-            <Dropdown size='sm' arrowIcon={false}
+            <Dropdown
+              size='sm'
+              arrowIcon={false}
               label={
                 <>
                   <span className='mr-4'>{filter}</span>
                   <HiFilter size={25} />
                 </>
               }>
-              <Dropdown.Item onClick={() => { startFilter('All time'); }} icon={HiOutlineCalendar}> All time </Dropdown.Item>
-              <Dropdown.Item onClick={() => { startFilter('Day'); }} icon={HiOutlineCalendar}> Day </Dropdown.Item>
-              <Dropdown.Item onClick={() => { startFilter('Month'); }} icon={HiOutlineCalendar}> Month </Dropdown.Item>
-              <Dropdown.Item onClick={() => { startFilter('Year'); }} icon={HiOutlineCalendar}> Year </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  startFilter('All time');
+                }}
+                icon={HiOutlineCalendar}>
+                All time
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  startFilter('Day');
+                }}
+                icon={HiOutlineCalendar}>
+                Day
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  startFilter('Month');
+                }}
+                icon={HiOutlineCalendar}>
+                Month
+              </Dropdown.Item>
+              <Dropdown.Item
+                onClick={() => {
+                  startFilter('Year');
+                }}
+                icon={HiOutlineCalendar}>
+                Year
+              </Dropdown.Item>
             </Dropdown>
           </div>
           <div>
@@ -141,9 +223,7 @@ const PostsTable = ({ posts }) => {
                 onChange={(e) => {
                   if (e.target.value.length) startSearch(e.target.value);
                   else {
-                    console.log(allPosts.length);
                     setAllPosts(posts());
-                    console.log(posts());
                   }
                 }}
                 id='table-search-posts'

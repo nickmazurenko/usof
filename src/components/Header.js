@@ -58,7 +58,9 @@ const UserMenu = ({ user }) => {
         <a href='/profile'>
           <Dropdown.Item icon={HiUser}>Profile</Dropdown.Item>
         </a>
+        <a href={`/posts/users/${user.id}`}>
         <Dropdown.Item icon={HiViewGrid}>My Posts</Dropdown.Item>
+        </a>
         <Dropdown.Divider />
         <a href='/login'>
           <Dropdown.Item onClick={signOut} icon={HiLogout}>
@@ -91,13 +93,16 @@ const Header = () => {
           <HiHome className='text-3xl' />
         </Navbar.Link>
         <Navbar.Link href='/posts'>
-          <span className='text-2xl'>Posts</span>
+          <span className='text-xl'>Posts</span>
         </Navbar.Link>
         <Navbar.Link href='/users'>
-          <span className='text-2xl'>Users</span>
+          <span className='text-xl'>Users</span>
+        </Navbar.Link>
+        <Navbar.Link href='/categories'>
+          <span className='text-xl'>Categories</span>
         </Navbar.Link>
         <Navbar.Link href='/ask'>
-          <span className='text-2xl'>Ask Question</span>
+          <span className='text-xl'>Ask Question</span>
         </Navbar.Link>
       </Navbar.Collapse>
     </Navbar>

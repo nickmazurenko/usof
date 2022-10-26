@@ -2,9 +2,7 @@
 import { Dropdown, Pagination } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import {
-  HiArrowNarrowUp,
   HiDocumentText,
-  HiDownload,
   HiEye,
   HiSearch,
   HiSortAscending,
@@ -13,8 +11,9 @@ import {
   HiUser,
 } from 'react-icons/hi';
 import UserCard from './UserCard';
+import config from '../../config';
 
-const itemsCount = 10;
+const itemsCount = config.USERS_COUNT;
 
 const UsersTable = ({ users }) => {
   const [currentPage, setCurrentPage] = useState(1);
