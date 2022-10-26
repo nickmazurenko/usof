@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 const initialState = {
   comments: [],
   comment: null,
+  commentLikes: [],
   loading: false,
   error: false,
 };
@@ -57,6 +58,27 @@ const commentsSlice = createSlice({
         return comment.id !== payload.id;
       });
     },
+    addLike: (state, { payload }) => {
+      state.loading = false;
+      state.error = null;
+    },
+    removeLike: (state, { payload }) => {
+      state.loading = false;
+      state.error = null;
+    },
+    getLikes: (state, { payload }) => {
+      state.loading = false;
+      state.error = null;
+      const commentId = state.comments.findIndex((x) => {
+        return x.commentId === payload.commentId;
+      });
+      state.comments[commentId] = {
+        ...state.comments[commentId],
+        likesCount: payload.likesCount,
+        dislikesCount: payload.dislikesCount,
+      };
+      state.commentLikes = payload;
+    },
   },
 });
 
@@ -68,6 +90,9 @@ export const {
   commentsPending,
   commentsError,
   getComment,
+  getLikes,
+  addLike,
+  removeLike,
 } = commentsSlice.actions;
 
 export default commentsSlice.reducer;

@@ -9,11 +9,14 @@ const headers = {
   },
 };
 
-export const getPostLikes = (id) =>
-  axios.get(Endpoints.getPostLikes.replace('{id}', id));
+export const getPostLikes = (id) => {
+  return axios.get(Endpoints.getPostLikes.replace('{id}', id));
+};
 
-export const getCommentLikes = (id) =>
-  axios.get(Endpoints.getCommentLikes.replace('{id}', id));
+export const getCommentLikes = (id) => {
+  console.log(id);
+  return axios.get(Endpoints.getCommentLikes.replace('{id}', id));
+};
 
 export const createPostLike = (id, data) => {
   const body = JSON.stringify(data);
@@ -24,8 +27,8 @@ export const createPostLike = (id, data) => {
   );
 };
 
-export const createCommentLike = (id, data) => {
-  const body = JSON.stringify(data);
+export const createCommentLike = (id, type) => {
+  const body = JSON.stringify({ type });
   return axios.post(
     Endpoints.createCommentLike.replace('{id}', id),
     body,
@@ -33,8 +36,10 @@ export const createCommentLike = (id, data) => {
   );
 };
 
-export const deletePostLike = (id) =>
-  axios.delete(Endpoints.deletePostLike.replace('{id}', id));
+export const deletePostLike = (id) => {
+  return axios.delete(Endpoints.deletePostLike.replace('{id}', id));
+};
 
-export const deleteCommentLike = (id) =>
-  axios.delete(Endpoints.deleteCommentLike.replace('{id}', id));
+export const deleteCommentLike = (id) => {
+  return axios.delete(Endpoints.deleteCommentLike.replace('{id}', id));
+};

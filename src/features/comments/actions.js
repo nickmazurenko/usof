@@ -1,4 +1,5 @@
 import * as Comments from '../../api/comments';
+import * as Likes from '../../api/likes';
 import {
   commentsPending,
   commentsError,
@@ -7,6 +8,9 @@ import {
   updateComment as _updateComment,
   deleteComment as _deleteComment,
   getComment as _getComment,
+  addLike as _addLike,
+  getLikes as _getLikes,
+  removeLike as _removeLike,
 } from './reducer';
 
 export const getComments = (id) => {
@@ -53,6 +57,44 @@ export const updateComment = (comment) => {
     try {
       const response = await Comments.updateComment(comment);
       dispatch(_updateComment(response.data.data));
+    } catch (error) {
+      dispatch(commentsError(error.response.data));
+    }
+  };
+};
+
+export const getLikes = (id) => {
+  return async (dispatch) => {
+    dispatch(commentsPending());
+    try {
+      const response = await Likes.getCommentLikes(id);
+      dispatch(_getLikes(response.data.data));
+    } catch (error) {
+      dispatch(commentsError(error.response.data));
+    }
+  };
+};
+
+export const addLike = (id, type) => {
+  return async (dispatch) => {
+    dispatch(commentsPending());
+    try {
+      const response = await Likes.createCommentLike(id, type);
+      dispatch(_addLike(response.data.data));
+      dispatch(getLikes(response.data.data.commentId));
+    } catch (error) {
+      dispatch(commentsError(error.response.data));
+    }
+  };
+};
+
+export const removeLike = (id) => {
+  return async (dispatch) => {
+    dispatch(commentsPending());
+    try {
+      const response = await Likes.deleteCommentLike(id);
+      dispatch(_removeLike(response.data.data));
+      dispatch(getLikes(response.data.data.commentId));
     } catch (error) {
       dispatch(commentsError(error.response.data));
     }

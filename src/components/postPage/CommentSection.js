@@ -9,7 +9,6 @@ const CommentSection = ({ post }) => {
   const [commentState, setCommentState] = useState();
   const dispatch = useDispatch();
   const { comments, loading } = useSelector((storeState) => {
-    console.log(storeState.comments);
     return storeState.comments;
   });
   const addComment = (e) => {

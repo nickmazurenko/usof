@@ -56,11 +56,6 @@ const Register = () => {
 
   return (
     <div className='container'>
-      {error ? (
-        <Alert color='failure'>
-          <span>{error.message}</span>
-        </Alert>
-      ) : null}
       {loading ? (
         <Loading count={5} additional={false} />
       ) : (
