@@ -47,11 +47,11 @@ export const createUser = (data) => {
   };
 };
 
-export const updateUser = (data) => {
+export const updateUser = (data, id) => {
   return async (dispatch) => {
     dispatch(_usersPending());
     try {
-      const response = await Users.updateUser(data);
+      const response = await Users.updateUser(data, id);
       dispatch(_updateUser(response.data.data));
     } catch (error) {
       dispatch(_usersError(error.response.data));

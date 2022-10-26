@@ -18,17 +18,20 @@ export const userIdData = (id) => {
 
 export const createUser = (data) => {
   const body = JSON.stringify(data);
-  axios.post(Endpoints.createUser, body, headers);
+  return axios.post(Endpoints.createUser, body, headers);
 };
 
 export const updateAvatar = (data) => {
-  const body = JSON.stringify(data);
-  axios.patch(Endpoints.updateAvatar, body, headers);
+  const fd = new FormData();
+  fd.append('avatar', data);
+  return axios.patch(Endpoints.updateAvatar, fd, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
 };
 
 export const updateUser = (data, id) => {
   const body = JSON.stringify(data);
-  axios.patch(Endpoints.updateUser.replace('{id}', id), body, headers);
+  return axios.patch(Endpoints.updateUser.replace('{id}', id), body, headers);
 };
 
 export const deleteUser = (id) => {

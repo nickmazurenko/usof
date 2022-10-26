@@ -9,7 +9,6 @@ const CategoriesPage = () => {
   const params = useParams();
 
   const { loading, categories } = useSelector((storeState) => {
-    console.log(storeState.categories);
     return storeState.categories;
   });
   useEffect(() => {

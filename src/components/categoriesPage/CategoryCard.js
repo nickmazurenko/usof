@@ -13,7 +13,7 @@ const PostCard = ({ category }) => {
         <div className='w-full md:w-1/2 pr-1 lg:w-1/4 flex items-center mt-5'>
           <div className='w-full border bg-gray-900 rounded-xl border-gray-500 p-5 '>
             <div className='flex flex-wrap justify-between items-center border-gray-500 border-b-2 pb-3'>
-              <div className='text-lg font-bold text-slate-300'>
+              <div className='text-lg font-bold text-slate-200'>
                 {category.title}
               </div>
               <a href={`/posts/category/${category.id}`}>
@@ -27,9 +27,9 @@ const PostCard = ({ category }) => {
               </div>
             </div>
             <div>
-              <div className='flex flex-wrap items-center justify-between text-gray-400 font-bold text-lg'>
+              <div className='flex flex-wrap items-center justify-between text-gray-200 font-bold text-lg'>
                 <div className='flex space-x-4 md:space-x-8'>
-                  <div className='flex cursor-pointer items-center transition hover:text-slate-600'>
+                  <div className='flex cursor-pointer items-center transition'>
                     <HiDocumentText size={25} />
                     <span className='ml-2'>{category.postsCount}</span>
                   </div>

@@ -10,7 +10,6 @@ const ProfilePage = () => {
     return state.auth;
   });
   const { posts } = useSelector((state) => {
-    console.log(state);
     return state.posts;
   });
   const dispatch = useDispatch();

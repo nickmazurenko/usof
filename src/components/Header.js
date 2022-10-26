@@ -1,10 +1,11 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable max-len */
 import { useSelector, useDispatch } from 'react-redux';
-import React, { useEffect } from 'react';
-import { HiViewGrid, HiLogout, HiUser, HiHome } from 'react-icons/hi';
+import React, { useEffect, useState } from 'react';
+import { HiViewGrid, HiLogout, HiUser, HiHome, HiCog } from 'react-icons/hi';
 import { Dropdown, Navbar } from 'flowbite-react';
 import { loadCurrentUser, logout } from '../features/auth/actions';
+import SettingsModal from './SettingsModal';
 
 const AuthButtons = () => {
   return (
@@ -59,9 +60,12 @@ const UserMenu = ({ user }) => {
           <Dropdown.Item icon={HiUser}>Profile</Dropdown.Item>
         </a>
         <a href={`/posts/users/${user.id}`}>
-        <Dropdown.Item icon={HiViewGrid}>My Posts</Dropdown.Item>
+          <Dropdown.Item icon={HiViewGrid}>My Posts</Dropdown.Item>
         </a>
         <Dropdown.Divider />
+        <Dropdown.Item icon={HiCog}>
+          <SettingsModal user={user} />
+        </Dropdown.Item>
         <a href='/login'>
           <Dropdown.Item onClick={signOut} icon={HiLogout}>
             Sign out

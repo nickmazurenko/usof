@@ -40,7 +40,6 @@ const Register = () => {
 
   useEffect(() => {
     if (registerSuccess) {
-      console.log('there');
       setSuccess(true);
       setTimeout(() => {
         navigate('/login', { replace: true });

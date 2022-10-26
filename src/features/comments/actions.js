@@ -43,7 +43,6 @@ export const createComment = (id, comment) => {
     try {
       const response = await Comments.createComment(id, comment);
       dispatch(_createComment(response.data.data));
-      console.log(response.data.data);
       dispatch(getComment(response.data.data));
     } catch (error) {
       dispatch(commentsError(error.response.data));
