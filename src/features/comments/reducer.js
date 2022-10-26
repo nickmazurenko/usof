@@ -70,10 +70,12 @@ const commentsSlice = createSlice({
       state.loading = false;
       state.error = null;
       const commentId = state.comments.findIndex((x) => {
-        return x.commentId === payload.commentId;
+        return x.id === payload.commentId;
       });
       state.comments[commentId] = {
         ...state.comments[commentId],
+        likes: payload.likes,
+        dislikes: payload.dislikes,
         likesCount: payload.likesCount,
         dislikesCount: payload.dislikesCount,
       };

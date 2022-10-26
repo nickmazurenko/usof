@@ -1,10 +1,10 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable max-len */
 import { useSelector, useDispatch } from 'react-redux';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { HiViewGrid, HiLogout, HiUser, HiHome } from 'react-icons/hi';
 import { Dropdown, Navbar } from 'flowbite-react';
-import { logout } from '../features/auth/actions';
+import { loadCurrentUser, logout } from '../features/auth/actions';
 
 const AuthButtons = () => {
   return (
@@ -29,6 +29,9 @@ const UserMenu = ({ user }) => {
   const signOut = () => {
     dispatch(logout());
   };
+  useEffect(() => {
+    dispatch(loadCurrentUser());
+  }, [dispatch]);
   const { profilePicture, email, fullName, login } = user;
   return (
     <div className='flex md:order-2'>

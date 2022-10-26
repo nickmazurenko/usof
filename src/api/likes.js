@@ -14,12 +14,11 @@ export const getPostLikes = (id) => {
 };
 
 export const getCommentLikes = (id) => {
-  console.log(id);
   return axios.get(Endpoints.getCommentLikes.replace('{id}', id));
 };
 
-export const createPostLike = (id, data) => {
-  const body = JSON.stringify(data);
+export const createPostLike = (id, type) => {
+  const body = JSON.stringify({ type });
   return axios.post(
     Endpoints.createPostLike.replace('{id}', id),
     body,

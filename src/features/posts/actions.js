@@ -1,4 +1,5 @@
 import * as Posts from '../../api/posts';
+import * as Likes from '../../api/likes';
 import {
   postsPending,
   postsError,
@@ -9,6 +10,9 @@ import {
   updatePost as _updatePost,
   getCategoryPosts as _getCategoryPosts,
   getUserPosts as _getUserPosts,
+  addLike as _addLike,
+  removeLike as _removeLike,
+  getLikes as _getLikes,
 } from './reducer';
 
 export const getPosts = (page) => {
@@ -89,6 +93,44 @@ export const deletePost = (id) => {
     try {
       const response = await Posts.deletePost(id);
       dispatch(_deletePost(id));
+    } catch (error) {
+      dispatch(postsError(error.response.data));
+    }
+  };
+};
+
+export const getLikes = (id) => {
+  return async (dispatch) => {
+    dispatch(postsPending());
+    try {
+      const response = await Likes.getPostLikes(id);
+      dispatch(_getLikes(response.data.data));
+    } catch (error) {
+      dispatch(postsError(error.response.data));
+    }
+  };
+};
+
+export const addLike = (id, type) => {
+  return async (dispatch) => {
+    dispatch(postsPending());
+    try {
+      const response = await Likes.createPostLike(id, type);
+      dispatch(_addLike(response.data.data));
+      dispatch(getLikes(response.data.data.postId));
+    } catch (error) {
+      dispatch(postsError(error.response.data));
+    }
+  };
+};
+
+export const removeLike = (id) => {
+  return async (dispatch) => {
+    dispatch(postsPending());
+    try {
+      const response = await Likes.deletePostLike(id);
+      dispatch(_removeLike(response.data.data));
+      dispatch(getLikes(response.data.data.postId));
     } catch (error) {
       dispatch(postsError(error.response.data));
     }

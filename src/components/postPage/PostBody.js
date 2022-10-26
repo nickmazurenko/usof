@@ -2,9 +2,61 @@
 import { HiOutlineThumbUp, HiOutlineThumbDown, HiEye } from 'react-icons/hi';
 import moment from 'moment';
 import Linkify from 'linkify-react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
 import Category from '../postsPage/Category';
+import { addLike, removeLike } from '../../features/posts/actions';
+
+const getLikeColor = (votes, user) => {
+  return votes.findIndex((x) => {
+    return user && x.userId === user.id;
+  }) > -1
+    ? 'red'
+    : '';
+};
 
 const PostBody = ({ post }) => {
+  const dispatch = useDispatch();
+  const { postLikes } = useSelector((state) => {
+    return state.posts;
+  });
+
+  const { user } = useSelector((state) => {
+    return state.auth;
+  });
+  const [votesColors, setVotesColors] = useState({
+    like: getLikeColor(
+      postLikes.likes && postLikes.postId === post.id
+        ? postLikes.likes
+        : post.likes,
+      user,
+      post
+    ),
+    dislike: getLikeColor(
+      postLikes.likes && postLikes.postId === post.id
+        ? postLikes.dislikes
+        : post.dislikes,
+      user,
+      post
+    ),
+  });
+
+  const [votes, setVotes] = useState({
+    likes:
+      postLikes.likesCount !== undefined && postLikes.postId === post.id
+        ? postLikes.likesCount
+        : post.likesCount,
+    dislikes:
+      postLikes.dislikesCount !== undefined && postLikes.postId === post.id
+        ? postLikes.dislikesCount
+        : post.dislikesCount,
+  });
+
+  const onClickLike = (type) => {
+    if (votesColors[type] === 'red') dispatch(removeLike(post.id));
+    else dispatch(addLike(post.id, type));
+  };
+
   return (
     <div className='w-full flex items-center mt-5 rounded-xl bg-gray-900'>
       <div className='w-full rounded-xl border p-5 '>
@@ -60,13 +112,21 @@ const PostBody = ({ post }) => {
           <div>
             <div className='flex flex-wrap items-center justify-between text-gray-100 font-bold text-lg'>
               <div className='flex space-x-4 md:space-x-8 mx-5'>
-                <div className='flex cursor-pointer items-center transition hover:text-slate-600'>
-                  <HiOutlineThumbUp size={25} />
-                  <span className='ml-2'>{post.likesCount}</span>
+                <div
+                  onClick={() => {
+                    return onClickLike('like');
+                  }}
+                  className='flex cursor-pointer items-center transition hover:text-slate-600'>
+                  <HiOutlineThumbUp color={votesColors.like} size={25} />
+                  <span className='ml-2'>{votes.likes}</span>
                 </div>
-                <div className='flex cursor-pointer items-center transition hover:text-slate-600'>
-                  <HiOutlineThumbDown size={25} />
-                  <span className='ml-2'>{post.dislikesCount}</span>
+                <div
+                  onClick={() => {
+                    return onClickLike('dislike');
+                  }}
+                  className='flex cursor-pointer items-center transition hover:text-slate-600'>
+                  <HiOutlineThumbDown color={votesColors.dislike} size={25} />
+                  <span className='ml-2'>{votes.dislikes}</span>
                 </div>
                 <div className='flex cursor-pointer items-center'>
                   <HiEye size={25} />

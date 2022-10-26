@@ -44,7 +44,7 @@ export const deleteComment = `${config.URL}/api/comments/{id}`;
 /**
  *Likes
  */
-export const getPostLikes = `${config.URL}/api/posts/likes`;
+export const getPostLikes = `${config.URL}/api/posts/likes/{id}`;
 export const createPostLike = `${config.URL}/api/posts/likes/{id}`;
 export const deletePostLike = `${config.URL}/api/posts/likes/{id}`;
 export const getCommentLikes = `${config.URL}/api/comments/likes/{id}`;

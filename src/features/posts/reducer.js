@@ -6,6 +6,7 @@ const initialState = {
   categoryPosts: [],
   userPosts: [],
   post: null,
+  postLikes: [],
   loading: false,
   error: null,
 };
@@ -72,6 +73,27 @@ const postsSlice = createSlice({
         return post.id !== payload.id;
       });
     },
+    addLike: (state, { payload }) => {
+      state.loading = false;
+      state.error = null;
+    },
+    removeLike: (state, { payload }) => {
+      state.loading = false;
+      state.error = null;
+    },
+    getLikes: (state, { payload }) => {
+      state.loading = false;
+      state.error = null;
+      const postId = state.posts.findIndex((x) => {
+        return x.id === payload.postId;
+      });
+      state.posts[postId] = {
+        ...state.posts[postId],
+        likesCount: payload.likesCount,
+        dislikesCount: payload.dislikesCount,
+      };
+      state.postLikes = payload;
+    },
   },
 });
 
@@ -85,6 +107,9 @@ export const {
   deletePost,
   getCategoryPosts,
   getUserPosts,
+  addLike,
+  removeLike,
+  getLikes
 } = postsSlice.actions;
 
 export default postsSlice.reducer;

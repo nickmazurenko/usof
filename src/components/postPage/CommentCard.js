@@ -2,13 +2,13 @@ import { HiOutlineThumbUp, HiOutlineThumbDown } from 'react-icons/hi';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import Linkify from 'linkify-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import CardLoader from '../CardLoader';
-import { addLike, getLikes, removeLike } from '../../features/comments/actions';
+import { addLike, removeLike } from '../../features/comments/actions';
 
-const getLikeColor = (votes, user) => {
+const getLikeColor = (votes, user, comment) => {
   return votes.findIndex((x) => {
-    return user && x.user_id === user.id;
+    return user && x.userId === user.id;
   }) > -1
     ? 'red'
     : '';
@@ -23,24 +23,40 @@ const CommentCard = ({ comment }) => {
   const { user } = useSelector((state) => {
     return state.auth;
   });
-  const [votesColors, setVotesColors] = useState({
-    like: getLikeColor(commentLikes.likes || comment.likes, user),
-    dislike: getLikeColor(commentLikes.dislikes || comment.dislikes, user),
+
+  const [votesColors] = useState({
+    like: getLikeColor(
+      commentLikes.likes && commentLikes.commentId === comment.id
+        ? commentLikes.likes
+        : comment.likes,
+      user,
+      comment
+    ),
+    dislike: getLikeColor(
+      commentLikes.dislikes && commentLikes.commentId === comment.id
+        ? commentLikes.dislikes
+        : comment.dislikes,
+      user,
+      comment
+    ),
   });
 
-  const [votes, setVotes] = useState({
+  const [votes] = useState({
     likes:
       commentLikes.likesCount !== undefined
+      && commentLikes.commentId === comment.id
         ? commentLikes.likesCount
         : comment.likesCount,
     dislikes:
       commentLikes.dislikesCount !== undefined
+      && commentLikes.commentId === comment.id
         ? commentLikes.dislikesCount
         : comment.dislikesCount,
   });
 
   const onClickLike = (type) => {
-    dispatch(addLike(comment.id, type));
+    if (votesColors[type] === 'red') dispatch(removeLike(comment.id));
+    else dispatch(addLike(comment.id, type));
   };
 
   return (
