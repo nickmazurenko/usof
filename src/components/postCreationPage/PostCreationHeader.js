@@ -27,6 +27,7 @@ const PostCreationHeader = () => {
             </li>
             <li>Review your question and post it to the site.</li>
           </ul>
+          <span className='text-xl'>You can use MarkDown!</span>
         </div>
       </div>
     </div>

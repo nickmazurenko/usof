@@ -57,6 +57,7 @@ const App = () => {
               {isAuthenticated ? (
                 <>
                   <Route path='/posts/create' element={<PostCreationPage />} />
+                  <Route path='/posts/update/:postId' element={<PostCreationPage />} />
                   <Route path='/profile' element={<ProfilePage />} />
                 </>
               ) : null}

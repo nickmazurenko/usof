@@ -3,7 +3,7 @@ import { Button } from 'flowbite-react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { createPost } from '../../features/posts/actions';
+import { createPost, updatePost } from '../../features/posts/actions';
 import CategoriesCard from './CategoriesCard';
 import ContentCard from './ContentCard';
 import DiscardModal from './DiscardModal';
@@ -11,7 +11,8 @@ import TitleCard from './TitleCard';
 
 const initialFormState = { title: '', content: '', categories: '' };
 
-const PostCreationForm = () => {
+const PostCreationForm = ({ post }) => {
+  const { title, content } = post();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {
@@ -20,8 +21,12 @@ const PostCreationForm = () => {
   } = useSelector((state) => {
     return state;
   });
-  const [step, setStep] = useState('title');
-  const [formState, setFormState] = useState(initialFormState);
+  const [step, setStep] = useState(post ? 'categories' : 'title');
+  const [formState, setFormState] = useState(
+    post
+      ? { title, content }
+      : initialFormState
+  );
 
   const onChange = (e) => {
     setFormState({ ...formState, [e.target.name]: e.target.value });
@@ -33,6 +38,7 @@ const PostCreationForm = () => {
       return setFormState(initialFormState);
     }
     if (!error) navigate(`/posts/users/${user.id}`, { replace: true });
+    if (post) return dispatch(updatePost(formState, post().id));
     return dispatch(createPost(formState));
   };
 
@@ -50,12 +56,14 @@ const PostCreationForm = () => {
         setStep={setStep}
         value={formState.content}
       />
-      <CategoriesCard
-        onChange={onChange}
-        step={step}
-        setStep={setStep}
-        value={formState.categories}
-      />
+      {post ? null : (
+        <CategoriesCard
+          onChange={onChange}
+          step={step}
+          setStep={setStep}
+          value={formState.categories}
+        />
+      )}
 
       <div className='flex flex-wrap space-x-2'>
         <div className='w-1/5'>

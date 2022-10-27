@@ -5,8 +5,8 @@ import { useState } from 'react';
 const TitleCard = ({ onChange, value, setStep, step }) => {
   const [error, setError] = useState('');
   const check = () => {
-    if (value.length < 10) {
-      setError('Title length should be at least 10 characters');
+    if (value.length < 15) {
+      setError('Title length should be at least 15 characters');
       setTimeout(() => setError(''), 3000);
     } else setStep('content');
   };

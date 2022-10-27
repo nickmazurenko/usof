@@ -69,13 +69,6 @@ const postsSlice = createSlice({
     updatePost: (state, { payload }) => {
       state.loading = false;
       state.error = null;
-      state.posts[
-        state.posts.findIndex((post) => {
-          return post.id === payload.id;
-        })
-      ] = payload;
-      state.loading = false;
-      state.error = null;
     },
     deletePost: (state, { payload }) => {
       state.loading = false;

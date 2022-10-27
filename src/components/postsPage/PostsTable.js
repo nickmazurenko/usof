@@ -121,7 +121,9 @@ const PostsTable = ({ posts, category, user, loading }) => {
           {getElement()}
           <div className='w-1/6'>
             {params.categoryId || params.userId ? null : (
-              <a href='/posts/create'><Button>Create...</Button></a>
+              <a href='/posts/create'>
+                <Button>Create...</Button>
+              </a>
             )}
           </div>
         </div>
@@ -234,7 +236,7 @@ const PostsTable = ({ posts, category, user, loading }) => {
             </div>
           </div>
         </div>
-        {!loading ? (
+        {loading() ? (
           <CardLoader />
         ) : (
           <div className='flex mx-5 items-center flex-wrap'>
@@ -252,6 +254,7 @@ const PostsTable = ({ posts, category, user, loading }) => {
       </div>
       <div className='flex items-center justify-center py-10 sm:px-6 lg:px-8'>
         <Pagination
+          style={{ listStyle: 'none' }}
           currentPage={currentPage}
           totalPages={Math.ceil(allPosts.length / itemsCount)}
           onPageChange={loadPosts}

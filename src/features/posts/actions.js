@@ -77,11 +77,11 @@ export const createPost = (data) => {
   };
 };
 
-export const updatePost = (data) => {
+export const updatePost = (data, id) => {
   return async (dispatch) => {
     dispatch(postsPending());
     try {
-      const response = await Posts.updatePost(data);
+      const response = await Posts.updatePost(data, id);
       dispatch(_updatePost(response.data.data));
     } catch (error) {
       dispatch(postsError(error.response.data));

@@ -16,7 +16,7 @@ const Footer = () => {
             <h2 className='mb-6 text-sm font-semibold  uppercase text-white'>
               Resources
             </h2>
-            <ul className=' text-gray-400'>
+            <ul className=' text-gray-400 list-none'>
               <li className='mb-4'>
                 <a href='https://redux-toolkit.js.org/' className='hover:underline'>
                   Redux-Toolkit
@@ -33,7 +33,7 @@ const Footer = () => {
             <h2 className='mb-6 text-sm font-semibold  uppercase text-white'>
               Follow us
             </h2>
-            <ul className=' text-gray-400'>
+            <ul className=' text-gray-400 list-none'>
               <li className='mb-4'>
                 <a
                   href='https://github.com/nickmazurenko'
@@ -47,7 +47,7 @@ const Footer = () => {
             <h2 className='mb-6 text-sm font-semibold  uppercase text-white'>
               Legal
             </h2>
-            <ul className=' text-gray-400'>
+            <ul className=' text-gray-400 list-none'>
               <li className='mb-4'>
                 <a href='#' className='hover:underline'>
                   Privacy Policy

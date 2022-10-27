@@ -2,6 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  h1 {
+    @apply text-2xl;
+  }
+  h2 {
+    @apply text-xl;
+  }
+  blockquote {
+    @apply p-2 my-2 border-l-4 border-gray-500 bg-gray-800;
+  }
+  ul {
+    @apply ml-5 list-disc whitespace-normal
+  }
+  .flex, .inline-flex {
+    @apply list-none
+  }
+  ol {
+    @apply ml-5 list-decimal whitespace-normal
+  }
+}
+
 :root {
   --yellow-200: #675c37;
   --yellow-050: #464236;

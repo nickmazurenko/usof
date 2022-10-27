@@ -6,6 +6,7 @@ import {
   HiOutlineThumbUp,
 } from 'react-icons/hi';
 import moment from 'moment';
+import removeMD from 'remove-markdown';
 import CardLoader from '../CardLoader';
 import Category from './Category';
 
@@ -49,7 +50,7 @@ const PostCard = ({ post }) => {
             <div className='flex flex-col mt-4 mb-6'>
               <div className='mb-3 text-xl text-gray-300 font-bold'>{post.title}</div>
               <div className='text-sm text-neutral-400 whitespace-pre-line'>
-                {cutContent(post.content)}
+                {removeMD(cutContent(post.content))}
               </div>
             </div>
 

@@ -2,8 +2,10 @@
 import { HiOutlineThumbUp, HiOutlineThumbDown, HiEye } from 'react-icons/hi';
 import moment from 'moment';
 import Linkify from 'linkify-react';
+import Markdown from 'react-markdown';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
+import { Button } from 'flowbite-react';
 import Category from '../postsPage/Category';
 import { addLike, removeLike } from '../../features/posts/actions';
 
@@ -17,14 +19,14 @@ const getLikeColor = (votes, user) => {
 
 const PostBody = ({ post }) => {
   const dispatch = useDispatch();
-  const { postLikes } = useSelector((state) => {
-    return state.posts;
+  const {
+    posts: { postLikes },
+    auth: { user },
+  } = useSelector((state) => {
+    return state;
   });
 
-  const { user } = useSelector((state) => {
-    return state.auth;
-  });
-  const [votesColors, setVotesColors] = useState({
+  const [votesColors] = useState({
     like: getLikeColor(
       postLikes.likes && postLikes.postId === post.id
         ? postLikes.likes
@@ -41,7 +43,7 @@ const PostBody = ({ post }) => {
     ),
   });
 
-  const [votes, setVotes] = useState({
+  const [votes] = useState({
     likes:
       postLikes.likesCount !== undefined && postLikes.postId === post.id
         ? postLikes.likesCount
@@ -88,16 +90,7 @@ const PostBody = ({ post }) => {
         <div className='flex flex-col mt-4 mb-6'>
           <div className='mb-3 text-xl font-bold text-white'>{post.title}</div>
           <div className='text-sm text-gray-100'>
-            <Linkify
-              options={{
-                truncate: 25,
-                attributes: {
-                  className:
-                    'border-b border-blue-500 hover:border-none text-blue-500 whitespace-pre-line',
-                },
-              }}>
-              {post.postContent}
-            </Linkify>
+            <Markdown>{post.postContent}</Markdown>
           </div>
         </div>
         <div className='flex items-end flex-col justify-between'>
@@ -112,6 +105,12 @@ const PostBody = ({ post }) => {
           <div>
             <div className='flex flex-wrap items-center justify-between text-gray-100 font-bold text-lg'>
               <div className='flex space-x-4 md:space-x-8 mx-5'>
+                {user.id === post.userId ? (
+                  <a href={`/posts/update/${post.id}`}>
+                    <Button>Edit</Button>{' '}
+                  </a>
+                ) : null}
+
                 <div
                   onClick={() => {
                     return onClickLike('like');

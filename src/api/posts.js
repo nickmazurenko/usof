@@ -18,7 +18,6 @@ export const getIdPost = (id) => {
 
 export const createPost = (data) => {
   const body = JSON.stringify(data);
-  console.log(body);
   return axios.post(Endpoints.createPost, body, headers);
 };
 
@@ -27,7 +26,8 @@ export const deletePost = (id) => {
 };
 
 export const updatePost = (data, id) => {
-  return axios.patch(Endpoints.updatePost.replace('{id}', id), data, headers);
+  const body = JSON.stringify(data);
+  return axios.patch(Endpoints.updatePost.replace('{id}', id), body, headers);
 };
 
 export const getCategoryPosts = (id) => {
