@@ -3,7 +3,7 @@ import PostCreationHeader from '../components/postCreationPage/PostCreationHeade
 
 const PostCreationPage = () => {
   return (
-    <div>
+    <div className='flex flex-col lg:flex-row-reverse'>
       <PostCreationHeader />
       <PostCreationForm />
     </div>

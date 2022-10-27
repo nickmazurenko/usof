@@ -37,7 +37,7 @@ const PostCreationForm = () => {
   };
 
   return (
-    <div className='flex m-5 flex-col space-y-4'>
+    <div className='flex m-5 flex-col space-y-4 lg:w-1/2'>
       <TitleCard
         onChange={onChange}
         step={step}

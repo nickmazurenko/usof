@@ -2,7 +2,7 @@ import { HiPencilAlt } from 'react-icons/hi';
 
 const PostCreationHeader = () => {
   return (
-    <div className='bg-gray-900 p-5'>
+    <div className='bg-gray-900 p-5 lg:w-1/2'>
       <div className='flex flex-wrap justify-between items-center'>
         <span className='text-3xl font-bold text-gray-500'>
           Ask a question / Create a post
