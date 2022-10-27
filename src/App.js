@@ -14,7 +14,7 @@ import LoginPage from './pages/Login';
 import RegisterPage from './pages/Register';
 import ProfilePage from './pages/Profile';
 import Footer from './components/Footer';
-import Header from './components/Header';
+import Header from './components/Header/Header';
 import UsersPage from './pages/Users';
 import { setAuthToken } from './features/auth/actions';
 import UserPage from './pages/User';
