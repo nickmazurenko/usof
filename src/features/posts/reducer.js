@@ -8,6 +8,8 @@ const initialState = {
   post: null,
   postLikes: [],
   loading: false,
+  userPostsLoading: false,
+  categoryPostsLoading: false,
   error: null,
 };
 
@@ -17,6 +19,14 @@ const postsSlice = createSlice({
   reducers: {
     postsPending: (state) => {
       state.loading = true;
+    },
+    userPostsPending: (state) => {
+      state.userPosts = [];
+      state.userPostsLoading = true;
+    },
+    categoryPostsPending: (state) => {
+      state.categoryPosts = [];
+      state.categoryPostsLoading = true;
     },
     postsError: (state, { payload }) => {
       state.loading = false;
@@ -36,11 +46,13 @@ const postsSlice = createSlice({
       state.posts = payload;
     },
     getUserPosts: (state, { payload }) => {
+      state.userPostsLoading = false;
       state.loading = false;
       state.error = null;
       state.userPosts = payload;
     },
     getCategoryPosts: (state, { payload }) => {
+      state.categoryPostsLoading = false;
       state.loading = false;
       state.error = null;
       state.categoryPosts = payload;
@@ -51,7 +63,6 @@ const postsSlice = createSlice({
       state.post = payload;
     },
     createPost: (state, { payload }) => {
-      state.posts = [payload, ...state.posts];
       state.loading = false;
       state.error = null;
     },
@@ -99,6 +110,8 @@ const postsSlice = createSlice({
 
 export const {
   postsPending,
+  userPostsPending,
+  categoryPostsPending,
   postsError,
   getPosts,
   getPost,
@@ -109,7 +122,7 @@ export const {
   getUserPosts,
   addLike,
   removeLike,
-  getLikes
+  getLikes,
 } = postsSlice.actions;
 
 export default postsSlice.reducer;

@@ -17,6 +17,7 @@ import {
 import PostCard from './PostCard';
 import config from '../../config';
 import UserCard from '../usersPage/UserCard';
+import CardLoader from '../CardLoader';
 
 const itemsCount = config.POSTS_COUNT;
 
@@ -47,7 +48,7 @@ const slicePages = (array, currentPage) => {
   );
 };
 
-const PostsTable = ({ posts, category, user }) => {
+const PostsTable = ({ posts, category, user, loading }) => {
   const params = useParams();
   const [currentPage, setCurrentPage] = useState(1);
   const [sort, setSort] = useState({ param: 'likesCount', ascending: false });
@@ -120,7 +121,7 @@ const PostsTable = ({ posts, category, user }) => {
           {getElement()}
           <div className='w-1/6'>
             {params.categoryId || params.userId ? null : (
-              <Button>Create...</Button>
+              <a href='/posts/create'><Button>Create...</Button></a>
             )}
           </div>
         </div>
@@ -233,17 +234,21 @@ const PostsTable = ({ posts, category, user }) => {
             </div>
           </div>
         </div>
-        <div className='flex mx-5 items-center flex-wrap'>
-          {currentPosts.length ? (
-            currentPosts.map((post) => {
-              return <PostCard key={post.id} post={post} />;
-            })
-          ) : (
-            <div className='flex h-full items-center py-10 px-5 font-medium whitespace-nowrap text-gray-300'>
-              <p className='text-4xl text-center'>No such posts</p>
-            </div>
-          )}
-        </div>
+        {!loading ? (
+          <CardLoader />
+        ) : (
+          <div className='flex mx-5 items-center flex-wrap'>
+            {currentPosts.length ? (
+              currentPosts.map((post) => {
+                return <PostCard key={post.id} post={post} />;
+              })
+            ) : (
+              <div className='flex h-full items-center py-10 px-5 font-medium whitespace-nowrap text-gray-300'>
+                <p className='text-4xl text-center'>No such posts</p>
+              </div>
+            )}
+          </div>
+        )}
       </div>
       <div className='flex items-center justify-center py-10 sm:px-6 lg:px-8'>
         <Pagination

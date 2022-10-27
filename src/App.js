@@ -23,6 +23,7 @@ import Post from './pages/Post';
 import PasswordResetPage from './pages/PasswordReset';
 import 'react-toastify/dist/ReactToastify.css';
 import CategoriesPage from './pages/Categories';
+import PostCreationPage from './pages/PostCreation';
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -54,12 +55,18 @@ const App = () => {
               <Route path='/login' element={<LoginPage />} />
               <Route path='/register' element={<RegisterPage />} />
               {isAuthenticated ? (
-                <Route path='/profile' element={<ProfilePage />} />
+                <>
+                  <Route path='/posts/create' element={<PostCreationPage />} />
+                  <Route path='/profile' element={<ProfilePage />} />
+                </>
               ) : null}
               <Route path='/users' element={<UsersPage />} />
               <Route path='/posts' element={<PostsPage />} />
               <Route path='/post/:postId' element={<Post />} />
-              <Route path='/posts/category/:categoryId' element={<PostsPage />} />
+              <Route
+                path='/posts/category/:categoryId'
+                element={<PostsPage />}
+              />
               <Route path='/posts/users/:userId' element={<PostsPage />} />
               <Route
                 path='/password-reset/:token'

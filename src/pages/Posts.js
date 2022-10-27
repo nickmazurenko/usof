@@ -16,7 +16,15 @@ const PostsPage = () => {
   const dispatch = useDispatch();
   const params = useParams();
   const state = useSelector((storeState) => storeState);
-  const { loading, error, posts, categoryPosts, userPosts } = state.posts;
+  const {
+    loading,
+    error,
+    posts,
+    categoryPosts,
+    userPosts,
+    categoryPostsLoading,
+    userPostsLoading,
+  } = state.posts;
   const { category } = state.categories;
   const { user } = state.users;
   useEffect(() => {
@@ -43,7 +51,11 @@ const PostsPage = () => {
               return posts;
             }}
             category={category}
-            loading={loading}
+            loading={() => {
+              if (params.categoryId) return categoryPostsLoading;
+              if (params.userId) return userPostsLoading;
+              return loading;
+            }}
             user={user}
           />
         </div>

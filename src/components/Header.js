@@ -105,7 +105,7 @@ const Header = () => {
         <Navbar.Link href='/categories'>
           <span className='text-xl'>Categories</span>
         </Navbar.Link>
-        <Navbar.Link href='/ask'>
+        <Navbar.Link href='/posts/create'>
           <span className='text-xl'>Ask Question</span>
         </Navbar.Link>
       </Navbar.Collapse>

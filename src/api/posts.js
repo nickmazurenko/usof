@@ -17,7 +17,9 @@ export const getIdPost = (id) => {
 };
 
 export const createPost = (data) => {
-  return axios.post(Endpoints.createPost, data, headers);
+  const body = JSON.stringify(data);
+  console.log(body);
+  return axios.post(Endpoints.createPost, body, headers);
 };
 
 export const deletePost = (id) => {

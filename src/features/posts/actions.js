@@ -3,6 +3,8 @@ import * as Likes from '../../api/likes';
 import {
   postsPending,
   postsError,
+  userPostsPending,
+  categoryPostsPending,
   getPosts as _getPosts,
   getPost as _getPost,
   deletePost as _deletePost,
@@ -29,7 +31,7 @@ export const getPosts = (page) => {
 
 export const getUserPosts = (id) => {
   return async (dispatch) => {
-    dispatch(postsPending());
+    dispatch(userPostsPending());
     try {
       const response = await Posts.getPosts(id);
       dispatch(_getUserPosts(response.data.data));
@@ -41,7 +43,7 @@ export const getUserPosts = (id) => {
 
 export const getCategoryPosts = (id) => {
   return async (dispatch) => {
-    dispatch(postsPending());
+    dispatch(categoryPostsPending());
     try {
       const response = await Posts.getCategoryPosts(id);
       dispatch(_getCategoryPosts(response.data.data));
