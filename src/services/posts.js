@@ -155,14 +155,13 @@ const create = async (post, callback) => {
     }
 
     await postCategoriesModel.createMultiple(allCategories);
-    const responsePost = await retrieveOne(dbPost.id, callback);
     callback(
       null,
       handlers.responseHandler(
         true,
         200,
         'Post creation successful',
-        responsePost,
+        null,
       ),
     );
     await transaction.commit();

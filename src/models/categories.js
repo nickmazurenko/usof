@@ -55,13 +55,6 @@ const retrieveAll = async () =>
         'postsCount',
       ],
     ],
-    include: [
-      {
-        model: PostCategories,
-        required: false,
-        attributes: [],
-      },
-    ],
   });
 
 const retrieveOne = async (params) =>
@@ -79,13 +72,6 @@ const retrieveOne = async (params) =>
       )`),
         'postsCount',
       ],
-    ],
-    include: [
-      {
-        model: PostCategories,
-        required: false,
-        attributes: [],
-      },
     ],
   }).catch((error) => {
     console.log(error);

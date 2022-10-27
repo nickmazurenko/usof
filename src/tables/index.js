@@ -54,14 +54,6 @@ Categories.belongsToMany(Posts, {
   },
 });
 
-PostCategories.hasMany(Categories, {
-  foreignKey: {
-    name: 'category_id',
-    allowNull: false,
-  },
-});
-Categories.belongsTo(PostCategories);
-
 Users.hasMany(Likes, {
   foreignKey: {
     name: 'user_id',
