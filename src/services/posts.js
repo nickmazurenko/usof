@@ -262,14 +262,12 @@ const update = async ({ postId, post }, callback) => {
     } else {
       dbPost = await postsModel.update(postId, post, callback);
     }
-    const responsePost = await retrieveOne(dbPost.id);
     callback(
       null,
       handlers.responseHandler(
         true,
         200,
         'Post update successful',
-        responsePost,
       ),
     );
     await transaction.commit();
