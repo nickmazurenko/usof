@@ -12,7 +12,7 @@ import TitleCard from './TitleCard';
 const initialFormState = { title: '', content: '', categories: '' };
 
 const PostCreationForm = ({ post }) => {
-  const { title, content } = post();
+  const { title, content } = post() || {};
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {
@@ -21,11 +21,9 @@ const PostCreationForm = ({ post }) => {
   } = useSelector((state) => {
     return state;
   });
-  const [step, setStep] = useState(post ? 'categories' : 'title');
+  const [step, setStep] = useState(post() ? 'categories' : 'title');
   const [formState, setFormState] = useState(
-    post
-      ? { title, content }
-      : initialFormState
+    post() ? { title, content } : initialFormState
   );
 
   const onChange = (e) => {
@@ -41,7 +39,6 @@ const PostCreationForm = ({ post }) => {
     if (post) return dispatch(updatePost(formState, post().id));
     return dispatch(createPost(formState));
   };
-
   return (
     <div className='flex m-5 flex-col space-y-4 lg:w-1/2'>
       <TitleCard
@@ -56,7 +53,7 @@ const PostCreationForm = ({ post }) => {
         setStep={setStep}
         value={formState.content}
       />
-      {post ? null : (
+      {post() ? null : (
         <CategoriesCard
           onChange={onChange}
           step={step}

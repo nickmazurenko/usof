@@ -24,6 +24,7 @@ import PasswordResetPage from './pages/PasswordReset';
 import 'react-toastify/dist/ReactToastify.css';
 import CategoriesPage from './pages/Categories';
 import PostCreationPage from './pages/PostCreation';
+import UnknownPage from './pages/UnknownPage';
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -63,6 +64,7 @@ const App = () => {
               ) : null}
               <Route path='/users' element={<UsersPage />} />
               <Route path='/posts' element={<PostsPage />} />
+              <Route path='/' element={<PostsPage />} />
               <Route path='/post/:postId' element={<Post />} />
               <Route
                 path='/posts/category/:categoryId'
@@ -74,7 +76,8 @@ const App = () => {
                 element={<PasswordResetPage />}
               />
               <Route path='/categories' element={<CategoriesPage />} />
-              <Route path='*' element={<Navigate to='/posts' replace />} />
+              {/* <Route path='*' element={<Navigate to='/posts' replace />} /> */}
+              <Route path='*' element={<UnknownPage/>} />
             </Routes>
           </Router>
         </div>
