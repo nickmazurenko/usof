@@ -8,7 +8,7 @@ import UserMenu from './UserMenu';
 
 const Header = () => {
   // eslint-disable-next-line no-unused-vars, object-curly-newline
-  const { loading, error, isAuthenticated, user } = useSelector((state) => {
+  const { error, isAuthenticated, user } = useSelector((state) => {
     return state.auth;
   });
   return (

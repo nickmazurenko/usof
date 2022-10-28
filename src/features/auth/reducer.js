@@ -35,8 +35,12 @@ const authSlice = createSlice({
         theme: 'dark',
       });
     },
-    deleteError: (state, { payload }) => {
-      state.error = null;
+    authExpireError: (state, { payload }) => {
+      state.loading = false;
+      state.resetPasswordLoading = false;
+      state.isAuthenticated = false;
+      state.user = null;
+      state.registerSuccess = false;
     },
     register: (state, { payload }) => {
       state.loading = false;
@@ -91,7 +95,6 @@ export const {
   resetPasswordPending,
   loadCurrentUser,
   confirmEmail,
-  deleteError,
 } = authSlice.actions;
 
 export default authSlice.reducer;
