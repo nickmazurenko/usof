@@ -8,8 +8,9 @@ import ProfilePage from './pages/Profile';
 import UnknownPage from './pages/UnknownPage';
 import RegisterPage from './pages/Register';
 import CategoriesPage from './pages/Categories';
-import PasswordResetPage from './pages/PasswordReset';
+import ConfirmEmailPage from './pages/ConfirmEmail';
 import PostCreationPage from './pages/PostCreation';
+import PasswordResetPage from './pages/PasswordReset';
 
 const useRoutes = (isAuthenticated) => {
   if (isAuthenticated) {
@@ -29,6 +30,7 @@ const useRoutes = (isAuthenticated) => {
         <Route path='/posts/users/:userId' element={<PostsPage />} />
         <Route path='/password-reset/:token' element={<PasswordResetPage />} />
         <Route path='/categories' element={<CategoriesPage />} />
+        <Route path='/confirmEmail' element={<ConfirmEmailPage />} />
         <Route path='*' element={<UnknownPage />} />
       </Routes>
     );
@@ -48,6 +50,7 @@ const useRoutes = (isAuthenticated) => {
       <Route path='/post/:postId' element={<PostPage />} />
       <Route path='/posts/category/:categoryId' element={<PostsPage />} />
       <Route path='/posts/users/:userId' element={<PostsPage />} />
+      <Route path='/confirmEmail' element={<ConfirmEmailPage />} />
       <Route path='/password-reset/:token' element={<PasswordResetPage />} />
       <Route path='/categories' element={<CategoriesPage />} />
       <Route path='*' element={<UnknownPage />} />
