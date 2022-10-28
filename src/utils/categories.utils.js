@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 export const arraySort = (array, sort) => {
   return [...array].sort((a, b) => {
     return sort.ascending
@@ -5,5 +6,3 @@ export const arraySort = (array, sort) => {
       : b[sort.param] - a[sort.param];
   });
 };
-
-export const smth = () => {};
