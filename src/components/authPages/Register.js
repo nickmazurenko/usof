@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { HiBadgeCheck } from 'react-icons/hi';
-import { Alert } from 'flowbite-react';
 import { registerFields } from '../../constants/formFields';
 import FormAction from './FormAction';
 import Input from './Input';
@@ -23,7 +22,7 @@ const Register = () => {
   const [registerState, setRegisterState] = useState(fieldsState);
   const [success, setSuccess] = useState(false);
 
-  const { loading, error, registerSuccess } = useSelector((state) => {
+  const { loading, registerSuccess } = useSelector((state) => {
     return state.auth;
   });
 

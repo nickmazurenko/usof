@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 import { HiBadgeCheck } from 'react-icons/hi';
 import { useNavigate } from 'react-router-dom';
 import { loginFields } from '../../constants/formFields';
@@ -22,7 +21,7 @@ const Login = () => {
   const navigate = useNavigate();
   const [loginState, setLoginState] = useState(fieldsState);
   const [success, setSuccess] = useState(false);
-  const { loading, error, isAuthenticated } = useSelector((state) => {
+  const { loading, isAuthenticated } = useSelector((state) => {
     return state.auth;
   });
 

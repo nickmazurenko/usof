@@ -14,7 +14,7 @@ const FormAction = ({
           {text}
         </button>
       ) : (
-        <></>
+        null
       )}
     </>
   );

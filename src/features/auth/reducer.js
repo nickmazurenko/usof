@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 
 const initialState = {
   loading: false,
-  resetPasswordLoading: true,
+  resetPasswordLoading: false,
   user: {},
   isAuthenticated: false,
   error: null,
