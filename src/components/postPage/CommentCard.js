@@ -1,10 +1,14 @@
+/* eslint-disable arrow-body-style */
 import { HiOutlineThumbUp, HiOutlineThumbDown } from 'react-icons/hi';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import Linkify from 'linkify-react';
 import { useState } from 'react';
+import { Button } from 'flowbite-react';
 import CardLoader from '../CardLoader';
+import RepliesSection from './RepliesSection';
 import { addLike, removeLike } from '../../features/comments/actions';
+import CommentSettingsDropDown from './CommentSettingsDropdown';
 
 const getLikeColor = (votes, user, comment) => {
   return votes.findIndex((x) => {
@@ -62,44 +66,45 @@ const CommentCard = ({ comment }) => {
   return (
     <>
       {comment ? (
-        <div className='w-full flex items-center mt-5 rounded-xl bg-gray-800'>
-          <div className='w-full rounded-xl shadow-md p-5 '>
-            <div className='flex w-full items-center flex-wrap justify-between pb-3'>
-              <a href={`/user/${comment.userId}`}>
-                <div className='cursor-pointer flex items-center space-x-3'>
-                  <img
-                    className='h-8 w-8 rounded-full bg-slate-400'
-                    crossOrigin='anonymous'
-                    src={comment.profilePicture}
-                  />
-                  <div className='text-lg font-bold text-gray-300'>
-                    {comment.login || 'deleted'}
+        <div className='flex flex-col'>
+          <div className='w-full flex items-center mt-5 rounded-xl bg-gray-800'>
+            <div className='w-full rounded-xl shadow-md p-5 '>
+              <div className='flex w-full items-center flex-wrap justify-between pb-3'>
+                <a href={`/user/${comment.userId}`}>
+                  <div className='cursor-pointer flex items-center space-x-3'>
+                    <img
+                      className='h-8 w-8 rounded-full bg-slate-400'
+                      crossOrigin='anonymous'
+                      src={comment.profilePicture}
+                    />
+                    <div className='text-lg font-bold text-gray-300'>
+                      {comment.login || 'deleted'}
+                    </div>
                   </div>
-                </div>
-              </a>
-              <div className='flex items-center space-x-2'>
-                <div className='text-xs flex-none text-gray-500'>
-                  {moment(comment.createdAt).fromNow()}
+                </a>
+                <div className='flex items-center space-x-2'>
+                  <div className='text-xs flex-none text-gray-500'>
+                    {moment(comment.createdAt).fromNow()}
+                  </div>
+                  <CommentSettingsDropDown comment={comment} />
                 </div>
               </div>
-            </div>
 
-            <div className='flex ml-10 flex-col '>
-              <div className='text-sm text-gray-400 font-medium'>
-                <Linkify
-                  options={{
-                    truncate: 25,
-                    attributes: {
-                      className:
-                        'border-b border-blue-500 hover:border-none text-blue-500',
-                    },
-                  }}>
-                  {comment.content}
-                </Linkify>
+              <div className='flex ml-10 flex-col '>
+                <div className='text-sm text-gray-400 font-medium'>
+                  <Linkify
+                    options={{
+                      truncate: 25,
+                      attributes: {
+                        className:
+                          'border-b border-blue-500 hover:border-none text-blue-500',
+                      },
+                    }}>
+                    {comment.content}
+                  </Linkify>
+                </div>
               </div>
-            </div>
-            <div className='flex items-end flex-col justify-between'>
-              <div className='flex flex-wrap items-center justify-between text-gray-100 font-bold text-lg'>
+              <div className='flex flex-wrap items-center justify-end text-gray-100 font-bold text-lg'>
                 <div className='flex space-x-4 md:space-x-8'>
                   <div
                     onClick={() => {
@@ -121,6 +126,7 @@ const CommentCard = ({ comment }) => {
               </div>
             </div>
           </div>
+          <RepliesSection commentId={comment.id} comments={comment.comments} />
         </div>
       ) : (
         <CardLoader />

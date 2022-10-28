@@ -17,7 +17,7 @@ const PostCreationForm = ({ post }) => {
   const dispatch = useDispatch();
   const {
     auth: { user },
-    posts: { error },
+    posts: { error, loading },
   } = useSelector((state) => {
     return state;
   });
@@ -35,8 +35,8 @@ const PostCreationForm = ({ post }) => {
       setStep('title');
       return setFormState(initialFormState);
     }
-    if (!error) navigate(`/posts/users/${user.id}`, { replace: true });
-    if (post) return dispatch(updatePost(formState, post().id));
+    if (!loading && !error) navigate(`/posts/users/${user.id}`, { replace: true });
+    if (post()) return dispatch(updatePost(formState, post().id));
     return dispatch(createPost(formState));
   };
   return (

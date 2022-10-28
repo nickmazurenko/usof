@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { HiUser, HiViewGrid, HiCog, HiLogout } from 'react-icons/hi';
 import { Dropdown, Navbar } from 'flowbite-react';
-import { loadCurrentUser } from '../../features/auth/actions';
+import { loadCurrentUser, logout } from '../../features/auth/actions';
 import SettingsModal from '../SettingsModal';
 
 const UserMenu = ({ user }) => {

@@ -10,6 +10,7 @@ import {
   getComment as _getComment,
   addLike as _addLike,
   getLikes as _getLikes,
+  replyComment as _replyComment,
   removeLike as _removeLike,
 } from './reducer';
 
@@ -43,6 +44,19 @@ export const createComment = (id, comment) => {
     try {
       const response = await Comments.createComment(id, comment);
       dispatch(_createComment(response.data.data));
+      dispatch(getComment(response.data.data));
+    } catch (error) {
+      dispatch(commentsError(error.response.data));
+    }
+  };
+};
+
+export const replyComment = (id, comment) => {
+  return async (dispatch) => {
+    dispatch(commentsPending());
+    try {
+      const response = await Comments.replyComment(id, comment);
+      dispatch(_replyComment(response.data.data));
       dispatch(getComment(response.data.data));
     } catch (error) {
       dispatch(commentsError(error.response.data));
@@ -105,7 +119,7 @@ export const deleteComment = (id) => {
     dispatch(commentsPending());
     try {
       const response = await Comments.deleteComment(id);
-      dispatch(_deleteComment(response.data.data));
+      dispatch(_deleteComment(id));
     } catch (error) {
       dispatch(commentsError(error.response.data));
     }

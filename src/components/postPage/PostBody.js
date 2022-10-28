@@ -105,7 +105,7 @@ const PostBody = ({ post }) => {
           <div>
             <div className='flex flex-wrap items-center justify-between text-gray-100 font-bold text-lg'>
               <div className='flex space-x-4 md:space-x-8 mx-5'>
-                {user.id === post.userId ? (
+                {user && user.id === post.userId ? (
                   <a href={`/posts/update/${post.id}`}>
                     <Button>Edit</Button>{' '}
                   </a>

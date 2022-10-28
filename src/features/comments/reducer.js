@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 
 const initialState = {
   comments: [],
-  comment: null,
+  commentComments: [],
   commentLikes: [],
   loading: false,
   error: false,
@@ -33,12 +33,28 @@ const commentsSlice = createSlice({
       state.error = null;
       state.comments = payload;
     },
+    getCommentComments: (state, { payload }) => {
+      state.loading = false;
+      state.error = null;
+      state.commentComments.push(payload);
+    },
     getComment: (state, { payload }) => {
       state.loading = false;
       state.error = null;
-      state.comments.push(payload);
+      if (payload.postId) state.comments.push(payload);
+      if (payload.commentId) {
+        state.comments[
+          state.comments.findIndex((comment) => {
+            return comment.id === payload.commentId;
+          })
+        ].comments.push(payload);
+      }
     },
     createComment: (state, { payload }) => {
+      state.loading = false;
+      state.error = null;
+    },
+    replyComment: (state, { payload }) => {
       state.loading = false;
       state.error = null;
     },
@@ -54,8 +70,11 @@ const commentsSlice = createSlice({
     deleteComment: (state, { payload }) => {
       state.loading = false;
       state.error = null;
-      state.comments.filter((comment) => {
-        return comment.id !== payload.id;
+      state.comments = state.comments.filter((comment) => {
+        comment.comments = comment.comments.filter((reply) => {
+          return reply.id !== payload;
+        });
+        return comment.id !== payload;
       });
     },
     addLike: (state, { payload }) => {
@@ -87,6 +106,7 @@ const commentsSlice = createSlice({
 export const {
   getComments,
   createComment,
+  replyComment,
   updateComment,
   deleteComment,
   commentsPending,

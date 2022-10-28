@@ -37,7 +37,9 @@ export const getCategoryPosts = `${config.URL}/api/categories/posts/{id}`;
  */
 export const commentId = `${config.URL}/api/comments/{id}`;
 export const postComments = `${config.URL}/api/posts/comments/{id}`;
+export const commentComments = `${config.URL}/api/comments/comments/{id}`;
 export const createComment = `${config.URL}/api/posts/comments/{id}`;
+export const replyComment = `${config.URL}/api/comments/comments/{id}`;
 export const updateComment = `${config.URL}/api/comments/{id}`;
 export const deleteComment = `${config.URL}/api/comments/{id}`;
 

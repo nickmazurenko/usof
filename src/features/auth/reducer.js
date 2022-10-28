@@ -52,9 +52,11 @@ const authSlice = createSlice({
     },
     logout: (state) => {
       state.loading = false;
-      state.error = null;
-      state.user = null;
+      state.resetPasswordLoading = true;
+      state.user = {};
       state.isAuthenticated = false;
+      state.error = null;
+      state.registerSuccess = false;
     },
     loadCurrentUser: (state, { payload }) => {
       state.loading = false;

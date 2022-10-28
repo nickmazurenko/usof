@@ -13,6 +13,10 @@ export const getPostComments = (id) => {
   return axios.get(Endpoints.postComments.replace('{id}', id));
 };
 
+export const getCommentComments = (id) => {
+  return axios.get(Endpoints.commentComments.replace('{id}', id));
+};
+
 export const getIdComment = (id) => {
   return axios.get(Endpoints.commentId.replace('{id}', id));
 };
@@ -20,6 +24,14 @@ export const getIdComment = (id) => {
 export const createComment = (id, content) => {
   return axios.post(
     Endpoints.createComment.replace('{id}', id),
+    { content },
+    headers.headers
+  );
+};
+
+export const replyComment = (id, content) => {
+  return axios.post(
+    Endpoints.replyComment.replace('{id}', id),
     { content },
     headers.headers
   );
