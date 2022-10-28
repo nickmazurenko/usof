@@ -1,71 +1,32 @@
 /* eslint-disable operator-linebreak */
-import { Dropdown, Pagination } from 'flowbite-react';
+import { Pagination } from 'flowbite-react';
 import { useEffect, useState } from 'react';
-import {
-  HiDocumentText,
-  HiEye,
-  HiSearch,
-  HiSortAscending,
-  HiSortDescending,
-  HiThumbUp,
-  HiUser,
-} from 'react-icons/hi';
 import UserCard from './UserCard';
 import config from '../../config';
+import UsersTableHeader from './UsersTableHeader';
 
-const itemsCount = config.USERS_COUNT;
+const { USERS_COUNT } = config;
+
+const sliceUsers = (array, currentPage) => {
+  return array.slice(
+    (currentPage - 1) * USERS_COUNT,
+    (currentPage - 1) * USERS_COUNT + USERS_COUNT
+  );
+};
 
 const UsersTable = ({ users }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [sort, setSort] = useState({ param: 'rating', ascending: false });
   const [allUsers, setAllUsers] = useState(
     [...users].sort((a, b) => {
       return b.rating - a.rating;
     })
   );
-
-  const sortBy = (param) => {
-    // eslint-disable-next-line prefer-const
-    const newSort = {
-      param,
-      ascending: sort.param === param ? !sort.ascending : false,
-    };
-    setSort(newSort);
-    const sorted = [...allUsers].sort((a, b) => {
-      return newSort.ascending
-        ? a[newSort.param] - b[newSort.param]
-        : b[newSort.param] - a[newSort.param];
-    });
-    setAllUsers(sorted);
-  };
-
   const [currentUsers, setCurrentUsers] = useState(
-    allUsers.slice(
-      (currentPage - 1) * itemsCount,
-      (currentPage - 1) * itemsCount + itemsCount
-    )
+    sliceUsers(allUsers, currentPage)
   );
-
-  const startSearch = (search) => {
-    setCurrentUsers(
-      allUsers.filter((user) => {
-        return (
-          user.fullName.toLowerCase().includes(search.toLowerCase()) ||
-          user.email.toLowerCase().includes(search.toLowerCase()) ||
-          user.login.toLowerCase().includes(search.toLowerCase())
-        );
-      })
-    );
-  };
-
   const loadUsers = (page) => {
     setCurrentPage(page);
-    setCurrentUsers(
-      allUsers.slice(
-        (page - 1) * itemsCount,
-        (page - 1) * itemsCount + itemsCount
-      )
-    );
+    setCurrentUsers(sliceUsers(allUsers, currentPage));
   };
 
   useEffect(() => {
@@ -75,76 +36,12 @@ const UsersTable = ({ users }) => {
   return (
     <>
       <div className='h-full w-full'>
-        <div className='flex justify-between items-center p-4 border-5 border-white rounded-b-lg bg-gray-900'>
-          <Dropdown
-            arrowIcon={false}
-            label={
-              <>
-                <span className='mr-4'>
-                  {sort.param.charAt(0).toUpperCase() + sort.param.slice(1)}
-                </span>
-                {sort.ascending ? (
-                  <HiSortAscending size={25} />
-                ) : (
-                  <HiSortDescending size={25} />
-                )}
-              </>
-            }>
-            <Dropdown.Item
-              onClick={() => {
-                sortBy('rating');
-              }}
-              icon={HiThumbUp}>
-              <span className='text-white'>Rating</span>
-            </Dropdown.Item>
-            <Dropdown.Item
-              onClick={() => {
-                sortBy('views');
-              }}
-              icon={HiEye}>
-              Views
-            </Dropdown.Item>
-            <Dropdown.Item
-              onClick={() => {
-                sortBy('postsCount');
-              }}
-              icon={HiDocumentText}>
-              Post Count
-            </Dropdown.Item>
-            <Dropdown.Item
-              onClick={() => {
-                sortBy('role');
-              }}
-              icon={HiUser}>
-              Admins
-            </Dropdown.Item>
-          </Dropdown>
-          <label htmlFor='table-search' className='sr-only'>
-            Search
-          </label>
-          <div className='relative'>
-            <div className='flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none'>
-              <HiSearch color='white' size={20} />
-            </div>
-            <input
-              type='text'
-              onChange={(e) => {
-                if (e.target.value.length) startSearch(e.target.value);
-                else {
-                  setCurrentUsers(
-                    allUsers.slice(
-                      (currentPage - 1) * itemsCount,
-                      (currentPage - 1) * itemsCount + itemsCount
-                    )
-                  );
-                }
-              }}
-              id='table-search-users'
-              className='block p-2 pl-10 w-60 text-sm rounded-lg border bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500'
-              placeholder='Search for users'
-            />
-          </div>
-        </div>
+        <UsersTableHeader
+          allUsers={allUsers}
+          setAllUsers={setAllUsers}
+          setCurrentUsers={setCurrentUsers}
+          users={users}
+        />
         <div className='flex items-center flex-wrap'>
           {currentUsers.length ? (
             currentUsers.map((user) => {
@@ -160,7 +57,7 @@ const UsersTable = ({ users }) => {
       <div className='flex items-center justify-center py-10 sm:px-6 lg:px-8'>
         <Pagination
           currentPage={currentPage}
-          totalPages={Math.ceil(allUsers.length / itemsCount)}
+          totalPages={Math.ceil(allUsers.length / USERS_COUNT)}
           onPageChange={loadUsers}
         />
       </div>
