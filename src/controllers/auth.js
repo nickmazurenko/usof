@@ -3,6 +3,7 @@ const handlers = require('../helpers/handlers');
 const { User } = require('../models/users');
 const authService = require('../services/auth');
 const usersService = require('../services/users');
+const config = require('../config/keys.config');
 
 /**
  * Registration controller
@@ -286,9 +287,17 @@ const verifyEmail = handlers.asyncHandler(async (request, response) => {
     const { token } = request.params;
     await authService.verifyEmail(token, (error, data) => {
       if (error) {
-        return response.status(error.code).json(error);
+        return response
+          .status(error.code)
+          .redirect(
+            `${config.CLIENT_URL}/confirmEmail?status=${error.code}&message=${error.message}`,
+          );
       }
-      return response.status(data.code).json(data);
+      return response
+        .status(data.code)
+        .redirect(
+          `${config.CLIENT_URL}/confirmEmail?status=${data.code}&message=${data.message}`,
+        );
     });
   } catch (error) {
     console.log(error);
