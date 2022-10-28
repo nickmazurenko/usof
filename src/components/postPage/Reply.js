@@ -1,7 +1,7 @@
 import moment from 'moment';
 import CommentSettingsDropDown from './CommentSettingsDropdown';
 
-const Reply = ({ comment, user }) => {
+const Reply = ({ comment }) => {
   return (
     <div className='flex flex-col bg-gray-900 rounded-xl w-11/12 p-2 text-gray-500 font-medium'>
       <div className='flex flex-row items-center justify-between'>
