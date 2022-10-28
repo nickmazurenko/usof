@@ -1,4 +1,3 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
 import * as Users from '../../api/users';
 import {
   usersPending as _usersPending,
@@ -75,7 +74,7 @@ export const deleteUser = (id) => {
   return async (dispatch) => {
     dispatch(_usersPending());
     try {
-      const response = await Users.deleteUser(id);
+      await Users.deleteUser(id);
       dispatch(_deleteUser(id));
     } catch (error) {
       dispatch(_usersError(error.response.data));

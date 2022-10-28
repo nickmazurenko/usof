@@ -1,8 +1,8 @@
 import { Fragment, useState } from 'react';
-import { Modal, Button, Label, TextInput, FileInput } from 'flowbite-react';
-import { HiBadgeCheck, HiUpload } from 'react-icons/hi';
+import { Modal, Label, TextInput } from 'flowbite-react';
+import { HiUpload } from 'react-icons/hi';
 import { useDispatch } from 'react-redux';
-import { updateAvatar, updateUser } from '../features/users/actions';
+import { updateAvatar, updateUser } from '../../features/users/actions';
 
 const SettingsModal = ({ user }) => {
   const dispatch = useDispatch();

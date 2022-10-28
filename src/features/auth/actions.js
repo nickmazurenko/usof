@@ -10,7 +10,6 @@ import {
   authError,
   authPending,
   resetPasswordPending,
-  deleteError as _deleteError,
 } from './reducer';
 import * as Auth from '../../api/auth';
 

@@ -11,7 +11,6 @@ import {
 import CardLoader from './CardLoader';
 import PostCard from './postsPage/PostCard';
 
-/* eslint-disable object-curly-newline */
 const getDate = (date) => {
   const newDate = new Date(date);
   return newDate.toLocaleDateString('de-DE');

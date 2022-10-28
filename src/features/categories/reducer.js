@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
-// import * as Actions from './actions';
 
 const initialState = {
   categories: [],
