@@ -14,6 +14,14 @@ const Comments = db.define(
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    postId: {
+      type: DataTypes.UUID,
+      allowNull: true,
+    },
+    commentId: {
+      type: DataTypes.UUID,
+      allowNull: true,
+    },
   },
   {
     db,
@@ -30,7 +38,13 @@ const Comments = db.define(
       {
         name: 'post_id',
         using: 'BTREE',
-        fields: [{ name: 'post_id' }],
+        allowNull: true,
+        fields: [{ name: 'postId' }],
+      },
+      {
+        name: 'comment_id',
+        using: 'BTREE',
+        fields: [{ name: 'comment_id' }],
       },
       {
         name: 'user_id',

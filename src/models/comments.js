@@ -6,18 +6,19 @@ const { dbResponse } = require('../helpers/db');
 const Comment = (comment) => ({
   content: comment.content,
   user_id: comment.userId,
-  post_id: comment.postId,
+  ...(comment.postId ? { post_id: comment.postId } : {}),
+  ...(comment.commentId ? { comment_id: comment.commentId } : {}),
 });
 
-const retrieveAll = async (id, callback) => {
+const retrieveAll = async (postId, commentId, callback) => {
+  const where = postId ? { postId } : { commentId };
   const commentsRaw = await Comments.findAll({
-    where: {
-      postId: id,
-    },
+    where,
     attributes: [
       'id',
       'userId',
       'postId',
+      'commentId',
       'content',
       'createdAt',
       [sequelize.literal('user.login'), 'login'],
@@ -40,16 +41,19 @@ const retrieveAll = async (id, callback) => {
     );
   });
 
-  const comments = commentsRaw.map((comment) => dbResponse(
-    comment,
-    'id',
-    'userId',
-    'postId',
-    'content',
-    'createdAt',
-    'login',
-    'profilePicture',
-  ));
+  const comments = commentsRaw.map((comment) =>
+    dbResponse(
+      comment,
+      'id',
+      'userId',
+      'postId',
+      'commentId',
+      'content',
+      'createdAt',
+      'login',
+      'profilePicture',
+    ),
+  );
 
   return comments;
 };
@@ -64,11 +68,11 @@ const retrieveOne = async (id) => {
       'id',
       'userId',
       'postId',
+      'commentId',
       [sequelize.literal('user.profile_picture'), 'profilePicture'],
       [sequelize.literal('user.login'), 'login'],
       ['content', 'content'],
       'createdAt',
-      'updatedAt',
     ],
     include: [
       {
@@ -90,6 +94,7 @@ const retrieveOne = async (id) => {
     comment,
     'id',
     'postId',
+    'commentId',
     'userId',
     'profilePicture',
     'login',
@@ -100,18 +105,8 @@ const retrieveOne = async (id) => {
 };
 
 const create = async (comment, callback) => {
-  const dbComment = await Comments.create(comment).catch((error) => {
-    console.log(error);
-    return callback(
-      handlers.responseHandler(
-        false,
-        500,
-        'An error occurred during comment creation',
-        null,
-      ),
-      null,
-    );
-  });
+  console.log(comment);
+  const dbComment = await Comments.create(comment);
   return callback(
     null,
     handlers.responseHandler(
@@ -130,14 +125,15 @@ const removePostComments = async (post_id) => {
   });
 };
 
-const update = async (id, newData) => await Comments.update(newData, {
-  where: { id },
-  returning: true,
-  plain: true,
-}).catch((error) => {
-  console.log(error);
-  throw new Error(error);
-});
+const update = async (id, newData) =>
+  await Comments.update(newData, {
+    where: { id },
+    returning: true,
+    plain: true,
+  }).catch((error) => {
+    console.log(error);
+    throw new Error(error);
+  });
 
 const remove = async (id) => {
   await Comments.destroy({ where: { id } }).catch((error) => {

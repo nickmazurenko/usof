@@ -8,6 +8,7 @@ router.use('/auth', require('./auth'));
 
 router.use('/posts', require('./posts'));
 router.use('/posts/comments', require('./postComments'));
+router.use('/comments/comments', require('./commentComments'));
 router.use('/posts/categories', require('./postCategories'));
 router.use('/posts/likes', require('./postLikes'));
 

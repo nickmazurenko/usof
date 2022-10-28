@@ -29,10 +29,18 @@ Comments.belongsTo(Users);
 Posts.hasMany(Comments, {
   foreignKey: {
     name: 'post_id',
-    allowNull: false,
+    allowNull: true,
   },
 });
 Comments.belongsTo(Posts);
+
+Comments.hasMany(Comments, {
+  foreignKey: {
+    name: 'comment_id',
+    allowNull: true,
+  },
+});
+Comments.belongsTo(Comments);
 
 Posts.belongsToMany(Categories, {
   through: PostCategories,

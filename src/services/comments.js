@@ -13,13 +13,15 @@ const retrieveOne = async (id, callback) => {
     const votes = await likesModel.getCommentLikes(id, (error) => {
       if (error) hasLikes = false;
     });
+    comment.comments = await commentsModel.retrieveAll(null, id, (error) => {
+      if (error) console.log(error);
+    });
     if (votes) {
       likes = votes.filter((vote) => vote.type === 'like');
       likesCount = likes.length;
       dislikes = votes.filter((vote) => vote.type === 'dislike');
       dislikesCount = dislikes.length;
     }
-
     const commentWithInfo = {
       ...comment,
       likes,

@@ -97,4 +97,5 @@
 {"id":97,"fullName":"Salaidh Cobbled","login":"scobbled2o","email":"scobbled2o@amazon.co.uk","role":"admin","password":"$2a$10$p/zvmKBSRvIDJOEAxFL.QOIkzd0U7x3Ke6i0Cbjcy2DWkGKkepVyK","views":443,"rating":32,"isEmailVerified":1},
 {"id":98,"fullName":"Truda Ponder","login":"tponder2p","email":"tponder2p@army.mil","role":"admin","password":"$2a$10$p/zvmKBSRvIDJOEAxFL.QOIkzd0U7x3Ke6i0Cbjcy2DWkGKkepVyK","views":583,"rating":39,"isEmailVerified":1},
 {"id":99,"fullName":"Valentin Kiernan","login":"vkiernan2q","email":"vkiernan2q@yahoo.co.jp","role":"admin","password":"$2a$10$p/zvmKBSRvIDJOEAxFL.QOIkzd0U7x3Ke6i0Cbjcy2DWkGKkepVyK","views":290,"rating":37,"isEmailVerified":1},
+{"id":101,"fullName":"Main Admin","login":"admin","email":"admin@admin.com","role":"admin","password":"$2a$10$p/zvmKBSRvIDJOEAxFL.QOIkzd0U7x3Ke6i0Cbjcy2DWkGKkepVyK","views":999,"rating":999,"isEmailVerified":1},
 {"id":100,"fullName":"Emile Sheekey","login":"esheekey2r","email":"esheekey2r@intel.com","role":"user","password":"$2a$10$p/zvmKBSRvIDJOEAxFL.QOIkzd0U7x3Ke6i0Cbjcy2DWkGKkepVyK","views":145,"rating":30,"isEmailVerified":1}]

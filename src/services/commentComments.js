@@ -3,7 +3,7 @@ const commentsModel = require('../models/comments');
 const likesModel = require('../models/likes');
 
 const retrieveAll = async (id, callback) => {
-  const commentsRaw = await commentsModel.retrieveAll(id, null, callback);
+  const commentsRaw = await commentsModel.retrieveAll(null, id, callback);
   const commentsInfo = await Promise.all(
     commentsRaw.map(async (comment) => {
       let likesCount = 0;
@@ -11,9 +11,6 @@ const retrieveAll = async (id, callback) => {
       let likes;
       let dislikes;
       const votes = await likesModel.getCommentLikes(comment.id, (error) => {
-        if (error) console.log(error);
-      });
-      comment.comments = await commentsModel.retrieveAll(null, comment.id, (error) => {
         if (error) console.log(error);
       });
       if (votes) {
@@ -38,7 +35,8 @@ const retrieveAll = async (id, callback) => {
   );
 };
 
-const create = async (comment, callback) => await commentsModel.create(comment, callback);
+const create = async (comment, callback) =>
+  await commentsModel.create(comment, callback);
 
 module.exports = {
   retrieveAll,
