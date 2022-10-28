@@ -4,15 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import Linkify from 'linkify-react';
 import { useState } from 'react';
-import { Button } from 'flowbite-react';
 import CardLoader from '../CardLoader';
 import RepliesSection from './RepliesSection';
 import { addLike, removeLike } from '../../features/comments/actions';
 import CommentSettingsDropDown from './CommentSettingsDropdown';
 
-const getLikeColor = (votes, user, comment) => {
-  return votes.findIndex((x) => {
-    return user && x.userId === user.id;
+const getLikeColor = (votes, user) => {
+  return votes.findIndex((vote) => {
+    return user && vote.userId === user.id;
   }) > -1
     ? 'red'
     : '';

@@ -1,7 +1,6 @@
 /* eslint-disable indent */
 import { HiOutlineThumbUp, HiOutlineThumbDown, HiEye } from 'react-icons/hi';
 import moment from 'moment';
-import Linkify from 'linkify-react';
 import Markdown from 'react-markdown';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';

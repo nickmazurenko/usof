@@ -1,5 +1,3 @@
-import { useNavigate } from 'react-router-dom';
-
 const Category = ({ category }) => {
   return (
     <a href={`/posts/category/${category.id}`}>
