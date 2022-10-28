@@ -58,6 +58,7 @@ export const logout = () => {
       const response = await Auth.logoutUser();
       localStorage.removeItem('x-auth-token');
       delete axios.defaults.headers.common['x-auth-token'];
+      console.log('there', localStorage.getItem('x-auth-token'));
       dispatch(_logout(response.data.data));
     } catch (error) {
       dispatch(authError(error.response.data));

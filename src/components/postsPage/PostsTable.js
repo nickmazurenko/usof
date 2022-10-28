@@ -1,5 +1,5 @@
 /* eslint-disable operator-linebreak */
-import { Button, Dropdown, Pagination } from 'flowbite-react';
+import { Button, Dropdown, Pagination, Spinner } from 'flowbite-react';
 import moment from 'moment';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -113,7 +113,6 @@ const PostsTable = ({ posts, category, user, loading }) => {
   useEffect(() => {
     loadPosts(currentPage);
   }, [allPosts]);
-
   return (
     <>
       <div className='h-full w-full'>

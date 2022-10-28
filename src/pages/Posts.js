@@ -15,18 +15,19 @@ import { getUser } from '../features/users/actions';
 const PostsPage = () => {
   const dispatch = useDispatch();
   const params = useParams();
-  const state = useSelector((storeState) => storeState);
   const {
-    loading,
-    error,
-    posts,
-    categoryPosts,
-    userPosts,
-    categoryPostsLoading,
-    userPostsLoading,
-  } = state.posts;
-  const { category } = state.categories;
-  const { user } = state.users;
+    users: { user },
+    categories: { category },
+    posts: {
+      loading,
+      error,
+      posts,
+      categoryPosts,
+      userPosts,
+      categoryPostsLoading,
+      userPostsLoading,
+    },
+  } = useSelector((storeState) => storeState);
   useEffect(() => {
     if (params.categoryId) {
       dispatch(getCategoryPosts(params.categoryId));
@@ -40,7 +41,7 @@ const PostsPage = () => {
   }, [dispatch]);
   return (
     <>
-      {loading || posts.length === 0 ? (
+      {(params.categoryId && !category) || (params.userId && userPostsLoading) || loading ? (
         <CardLoader />
       ) : (
         <div>

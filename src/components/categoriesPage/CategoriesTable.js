@@ -9,6 +9,7 @@ import {
 } from 'react-icons/hi';
 import CategoryCard from './CategoryCard';
 import config from '../../config';
+import CardLoader from '../CardLoader';
 
 const itemsCount = config.CATEGORIES_COUNT;
 
@@ -27,10 +28,12 @@ const arraySort = (array, sort) => {
   });
 };
 
-const CategoriesTable = ({ categories }) => {
+const CategoriesTable = ({ categories, loading }) => {
   const [sort, setSort] = useState({ param: 'postsCount', ascending: false });
   const [currentPage, setCurrentPage] = useState(1);
-  const [allCategories, setAllCategories] = useState(arraySort(categories, sort));
+  const [allCategories, setAllCategories] = useState(
+    arraySort(categories, sort)
+  );
   const [currentCategories, setCurrentCategories] = useState(
     slicePages(allCategories, currentPage)
   );

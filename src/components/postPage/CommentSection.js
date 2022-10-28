@@ -77,7 +77,7 @@ const CommentSection = ({ post }) => {
         <div className='w-1/3 mt-2'>
           <Button onClick={addComment}>Add comment</Button>
         </div>
-        <div className='flex justify-between items-center my-5 mx-2'>
+        <div className='flex justify-between items-center my-2 mx-2'>
           <h2 className='text-lg lg:text-2xl font-bold text-gray-900 dark:text-white'>
             Comments ({comments.length})
           </h2>
