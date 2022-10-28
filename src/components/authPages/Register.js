@@ -1,3 +1,6 @@
+/* eslint-disable arrow-body-style */
+/* eslint-disable guard-for-in */
+/* eslint-disable no-restricted-syntax */
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -19,6 +22,7 @@ fields.forEach((field) => {
 const Register = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [errors, setErrors] = useState('');
   const [registerState, setRegisterState] = useState(fieldsState);
   const [success, setSuccess] = useState(false);
 
@@ -27,6 +31,7 @@ const Register = () => {
   });
 
   const handleChange = (e) => {
+    setErrors({ ...errors, [e.target.id]: '' });
     return setRegisterState({
       ...registerState,
       [e.target.id]: e.target.value,
@@ -49,9 +54,26 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    createAccount();
+    let newErrors = {};
+    for (const key in registerState) {
+      const { requiredLength, hasSpaces } = registerFields.filter(
+        (field) => field.id === key
+      )[0];
+      if (registerState[key].length < requiredLength) {
+        newErrors = {
+          ...newErrors,
+          [key]: `Length of ${key} should be at least ${requiredLength}`,
+        };
+      } else if (registerState[key].indexOf(' ') >= 0 && !hasSpaces) {
+        newErrors = {
+          ...newErrors,
+          [key]: `${key} should have no spaces`,
+        };
+      }
+      setErrors(newErrors);
+    }
+    if (errors.length === 0) createAccount();
   };
-
   return (
     <div className='container'>
       {loading ? (
@@ -70,6 +92,7 @@ const Register = () => {
                     key={field.id}
                     handleChange={handleChange}
                     value={registerState[field.id]}
+                    error={errors[field.id]}
                     labelText={field.labelText}
                     labelFor={field.labelFor}
                     id={field.id}
