@@ -24,7 +24,6 @@ const PostsTable = ({ posts, category, user, loading }) => {
   );
 
   const loadPosts = (page) => {
-    console.log(page);
     params.set('page', page);
     setParams(params);
     setCurrentPosts(slicePages(allPosts, page));
