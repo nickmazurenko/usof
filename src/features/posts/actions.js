@@ -93,7 +93,7 @@ export const deletePost = (id) => {
   return async (dispatch) => {
     dispatch(postsPending());
     try {
-      const response = await Posts.deletePost(id);
+      await Posts.deletePost(id);
       dispatch(_deletePost(id));
     } catch (error) {
       dispatch(postsError(error.response.data));

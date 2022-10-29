@@ -118,7 +118,7 @@ export const deleteComment = (id) => {
   return async (dispatch) => {
     dispatch(commentsPending());
     try {
-      const response = await Comments.deleteComment(id);
+      await Comments.deleteComment(id);
       dispatch(_deleteComment(id));
     } catch (error) {
       dispatch(commentsError(error.response.data));

@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import ProfileComponent from '../components/Profile';
 import CardLoader from '../components/CardLoader';
 import { getUser } from '../features/users/actions';

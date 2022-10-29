@@ -50,11 +50,11 @@ const commentsSlice = createSlice({
         ].comments.push(payload);
       }
     },
-    createComment: (state, { payload }) => {
+    createComment: (state) => {
       state.loading = false;
       state.error = null;
     },
-    replyComment: (state, { payload }) => {
+    replyComment: (state) => {
       state.loading = false;
       state.error = null;
     },
@@ -77,11 +77,11 @@ const commentsSlice = createSlice({
         return comment.id !== payload;
       });
     },
-    addLike: (state, { payload }) => {
+    addLike: (state) => {
       state.loading = false;
       state.error = null;
     },
-    removeLike: (state, { payload }) => {
+    removeLike: (state) => {
       state.loading = false;
       state.error = null;
     },

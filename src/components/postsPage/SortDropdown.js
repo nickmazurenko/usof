@@ -1,5 +1,4 @@
 import { Dropdown } from 'flowbite-react';
-import { useState } from 'react';
 import {
   HiCalculator,
   HiSortAscending,

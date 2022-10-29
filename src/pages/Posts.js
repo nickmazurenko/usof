@@ -1,7 +1,7 @@
 /* eslint-disable arrow-body-style */
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import {
   getCategoryPosts,
   getPosts,
@@ -20,7 +20,6 @@ const PostsPage = () => {
     categories: { category },
     posts: {
       loading,
-      error,
       posts,
       categoryPosts,
       userPosts,
