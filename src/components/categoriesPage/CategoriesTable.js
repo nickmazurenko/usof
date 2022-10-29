@@ -18,7 +18,6 @@ const slicePages = (array, currentPage) => {
 
 const CategoriesTable = ({ categories }) => {
   const [params, setParams] = useSearchParams();
-  const [currentPage, setCurrentPage] = useState(1);
   const [allCategories, setAllCategories] = useState(
     arraySort(categories, {
       param: params.get('param'),
@@ -26,33 +25,29 @@ const CategoriesTable = ({ categories }) => {
     })
   );
   const [currentCategories, setCurrentCategories] = useState(
-    slicePages(allCategories, currentPage)
+    slicePages(allCategories, params.get('page'))
   );
 
   const loadCategories = (page) => {
-    setCurrentPage(page);
+    params.set('page', page);
+    setParams(params);
     setCurrentCategories(slicePages(allCategories, page));
   };
 
-  const start = () => {
-    const search = params.get('search');
-    setParams({ param: 'postsCount', ascending: false });
-
-    if (search) {
-      setAllCategories(
-        allCategories.filter((category) => {
-          return (
-            category.title.toLowerCase().includes(search.toLowerCase()) ||
-            category.description.toLowerCase().includes(search.toLowerCase())
-          );
-        })
-      );
+  const onLoad = () => {
+    if (!params.get('param')) {
+      setParams({ param: 'postsCount', ascending: false });
+    }
+    const page = params.get('page');
+    if (page === 'null' || page === '0') {
+      params.set('page', 1);
+      setParams(params);
     }
   };
 
   useEffect(() => {
-    loadCategories(currentPage);
-    start();
+    loadCategories(params.get('page'));
+    onLoad();
   }, [allCategories]);
 
   return (
@@ -77,7 +72,7 @@ const CategoriesTable = ({ categories }) => {
       </div>
       <div className='flex items-center justify-center py-10 sm:px-6 lg:px-8'>
         <Pagination
-          currentPage={currentPage}
+          currentPage={params.get('page')}
           totalPages={Math.ceil(allCategories.length / CATEGORIES_COUNT)}
           onPageChange={loadCategories}
         />

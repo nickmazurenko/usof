@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Dropdown } from 'flowbite-react';
 import {
   HiSortAscending,
@@ -8,15 +7,19 @@ import {
   HiDocumentText,
   HiUser,
 } from 'react-icons/hi';
+import { useSearchParams } from 'react-router-dom';
 
 const SortDropdown = ({ allUsers, setAllUsers }) => {
-  const [sort, setSort] = useState({ param: 'rating', ascending: false });
+  const [params, setParams] = useSearchParams();
   const sortBy = (param) => {
     const newSort = {
       param,
-      ascending: sort.param === param ? !sort.ascending : false,
+      ascending:
+        params.get('param') === param
+          ? !(params.get('ascending') === 'true')
+          : false,
     };
-    setSort(newSort);
+    setParams(newSort);
     const sorted = [...allUsers].sort((a, b) => {
       return newSort.ascending
         ? a[newSort.param] - b[newSort.param]
@@ -30,9 +33,12 @@ const SortDropdown = ({ allUsers, setAllUsers }) => {
       label={
         <>
           <span className='mr-4'>
-            {sort.param.charAt(0).toUpperCase() + sort.param.slice(1)}
+            {params.get('param')
+              ? params.get('param').charAt(0).toUpperCase()
+                + params.get('param').slice(1)
+              : ''}
           </span>
-          {sort.ascending ? (
+          {params.get('ascending') === 'true' ? (
             <HiSortAscending size={25} />
           ) : (
             <HiSortDescending size={25} />

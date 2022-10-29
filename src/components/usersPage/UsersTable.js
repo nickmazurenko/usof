@@ -1,6 +1,7 @@
 /* eslint-disable operator-linebreak */
 import { Pagination } from 'flowbite-react';
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import UserCard from './UserCard';
 import config from '../../config';
 import UsersTableHeader from './UsersTableHeader';
@@ -15,22 +16,35 @@ const sliceUsers = (array, currentPage) => {
 };
 
 const UsersTable = ({ users }) => {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [params, setParams] = useSearchParams();
   const [allUsers, setAllUsers] = useState(
     [...users].sort((a, b) => {
       return b.rating - a.rating;
     })
   );
   const [currentUsers, setCurrentUsers] = useState(
-    sliceUsers(allUsers, currentPage)
+    sliceUsers(allUsers, params.get('page'))
   );
   const loadUsers = (page) => {
-    setCurrentPage(page);
-    setCurrentUsers(sliceUsers(allUsers, currentPage));
+    params.set('page', page);
+    setParams(params);
+    setCurrentUsers(sliceUsers(allUsers, params.get('page')));
+  };
+
+  const onLoad = () => {
+    if (!params.get('param')) {
+      setParams({ param: 'rating', ascending: false });
+    }
+    const page = params.get('page');
+    if (page === 'null' || page === '0') {
+      params.set('page', 1);
+      setParams(params);
+    }
   };
 
   useEffect(() => {
-    loadUsers(currentPage);
+    loadUsers(params.get('page'));
+    onLoad();
   }, [allUsers]);
 
   return (
@@ -56,7 +70,7 @@ const UsersTable = ({ users }) => {
       </div>
       <div className='flex items-center justify-center py-10 sm:px-6 lg:px-8'>
         <Pagination
-          currentPage={currentPage}
+          currentPage={params.get('page')}
           totalPages={Math.ceil(allUsers.length / USERS_COUNT)}
           onPageChange={loadUsers}
         />
