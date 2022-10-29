@@ -136,7 +136,9 @@ const update = async (id, newData) =>
   });
 
 const remove = async (id) => {
-  await Comments.destroy({ where: { id } }).catch((error) => {
+  await Comments.destroy({
+    where: sequelize.or({ id }, { commentId: id }),
+  }).catch((error) => {
     console.log(error);
     throw new Error(error);
   });
