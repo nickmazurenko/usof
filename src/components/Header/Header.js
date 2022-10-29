@@ -23,19 +23,19 @@ const Header = () => {
       {isAuthenticated && !error ? <UserMenu user={user} /> : <AuthButtons />}
       <Navbar.Collapse>
         <Navbar.Link href='/' active={true}>
-          <HiHome className='text-3xl' />
+          <HiHome className='text-2xl' />
         </Navbar.Link>
         <Navbar.Link href='/posts'>
-          <span className='text-xl'>Posts</span>
+          <span className='text-base'>Posts</span>
         </Navbar.Link>
         <Navbar.Link href='/users'>
-          <span className='text-xl'>Users</span>
+          <span className='text-base'>Users</span>
         </Navbar.Link>
         <Navbar.Link href='/categories'>
-          <span className='text-xl'>Categories</span>
+          <span className='text-base'>Categories</span>
         </Navbar.Link>
         <Navbar.Link href='/posts/create'>
-          <span className='text-xl'>Ask Question</span>
+          <span className='text-base'>Ask Question</span>
         </Navbar.Link>
       </Navbar.Collapse>
     </Navbar>
