@@ -72,7 +72,7 @@ const Register = () => {
       }
       setErrors(newErrors);
     }
-    if (errors.length === 0) createAccount();
+    if (Object.keys(errors).length === 0) createAccount();
   };
   return (
     <div className='container'>
