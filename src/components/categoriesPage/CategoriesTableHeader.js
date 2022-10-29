@@ -45,7 +45,9 @@ const CategoriesTableHeader = ({
           ? !(params.get('ascending') === 'true')
           : false,
     };
-    setSearchParams(newSort);
+    params.set('param', newSort.param);
+    params.set('ascending', newSort.ascending);
+    setSearchParams(params);
     const sorted = arraySort(allCategories, newSort);
     setAllCategories(sorted);
   };

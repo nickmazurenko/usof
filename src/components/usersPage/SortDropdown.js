@@ -19,7 +19,9 @@ const SortDropdown = ({ allUsers, setAllUsers }) => {
           ? !(params.get('ascending') === 'true')
           : false,
     };
-    setParams(newSort);
+    params.set('param', newSort.param);
+    params.set('ascending', newSort.ascending);
+    setParams(params);
     const sorted = [...allUsers].sort((a, b) => {
       return newSort.ascending
         ? a[newSort.param] - b[newSort.param]

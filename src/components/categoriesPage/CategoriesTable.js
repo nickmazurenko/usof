@@ -72,7 +72,7 @@ const CategoriesTable = ({ categories }) => {
       </div>
       <div className='flex items-center justify-center py-10 sm:px-6 lg:px-8'>
         <Pagination
-          currentPage={params.get('page')}
+          currentPage={Number(params.get('page'))}
           totalPages={Math.ceil(allCategories.length / CATEGORIES_COUNT)}
           onPageChange={loadCategories}
         />

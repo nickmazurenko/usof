@@ -1,19 +1,21 @@
 import { Dropdown } from 'flowbite-react';
-import { useState } from 'react';
 import { HiFilter, HiOutlineCalendar } from 'react-icons/hi';
+import { useSearchParams } from 'react-router-dom';
 import { arrayFilter } from '../../utils/posts.utils';
 
 const FilterDropdown = ({ allPosts, setAllPosts }) => {
-  const [filter, setFilter] = useState('All time');
+  const [params, setParams] = useSearchParams();
   const startFilter = (param) => {
-    setFilter(param);
+    params.set('filter', param);
+    setParams(params);
+
     setAllPosts(arrayFilter(allPosts, param));
   };
   return (
     <Dropdown size='sm' arrowIcon={false}
       label={
         <>
-          <span className='mr-4'>{filter}</span>
+          <span className='mr-4'>{params.get('filter')}</span>
           <HiFilter size={25} />
         </>
       }>

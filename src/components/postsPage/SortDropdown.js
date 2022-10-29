@@ -8,17 +8,20 @@ import {
   HiChat,
   HiEye,
 } from 'react-icons/hi';
+import { useSearchParams } from 'react-router-dom';
 
 import { arraySort } from '../../utils/posts.utils';
 
 const SortDropdown = ({ allPosts, setAllPosts }) => {
-  const [sort, setSort] = useState({ param: 'likesCount', ascending: false });
+  const [params, setParams] = useSearchParams();
   const sortBy = (param) => {
     const newSort = {
       param,
-      ascending: sort.param === param ? !sort.ascending : false,
+      ascending: params.get('param') === param ? !(params.get('ascending') === 'true') : false,
     };
-    setSort(newSort);
+    params.set('param', newSort.param);
+    params.set('ascending', newSort.ascending);
+    setParams(params);
     const sorted = arraySort(allPosts, newSort);
     setAllPosts(sorted);
   };
@@ -27,12 +30,15 @@ const SortDropdown = ({ allPosts, setAllPosts }) => {
       label={
         <>
           <span className='mr-4'>
-            {sort.param.charAt(0).toUpperCase() + sort.param.slice(1)}
+          {params.get('param')
+            ? params.get('param').charAt(0).toUpperCase()
+                  + params.get('param').slice(1)
+            : ''}
           </span>
-          {sort.ascending ? (
-            <HiSortAscending size={25} />
+          {params.get('ascending') === 'true' ? (
+              <HiSortAscending size={25} />
           ) : (
-            <HiSortDescending size={25} />
+              <HiSortDescending size={25} />
           )}
         </>
       }>
