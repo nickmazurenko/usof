@@ -27,7 +27,7 @@ const App = () => {
           theme: {
             alert: {
               color: {
-                primary: 'bg-primary',
+                primary: 'dark',
               },
             },
           },
