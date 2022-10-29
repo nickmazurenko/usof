@@ -24,13 +24,7 @@ const App = () => {
     <>
       <Flowbite
         theme={{
-          theme: {
-            alert: {
-              color: {
-                primary: 'dark',
-              },
-            },
-          },
+          dark: true,
         }}>
         <Header />
         <div>
