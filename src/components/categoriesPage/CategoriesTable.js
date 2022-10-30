@@ -35,18 +35,19 @@ const CategoriesTable = ({ categories }) => {
   };
 
   const onLoad = () => {
-    if (!params.get('param')) {
-      setParams({ param: 'postsCount', ascending: false });
-    }
     const page = params.get('page');
+    if (!params.get('param')) {
+      params.set('param', 'postsCount');
+      params.set('ascending', false);
+    }
     if (page === 'null' || page === '0') {
       params.set('page', 1);
-      setParams(params);
     }
+    setParams(params);
+    loadCategories(Number(params.get('page')));
   };
 
   useEffect(() => {
-    loadCategories(params.get('page'));
     onLoad();
   }, [allCategories]);
 

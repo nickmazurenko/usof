@@ -30,18 +30,20 @@ const PostsTable = ({ posts, category, user, loading }) => {
   };
 
   const onLoad = () => {
-    if (!params.get('param')) {
-      setParams({ param: 'likesCount', ascending: false, filter: 'All time' });
-    }
     const page = params.get('page');
+    if (!params.get('param')) {
+      params.set('param', 'likesCount');
+      params.set('ascending', false);
+      params.set('filter', 'All time');
+    }
     if (page === 'null' || page === '0') {
       params.set('page', 1);
-      setParams(params);
     }
+    setParams(params);
+    loadPosts(Number(params.get('page')));
   };
 
   useEffect(() => {
-    loadPosts(params.get('page'));
     onLoad();
   }, [allPosts]);
   return (
