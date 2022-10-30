@@ -74,7 +74,6 @@ const Register = () => {
     }
     if (errors.length === 0) createAccount();
   };
-  console.log(Object.keys(errors).length);
   return (
     <div className='container'>
       {loading ? (

@@ -1,7 +1,7 @@
 /* eslint-disable arrow-body-style */
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import {
   getCategoryPosts,
   getPosts,
@@ -20,7 +20,6 @@ const PostsPage = () => {
     categories: { category },
     posts: {
       loading,
-      error,
       posts,
       categoryPosts,
       userPosts,
@@ -32,18 +31,20 @@ const PostsPage = () => {
     if (params.categoryId) {
       dispatch(getCategoryPosts(params.categoryId));
       dispatch(getCategory(params.categoryId));
-    }
-    if (params.userId) {
+    } else if (params.userId) {
       dispatch(getUserPosts(params.userId));
       dispatch(getUser(params.userId));
+    } else {
+      dispatch(getPosts());
     }
-    dispatch(getPosts());
   }, [dispatch]);
   return (
     <>
-      {(params.categoryId && !category) || (params.userId && userPostsLoading) || loading ? (
+      {(params.categoryId && categoryPostsLoading)
+      || (params.userId && userPostsLoading)
+      || loading ? (
         <CardLoader />
-      ) : (
+        ) : (
         <div>
           <PostsTable
             posts={() => {
@@ -60,7 +61,7 @@ const PostsPage = () => {
             user={user}
           />
         </div>
-      )}
+        )}
     </>
   );
 };

@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import CommentSection from '../components/postPage/CommentSection';
 import PostBody from '../components/postPage/PostBody';
 import { getPost } from '../features/posts/actions';
+import { getComments } from '../features/comments/actions';
 import CardLoader from '../components/CardLoader';
 
 const PostPage = () => {
@@ -14,6 +15,7 @@ const PostPage = () => {
   });
   useEffect(() => {
     dispatch(getPost(params.postId));
+    dispatch(getComments(params.postId));
   }, [dispatch]);
   return (
     <>
