@@ -31,18 +31,20 @@ const PostsPage = () => {
     if (params.categoryId) {
       dispatch(getCategoryPosts(params.categoryId));
       dispatch(getCategory(params.categoryId));
-    }
-    if (params.userId) {
+    } else if (params.userId) {
       dispatch(getUserPosts(params.userId));
       dispatch(getUser(params.userId));
+    } else {
+      dispatch(getPosts());
     }
-    dispatch(getPosts());
   }, [dispatch]);
   return (
     <>
-      {(params.categoryId && !category) || (params.userId && userPostsLoading) || loading ? (
+      {(params.categoryId && categoryPostsLoading)
+      || (params.userId && userPostsLoading)
+      || loading ? (
         <CardLoader />
-      ) : (
+        ) : (
         <div>
           <PostsTable
             posts={() => {
@@ -59,7 +61,7 @@ const PostsPage = () => {
             user={user}
           />
         </div>
-      )}
+        )}
     </>
   );
 };

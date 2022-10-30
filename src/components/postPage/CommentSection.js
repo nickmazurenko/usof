@@ -1,9 +1,9 @@
 import { Button } from 'flowbite-react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import CommentCard from './CommentCard';
 import CardLoader from '../CardLoader';
-import { createComment, getComments } from '../../features/comments/actions';
+import { createComment } from '../../features/comments/actions';
 import config from '../../config';
 import CommentSectionDropdown from './CommentSectionDropDown';
 
@@ -41,10 +41,6 @@ const CommentSection = ({ post }) => {
   const handleChange = (e) => {
     setCommentState(e.target.value);
   };
-
-  useEffect(() => {
-    dispatch(getComments(post.id));
-  }, [dispatch]);
 
   return (
     <div>
