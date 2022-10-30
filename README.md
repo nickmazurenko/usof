@@ -35,8 +35,8 @@ This repo consists of the Frontend code of the project, the backend code is in _
 1. Open your local CLI -
 
    ```
-   mkdir Stackoverflow-Clone
-   cd Stackoverflow-Clone
+   mkdir usof-backend
+   cd usof-backend
    ```
 
 2. Setup the backend code -
@@ -54,11 +54,6 @@ This repo consists of the Frontend code of the project, the backend code is in _
      ```
 
    - Open your MySQL Client -
-
-     ```
-     CREATE DATABASE usof;
-     ```
-     NOTE: Don't forget to keep the database name same in the `.env` and here.
 
    - Run the index `npm start`.
 
