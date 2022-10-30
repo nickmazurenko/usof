@@ -56,7 +56,7 @@ const registerFields = [
     labelFor: 'full-name',
     id: 'fullName',
     type: 'text',
-    requiredLength: 6,
+    requiredLength: 2,
     hasSpaces: true,
     autoComplete: 'fullName',
     isRequired: false,
