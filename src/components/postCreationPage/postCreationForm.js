@@ -35,9 +35,9 @@ const PostCreationForm = ({ post }) => {
       setStep('title');
       return setFormState(initialFormState);
     }
-    if (!loading && !error) navigate(`/posts/users/${user.id}`, { replace: true });
     if (post()) return dispatch(updatePost(formState, post().id));
-    return dispatch(createPost(formState));
+    dispatch(createPost(formState));
+    if (!loading && !error) navigate(`/posts/users/${user.id}`, { replace: true });
   };
   return (
     <div className='flex m-5 flex-col space-y-4 lg:w-1/2'>
