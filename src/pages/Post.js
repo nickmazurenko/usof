@@ -16,7 +16,7 @@ const PostPage = () => {
   useEffect(() => {
     dispatch(getPost(params.postId));
     dispatch(getComments(params.postId));
-  }, [dispatch]);
+  }, []);
   return (
     <>
       {loading || !post ? (

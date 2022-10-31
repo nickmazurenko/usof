@@ -1,25 +1,48 @@
+/* eslint-disable no-else-return */
 /* eslint-disable arrow-body-style */
-import { TextInput } from 'flowbite-react';
+import CreatableSelect from 'react-select/creatable';
 import { useEffect, useState } from 'react';
-import Category from '../postsPage/Category';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCategories } from '../../features/categories/actions';
 
 const CategoriesCard = ({ onChange, value, step }) => {
   const [error, setError] = useState('');
+  const dispatch = useDispatch();
+  const storeCategories = useSelector((state) => {
+    return state.categories;
+  });
+  const categoriesLoading = storeCategories.loading;
 
-  const check = () => {
-    const categories = value.split(',').map((category) => category.trim());
+  const check = (categories) => {
     if (categories.length < 2) {
       setError('There should be at least two categories');
+      return false;
     } else if (new Set(categories).size !== categories.length) {
       setError('There should be no categories duplicates');
+      return false;
     } else {
       setError('');
     }
   };
 
+  const onSelectorChange = (values) => {
+    if (!check(values)) {
+      onChange({
+        target: {
+          value: values.length
+            ? values.reduce((a, b) => {
+              return `${a.label || a}, ${b.label}`;
+            })
+            : '',
+          name: 'categories',
+        },
+      });
+    }
+  };
+
   useEffect(() => {
-    if (step === 'categories') check();
-  }, [value, step]);
+    dispatch(getCategories());
+  }, []);
 
   return (
     <div
@@ -31,21 +54,29 @@ const CategoriesCard = ({ onChange, value, step }) => {
         Add up to five categories to describe what your question or post is
         about.
       </span>
-      <div className='flex flex-wrap text-white'>
-        {value.split(',').map((categoryTitle) => (
-          <Category key={categoryTitle} category={{ categoryTitle }} />
-        ))}
-      </div>
-      <TextInput
-        helperText={<span className='text-red-600'>{error}</span>}
+      <CreatableSelect
+        theme={(theme) => ({
+          ...theme,
+          borderRadius: 10,
+          colors: {
+            ...theme.colors,
+            primary25: '#111827',
+            neutral0: '#374151',
+            neutral80: '#FFFFFF',
+            neutral10: '#6875f5',
+          },
+        })}
+        isLoading={categoriesLoading}
+        isClearable
+        isSearchable
+        isMulti
         name='categories'
-        disabled={step !== 'categories'}
-        max='10'
-        value={value}
-        onChange={onChange}
-        sizing='sm'
-        placeholder='e.g JS, React, Tailwind'
+        onChange={onSelectorChange}
+        options={storeCategories.categories.map((cat) => {
+          return { value: cat.title, label: cat.title };
+        })}
       />
+      <span className='text-red-600 text-xs'>{error}</span>
     </div>
   );
 };

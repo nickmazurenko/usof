@@ -11,7 +11,7 @@ const UsersPage = () => {
   });
   useEffect(() => {
     dispatch(getUsers());
-  }, [dispatch]);
+  }, []);
   return (
     <>
       {loading ? (

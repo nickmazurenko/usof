@@ -103,7 +103,7 @@ export const deletePost = (id) => {
 
 export const getLikes = (id) => {
   return async (dispatch) => {
-    dispatch(postsPending());
+    // dispatch(postsPending());
     try {
       const response = await Likes.getPostLikes(id);
       dispatch(_getLikes(response.data.data));
@@ -115,7 +115,7 @@ export const getLikes = (id) => {
 
 export const addLike = (id, type) => {
   return async (dispatch) => {
-    dispatch(postsPending());
+    // dispatch(postsPending());
     try {
       const response = await Likes.createPostLike(id, type);
       dispatch(_addLike(response.data.data));
@@ -128,7 +128,7 @@ export const addLike = (id, type) => {
 
 export const removeLike = (id) => {
   return async (dispatch) => {
-    dispatch(postsPending());
+    // dispatch(postsPending());
     try {
       const response = await Likes.deletePostLike(id);
       dispatch(_removeLike(response.data.data));

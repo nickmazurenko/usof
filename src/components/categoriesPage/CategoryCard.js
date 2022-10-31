@@ -1,5 +1,6 @@
 import { Button } from 'flowbite-react';
 import { HiDocumentText } from 'react-icons/hi';
+import { useNavigate } from 'react-router-dom';
 import CardLoader from '../CardLoader';
 
 const cutContent = (content) => {
@@ -7,6 +8,7 @@ const cutContent = (content) => {
 };
 
 const PostCard = ({ category }) => {
+  const navigate = useNavigate();
   return (
     <>
       {category ? (
@@ -16,9 +18,15 @@ const PostCard = ({ category }) => {
               <div className='text-lg font-bold text-slate-200'>
                 {category.title}
               </div>
-              <a href={`/posts/category/${category.id}`}>
-                <Button color='dark'>More info</Button>
-              </a>
+              <div>
+              <Button
+                onClick={() => {
+                  navigate(`/posts/category/${category.id}`);
+                }}
+                color='dark'>
+                More info
+              </Button>
+              </div>
             </div>
 
             <div className='flex mt-4 mb-6'>

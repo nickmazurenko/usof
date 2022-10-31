@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import { setAuthToken } from './features/auth/actions';
 import 'react-toastify/dist/ReactToastify.css';
+import ScrollToTop from './components/ScrollToTop';
 import Header from './components/Header/Header';
 import Footer from './components/Footer';
 import useRoutes from './routes';
@@ -26,12 +27,15 @@ const App = () => {
         theme={{
           dark: true,
         }}>
-        <Header />
         <div>
           <ToastContainer />
-          <Router>{routes}</Router>
+          <Router>
+            <Header />
+            {routes}
+            <Footer />
+            <ScrollToTop/>
+          </Router>
         </div>
-        <Footer />
       </Flowbite>
     </>
   );

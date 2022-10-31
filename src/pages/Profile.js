@@ -16,7 +16,7 @@ const ProfilePage = () => {
   useEffect(() => {
     dispatch(loadCurrentUser());
     dispatch(getPosts());
-  }, [dispatch]);
+  }, []);
   return loading ? (
     <CardLoader />
   ) : (

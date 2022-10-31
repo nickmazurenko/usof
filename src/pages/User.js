@@ -12,7 +12,7 @@ const UserPage = () => {
   useEffect(() => {
     dispatch(getUser(params.id));
     dispatch(getPosts());
-  }, [dispatch]);
+  }, []);
   const { user, loading } = useSelector((storeState) => {
     return storeState.users;
   });
