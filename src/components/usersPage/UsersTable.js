@@ -28,22 +28,24 @@ const UsersTable = ({ users }) => {
   const loadUsers = (page) => {
     params.set('page', page);
     setParams(params);
-    setCurrentUsers(sliceUsers(allUsers, params.get('page')));
+    const paged = sliceUsers(allUsers, params.get('page'));
+    setCurrentUsers(paged);
   };
 
   const onLoad = () => {
-    if (!params.get('param')) {
-      setParams({ param: 'rating', ascending: false });
-    }
     const page = params.get('page');
+    if (!params.get('param')) {
+      params.set('param', 'rating');
+      params.set('ascending', false);
+    }
     if (page === 'null' || page === '0') {
       params.set('page', 1);
-      setParams(params);
     }
+    setParams(params);
+    loadUsers(Number(params.get('page')));
   };
 
   useEffect(() => {
-    loadUsers(params.get('page'));
     onLoad();
   }, [allUsers]);
 

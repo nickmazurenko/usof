@@ -7,6 +7,7 @@ import {
 } from 'react-icons/hi';
 import moment from 'moment';
 import removeMD from 'remove-markdown';
+import { useNavigate } from 'react-router-dom';
 import CardLoader from '../CardLoader';
 import Category from './Category';
 
@@ -15,14 +16,14 @@ const cutContent = (content) => {
 };
 
 const PostCard = ({ post }) => {
+  const navigate = useNavigate();
   return (
     <>
       {post ? (
         <div className='w-full flex items-center mt-5 bg-gray-900 rounded-xl'>
           <div className='w-full rounded-xl border border-gray-500 p-5 '>
             <div className='flex w-full items-center flex-wrap justify-between border-gray-500 border-b-2 pb-3'>
-              <a href={`/user/${post.userId}`}>
-                <div className='cursor-pointer flex items-center space-x-3'>
+                <div onClick={() => { navigate(`/user/${post.userId}`); }} className='cursor-pointer flex items-center space-x-3'>
                   <img
                     className='h-8 w-8 rounded-full bg-slate-300'
                     crossOrigin='anonymous'
@@ -32,7 +33,6 @@ const PostCard = ({ post }) => {
                     {post.login || 'deleted'}
                   </div>
                 </div>
-              </a>
               <div className='flex items-center space-x-2'>
                 {post.categories.length ? (
                   <div className='flex flex-wrap text-white'>
@@ -75,9 +75,7 @@ const PostCard = ({ post }) => {
                   </div>
                 </div>
                 <div className=' flex items-center text-xs flex-none text-neutral-500'>
-                  <a href={`/post/${post.id}`}>
-                    <Button>See full...</Button>
-                  </a>
+                  <Button onClick={() => { navigate(`/post/${post.id}`); }}>See full...</Button>
                 </div>
               </div>
             </div>

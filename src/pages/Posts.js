@@ -37,11 +37,11 @@ const PostsPage = () => {
     } else {
       dispatch(getPosts());
     }
-  }, [dispatch]);
+  }, []);
   return (
     <>
-      {(params.categoryId && categoryPostsLoading)
-      || (params.userId && userPostsLoading)
+      {((params.categoryId && categoryPostsLoading) || (params.categoryId && !category))
+      || (params.userId && userPostsLoading) || (params.userId && loading)
       || loading ? (
         <CardLoader />
         ) : (

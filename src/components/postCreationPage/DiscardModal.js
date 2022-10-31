@@ -18,7 +18,7 @@ const DiscardModal = ({ submit, disabled }) => {
               Are you sure you want to discard all changes?
             </h3>
             <div className='flex justify-center gap-4'>
-              <Button color='failure' onClick={() => submit(true)}>
+              <Button color='failure' onClick={() => { setShow(!show); submit(true); }}>
                 Yes, I&apos;m sure
               </Button>
               <Button color='gray' onClick={() => setShow(!show)}>

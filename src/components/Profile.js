@@ -1,3 +1,4 @@
+import moment from 'moment';
 import {
   HiCalendar,
   HiChat,
@@ -8,15 +9,12 @@ import {
   HiUser,
   HiViewGrid,
 } from 'react-icons/hi';
+import { useNavigate } from 'react-router-dom';
 import CardLoader from './CardLoader';
 import PostCard from './postsPage/PostCard';
 
-const getDate = (date) => {
-  const newDate = new Date(date);
-  return newDate.toLocaleDateString('de-DE');
-};
-
 const Profile = ({ user }) => {
+  const navigate = useNavigate();
   const {
     profilePicture,
     login,
@@ -55,9 +53,9 @@ const Profile = ({ user }) => {
           <div
             title='Posts Count'
             className='text-center w-1/3 p-4 mt-2 mr-2  bg-gray-900  rounded-xl border-2 cursor-pointer text-gray-300 font-bold'>
-            <a href={`/posts/users/${user.id}`}>
+            <div onClick={() => { navigate(`/posts/users/${user.id}`); }}>
               {postsCount} <HiDocumentText className='m-2 h-10 inline-block' />
-            </a>
+            </div>
           </div>
           <div
             title='Views'
@@ -83,7 +81,7 @@ const Profile = ({ user }) => {
             title='Account Creation Date'
             className='w-full p-4 bg-gray-900 text-center rounded-xl border-2 cursor-pointer text-xl md:text-2xl text-gray-300 font-bold'>
             <HiCalendar className='m-2 h-10 inline-block' />{' '}
-            {getDate(createdAt)}
+            {`Member for ${moment(createdAt).fromNow(true)}`}
           </div>
           {role === 'user' ? (
             <div

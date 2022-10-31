@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { HiDocumentText, HiSearch } from 'react-icons/hi';
 import { Button } from 'flowbite-react';
 import UserCard from '../usersPage/UserCard';
@@ -7,6 +7,7 @@ import FilterDropdown from './FilterDropdown';
 
 const PostsTableHeader = ({ allPosts, setAllPosts, posts, category, user }) => {
   const params = useParams();
+  const navigate = useNavigate();
   const startSearch = (search) => {
     setAllPosts(
       allPosts.filter((post) => {
@@ -46,9 +47,7 @@ const PostsTableHeader = ({ allPosts, setAllPosts, posts, category, user }) => {
         {getElement()}
         <div className='w-1/6'>
           {params.categoryId || params.userId ? null : (
-            <a href='/posts/create'>
-              <Button>Create...</Button>
-            </a>
+            <Button onClick={() => { navigate('/posts/create'); }}>Create...</Button>
           )}
         </div>
       </div>

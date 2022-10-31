@@ -34,12 +34,12 @@ const RepliesSection = ({ comments, commentId }) => {
         </div>
       ) : null}
 
-      <div className='space-y-1 w-1/12 focus-within:w-11/12'>
+      <div className='space-y-1 w-2/12 focus-within:w-11/12'>
         <input
           id='comment'
           value={reply}
           onChange={onChange}
-          className='p-2 w-full h-6 focus-within:h-8 rounded-md text-sm text-gray-900 border-0 focus:ring-0 dark:text-white dark:placeholder-gray-400 dark:bg-gray-800'
+          className='p-2 w-full h-6 focus-within:h-8 focus-within:text-left text-center rounded-md text-sm text-gray-900 border-0 focus:ring-0 dark:text-white dark:placeholder-gray-400 dark:bg-gray-800'
           placeholder='Reply...'
           required></input>
         {reply.length ? (

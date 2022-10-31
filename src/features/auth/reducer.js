@@ -35,14 +35,14 @@ const authSlice = createSlice({
         theme: 'dark',
       });
     },
-    authExpireError: (state, { payload }) => {
+    authExpireError: (state) => {
       state.loading = false;
       state.resetPasswordLoading = false;
       state.isAuthenticated = false;
       state.user = null;
       state.registerSuccess = false;
     },
-    register: (state, { payload }) => {
+    register: (state) => {
       state.loading = false;
       state.error = null;
       state.registerSuccess = true;

@@ -7,6 +7,7 @@ import { updateAvatar, updateUser } from '../../features/users/actions';
 const SettingsModal = ({ user }) => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [formState, setFormState] = useState({
     login: user.login,
@@ -45,6 +46,7 @@ const SettingsModal = ({ user }) => {
   return (
     <Fragment>
       <span className='w-full h-full'
+
         onClick={() => {
           setShowModal(!showModal);
         }}>

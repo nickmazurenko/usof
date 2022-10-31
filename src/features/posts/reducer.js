@@ -62,11 +62,11 @@ const postsSlice = createSlice({
       state.error = null;
       state.post = payload;
     },
-    createPost: (state, { payload }) => {
+    createPost: (state) => {
       state.loading = false;
       state.error = null;
     },
-    updatePost: (state, { payload }) => {
+    updatePost: (state) => {
       state.loading = false;
       state.error = null;
     },
@@ -77,11 +77,11 @@ const postsSlice = createSlice({
         return post.id !== payload.id;
       });
     },
-    addLike: (state, { payload }) => {
+    addLike: (state) => {
       state.loading = false;
       state.error = null;
     },
-    removeLike: (state, { payload }) => {
+    removeLike: (state) => {
       state.loading = false;
       state.error = null;
     },

@@ -3,8 +3,9 @@ import { HiOutlineThumbUp, HiOutlineThumbDown, HiEye } from 'react-icons/hi';
 import moment from 'moment';
 import Markdown from 'react-markdown';
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from 'flowbite-react';
+import { useNavigate } from 'react-router-dom';
 import Category from '../postsPage/Category';
 import { addLike, removeLike } from '../../features/posts/actions';
 
@@ -18,6 +19,7 @@ const getLikeColor = (votes, user) => {
 
 const PostBody = ({ post }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {
     posts: { postLikes },
     auth: { user },
@@ -25,7 +27,7 @@ const PostBody = ({ post }) => {
     return state;
   });
 
-  const [votesColors] = useState({
+  const [votesColors, setVotesColors] = useState({
     like: getLikeColor(
       postLikes.likes && postLikes.postId === post.id
         ? postLikes.likes
@@ -42,7 +44,7 @@ const PostBody = ({ post }) => {
     ),
   });
 
-  const [votes] = useState({
+  const [votes, setVotes] = useState({
     likes:
       postLikes.likesCount !== undefined && postLikes.postId === post.id
         ? postLikes.likesCount
@@ -53,6 +55,35 @@ const PostBody = ({ post }) => {
         : post.dislikesCount,
   });
 
+  useEffect(() => {
+    setVotesColors({
+      like: getLikeColor(
+        postLikes.likes && postLikes.postId === post.id
+          ? postLikes.likes
+          : post.likes,
+        user,
+        post
+      ),
+      dislike: getLikeColor(
+        postLikes.likes && postLikes.postId === post.id
+          ? postLikes.dislikes
+          : post.dislikes,
+        user,
+        post
+      ),
+    });
+    setVotes({
+      likes:
+        postLikes.likesCount !== undefined && postLikes.postId === post.id
+          ? postLikes.likesCount
+          : post.likesCount,
+      dislikes:
+        postLikes.dislikesCount !== undefined && postLikes.postId === post.id
+          ? postLikes.dislikesCount
+          : post.dislikesCount,
+    });
+  }, [postLikes]);
+
   const onClickLike = (type) => {
     if (votesColors[type] === 'red') dispatch(removeLike(post.id));
     else dispatch(addLike(post.id, type));
@@ -62,8 +93,7 @@ const PostBody = ({ post }) => {
     <div className='w-full flex items-center mt-5 rounded-xl bg-gray-900'>
       <div className='w-full rounded-xl border p-5 '>
         <div className='flex w-full items-center flex-wrap justify-between border-b pb-3'>
-          <a href={`/user/${post.userId}`}>
-            <div className='cursor-pointer flex items-center space-x-3'>
+            <div onClick={() => { navigate(`/user/${post.userId}`); }} className='cursor-pointer flex items-center space-x-3'>
               <img
                 className='h-8 w-8 rounded-full bg-slate-400'
                 crossOrigin='anonymous'
@@ -73,7 +103,6 @@ const PostBody = ({ post }) => {
                 {post.login}
               </div>
             </div>
-          </a>
           <div className='flex items-center my-2 space-x-2'>
             <div className='text-xs flex-none text-gray-100'>
               <span className='font-semibold text-white m'>Asked</span>{' '}
@@ -105,9 +134,7 @@ const PostBody = ({ post }) => {
             <div className='flex flex-wrap items-center justify-between text-gray-100 font-bold text-lg'>
               <div className='flex space-x-4 md:space-x-8 mx-5'>
                 {user && user.id === post.userId ? (
-                  <a href={`/posts/update/${post.id}`}>
-                    <Button>Edit</Button>{' '}
-                  </a>
+                    <Button onClick={() => { navigate(`/posts/update/${post.id}`); }}>Edit</Button>
                 ) : null}
 
                 <div

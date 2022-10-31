@@ -9,8 +9,8 @@ const ContentCard = ({ onChange, value, step, setStep }) => {
   const [showPreview, setShowPreview] = useState(false);
 
   const check = () => {
-    if (value.length < 20) {
-      setError('Content length should be at least 20 characters long');
+    if (value.length < 30) {
+      setError('Content length should be at least 30 characters long');
     } else if (value.length > 1000) {
       setError('Content length should less then 1000 characters');
     } else {
