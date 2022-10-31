@@ -41,7 +41,7 @@ const PostsPage = () => {
   return (
     <>
       {((params.categoryId && categoryPostsLoading) || (params.categoryId && !category))
-      || (params.userId && userPostsLoading)
+      || (params.userId && userPostsLoading) || (params.userId && loading)
       || loading ? (
         <CardLoader />
         ) : (
