@@ -1,3 +1,4 @@
+import moment from 'moment';
 import {
   HiCalendar,
   HiChat,
@@ -85,7 +86,7 @@ const Profile = ({ user }) => {
             title='Account Creation Date'
             className='w-full p-4 bg-gray-900 text-center rounded-xl border-2 cursor-pointer text-xl md:text-2xl text-gray-300 font-bold'>
             <HiCalendar className='m-2 h-10 inline-block' />{' '}
-            {getDate(createdAt)}
+            {`Member for ${moment(createdAt).fromNow(true)}`}
           </div>
           {role === 'user' ? (
             <div
