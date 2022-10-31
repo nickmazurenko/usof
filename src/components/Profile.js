@@ -13,11 +13,6 @@ import { useNavigate } from 'react-router-dom';
 import CardLoader from './CardLoader';
 import PostCard from './postsPage/PostCard';
 
-const getDate = (date) => {
-  const newDate = new Date(date);
-  return newDate.toLocaleDateString('de-DE');
-};
-
 const Profile = ({ user }) => {
   const navigate = useNavigate();
   const {

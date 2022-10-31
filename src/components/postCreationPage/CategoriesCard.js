@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCategories } from '../../features/categories/actions';
 
-const CategoriesCard = ({ onChange, value, step }) => {
+const CategoriesCard = ({ onChange, step }) => {
   const [error, setError] = useState('');
   const dispatch = useDispatch();
   const storeCategories = useSelector((state) => {
