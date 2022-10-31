@@ -1,5 +1,5 @@
 const config = {
-  URL: 'https://useof.herokuapp.com',
+  URL: 'http://localhost:5000',
   POSTS_COUNT: 5,
   USERS_COUNT: 10,
   COMMENTS_COUNT: 5,
