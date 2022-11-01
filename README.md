@@ -6,7 +6,7 @@
 [![MYSQL](https://img.shields.io/static/v1?label=mysql&message=8.0.10&color=blueviolet)](https://shields.io/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://shields.io/)
 
-### [🌐 Website](https://useof.netlify.app/)  |  [📹 Demo Video]()
+### [🌐 Website](https://useof.netlify.app/)  |  [📹 Demo Video](https://www.youtube.com/watch?v=SonQtXVnByI&ab_channel=NikitaMazurenko)
 
 ### API Hosted On
 - __[useof.herokuapp](https://useof.herokuapp.com/) (Primary)__
